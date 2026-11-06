@@ -1,0 +1,190 @@
+[
+ {
+  "name": "mage_ri",
+  "verts": 12563,
+  "tris": 14922,
+  "bbox_min": [
+   -0.4869999885559082,
+   -0.5009999871253967,
+   -0.08900000154972076
+  ],
+  "bbox_max": [
+   0.4869999885559082,
+   0.5009999871253967,
+   0.08799999952316284
+  ],
+  "H": 1.002,
+  "span_x": 0.974,
+  "span_over_H": 0.972,
+  "depth_z": 0.178,
+  "hand_L_ycenter_over_H": 0.763,
+  "hand_L_z_gaps": 1,
+  "hand_L_y_gaps": 0,
+  "hand_L_thick_y_over_H": 0.045,
+  "hand_R_ycenter_over_H": 0.763,
+  "hand_R_z_gaps": 2,
+  "hand_R_y_gaps": 0,
+  "hand_R_thick_y_over_H": 0.045,
+  "x_empty_bins_at_height_0.1..0.5H": [
+   10,
+   6,
+   5,
+   5,
+   0,
+   0
+  ],
+  "width_hip_0.5H_over_H": 0.2280000001192093,
+  "width_0.45H_over_H": 0.22599999606609344,
+  "components": [
+   100,
+   [
+    10607,
+    1330,
+    64,
+    35,
+    19
+   ]
+  ]
+ },
+ {
+  "name": "virg_rig",
+  "verts": 12108,
+  "tris": 14852,
+  "bbox_min": [
+   -0.5009999871253967,
+   -0.5,
+   -0.12300000339746475
+  ],
+  "bbox_max": [
+   0.5009999871253967,
+   0.5019999742507935,
+   0.11900000274181366
+  ],
+  "H": 1.002,
+  "span_x": 1.002,
+  "span_over_H": 1.0,
+  "depth_z": 0.242,
+  "hand_L_ycenter_over_H": 0.731,
+  "hand_L_z_gaps": 1,
+  "hand_L_y_gaps": 1,
+  "hand_L_thick_y_over_H": 0.066,
+  "hand_R_ycenter_over_H": 0.734,
+  "hand_R_z_gaps": 1,
+  "hand_R_y_gaps": 1,
+  "hand_R_thick_y_over_H": 0.067,
+  "x_empty_bins_at_height_0.1..0.5H": [
+   8,
+   4,
+   3,
+   3,
+   0,
+   1
+  ],
+  "width_hip_0.5H_over_H": 0.24799999594688416,
+  "width_0.45H_over_H": 0.2639999985694885,
+  "components": [
+   34,
+   [
+    11902,
+    32,
+    18,
+    15,
+    14
+   ]
+  ]
+ },
+ {
+  "name": "mage_g1",
+  "verts": 72602,
+  "tris": 94952,
+  "bbox_min": [
+   -0.4869999885559082,
+   -0.5019999742507935,
+   -0.08900000154972076
+  ],
+  "bbox_max": [
+   0.4869999885559082,
+   0.5019999742507935,
+   0.08900000154972076
+  ],
+  "H": 1.003,
+  "span_x": 0.974,
+  "span_over_H": 0.971,
+  "depth_z": 0.178,
+  "hand_L_ycenter_over_H": 0.763,
+  "hand_L_z_gaps": 0,
+  "hand_L_y_gaps": 0,
+  "hand_L_thick_y_over_H": 0.048,
+  "hand_R_ycenter_over_H": 0.763,
+  "hand_R_z_gaps": 0,
+  "hand_R_y_gaps": 0,
+  "hand_R_thick_y_over_H": 0.048,
+  "x_empty_bins_at_height_0.1..0.5H": [
+   10,
+   6,
+   4,
+   2,
+   0,
+   0
+  ],
+  "width_hip_0.5H_over_H": 0.24199999868869781,
+  "width_0.45H_over_H": 0.2280000001192093,
+  "components": [
+   3435,
+   [
+    1513,
+    1162,
+    1149,
+    873,
+    713
+   ]
+  ]
+ },
+ {
+  "name": "virg_t",
+  "verts": 34102,
+  "tris": 39666,
+  "bbox_min": [
+   -0.5009999871253967,
+   -0.5009999871253967,
+   -0.12300000339746475
+  ],
+  "bbox_max": [
+   0.5009999871253967,
+   0.5019999742507935,
+   0.11900000274181366
+  ],
+  "H": 1.002,
+  "span_x": 1.002,
+  "span_over_H": 1.0,
+  "depth_z": 0.242,
+  "hand_L_ycenter_over_H": 0.732,
+  "hand_L_z_gaps": 0,
+  "hand_L_y_gaps": 0,
+  "hand_L_thick_y_over_H": 0.067,
+  "hand_R_ycenter_over_H": 0.734,
+  "hand_R_z_gaps": 0,
+  "hand_R_y_gaps": 0,
+  "hand_R_thick_y_over_H": 0.067,
+  "x_empty_bins_at_height_0.1..0.5H": [
+   8,
+   4,
+   2,
+   0,
+   0,
+   0
+  ],
+  "width_hip_0.5H_over_H": 0.24899999797344208,
+  "width_0.45H_over_H": 0.2750000059604645,
+  "components": [
+   505,
+   [
+    31758,
+    140,
+    51,
+    39,
+    36
+   ]
+  ]
+ }
+]

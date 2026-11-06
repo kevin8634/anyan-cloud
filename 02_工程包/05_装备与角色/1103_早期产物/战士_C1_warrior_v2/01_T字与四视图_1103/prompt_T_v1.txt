@@ -1,0 +1,6 @@
+Character turnaround reference for 3D modeling and auto-rigging. Single full-body FRONT view only, one character, centered, plain flat light-grey background, even studio lighting, no floor reflections, no text.
+Keep the identity, face, beard, colors and materials of the reference warrior exactly: weathered middle-aged male veteran, dark iron plate armor with scratches and rivets, layered riveted pauldrons, crossed leather straps on the breastplate, leather belt with pouches, dark iron greaves and boots.
+POSE (strict): perfect T-pose. Both arms straight out to the sides, perfectly horizontal at shoulder height, 90 degrees to the torso. Palms facing down, all five fingers spread apart and clearly separated, empty hands. Legs straight, feet apart at shoulder width, both feet fully visible, toes pointing forward. Facing the camera directly, symmetric.
+REMOVE: no cape, no cloak, no scarf, no shield, no sword, no axe, no weapons, nothing in the hands, nothing hanging from the arms.
+FIT: armor stays close to the body. The cloth tabard is short (ends at mid-thigh), fitted, not tattered, no long hanging strips. Hair tied back behind the head, not touching the shoulders.
+Proportions: realistic adult male, natural arm length (fingertip-to-fingertip span about equal to body height). Whole body including both hands and both feet inside the frame with margin.

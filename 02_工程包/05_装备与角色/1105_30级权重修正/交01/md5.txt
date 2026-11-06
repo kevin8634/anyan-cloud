@@ -1,0 +1,4 @@
+25bfd245d7e38e08f5d002f3206fecbb  LUX_Alchemy_HD.glb
+50136747c90515051a0c384ddd8799b3  LUX_Coffin_HD.glb
+651e385b394b54b2dc20f4c33c4ba894  LUX_Mage_HD.glb
+13fd185b98e6dd545c7bbb0f0fea6ffe  LUX_Warrior_HD.glb

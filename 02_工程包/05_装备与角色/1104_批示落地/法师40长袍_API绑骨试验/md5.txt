@@ -1,0 +1,5 @@
+e47a5ead989cbb3d5f8da503b82f814f  LUX_Mage40Robe.glb
+56b417c1c01ae89124b1be1d25efeb38  mage40_G1_textured_4644591.glb
+59ce8c8e746a0f0a010ad70a8e497f7e  mage40_rigged.glb
+ad52aa13b7ca00a66902a25e1c7cf89b  mage40_riginput.glb
+1f5d7693c9d12f2e3d9bac76db938a38  mage40_T_v1.png

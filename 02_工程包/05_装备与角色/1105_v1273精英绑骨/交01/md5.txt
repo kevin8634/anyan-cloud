@@ -1,0 +1,5 @@
+482275e369ed50c2965b5ad2640e82a6  dlc1_echo_foreman.glb
+2d3ca475df289e52fb2363d0e22490d3  dlc1_echo_priest.glb
+b2646962f5999d08dd2ca71b452fb3cb  dlc1_mirror_captain.glb
+9d4828576decd4a59cffc3f16b6f309d  dlc1_mirror_knight.glb
+2f5e21f2e5a760387e64991ba42bc500  dlc1_silent_monk.glb

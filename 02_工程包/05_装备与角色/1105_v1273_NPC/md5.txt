@@ -1,0 +1,3 @@
+7e6e95652f686689094f0666ae4c88f8  charon/assets_aholo/NPC_charon.glb
+c4bd51899ba38123f02589c25f3ea3ca  iola/assets_aholo/NPC_iola.glb
+8240c7a3c872481582d523fa483049a0  moyan/assets_aholo/NPC_moyan.glb

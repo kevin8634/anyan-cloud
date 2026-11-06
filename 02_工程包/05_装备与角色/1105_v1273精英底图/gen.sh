@@ -1,0 +1,12 @@
+#!/bin/bash
+# v1.2.73 A 批 5 精英怪 严格 T 字底图（Rhett 11-05 12:40「先生成底图，模型待定」）
+set -a; source /workspace/work/chars/env.sh; set +a
+cd /workspace/work/cms/credit-media-skill
+BASE="Strict T-pose character reference sheet for a 3D game rig, single front view, full body, plain neutral dark grey studio background, photorealistic dark fantasy game character concept art, single character, no text. Strict T-pose: both arms fully straight and horizontal at shoulder height, 90 degrees to the torso, palms facing down, all five fingers clearly spread apart. Legs straight and clearly separated, feet shoulder-width apart, both feet fully visible standing flat. Realistic adult proportions, arm span roughly equal to body height. Empty hands, no weapon, no shield, no staff, no props, nothing carried on the back, no cape, no dangling chains, no loose floor-length cloth: any robe ends above mid-thigh over fitted trousers and boots. Theme: the Sunken Bell Sea - aged bronze, verdigris, barnacles, cold cyan soul glow."
+gen(){ python3 scripts/credit_media.py image --model gpt-image-2 --quality high --size 1024x1536 --prompt "$BASE Character: $2" --out /workspace/work/chars/elite_v1273/T/$1_T_1.png > /workspace/work/chars/elite_v1273/T/$1.log 2>&1; echo "$1 rc=$? $(ls -la /workspace/work/chars/elite_v1273/T/$1_T_1.png 2>&1)"; }
+gen echo_priest "Echo of the Rotroot Priest: a tall half-translucent teal-green ghostly priest with hollow glowing eyes, wearing a decayed shredded temple vestment shortened to a fitted mid-thigh tunic, many small bronze bells sewn onto the tunic, rotten tree roots wrapped around the arms and torso."
+gen mirror_knight "Mirror Knight: a knight in full silver mirror-polished plate armor, fine cracks across the armor leaking cold cyan light, closed helm."
+gen mirror_captain "Mirror Knight-Captain Seran: commander of the mirror knights, bright mirror-like silver-white plate armor with a pointed crown-crest helm, more ornate than a regular knight, cyan light seeping from cracks; no cape."
+gen echo_foreman "Echo of the Drowned Foreman Grok: a burly ghostly mine overseer, dark blue body covered in cracks glowing cold cyan, rusted miner's lamp helmet, single iron pauldron on one shoulder, heavy work boots; no chains, no pickaxe."
+gen silent_monk "Silent Abbot: a tall thin monk in a grey hooded habit shortened to a fitted mid-thigh tunic over fitted trousers, mouth sewn shut with bronze plates, thin bronze chain ornaments sewn flat on the habit; no bell in hands."
+echo ALLDONE

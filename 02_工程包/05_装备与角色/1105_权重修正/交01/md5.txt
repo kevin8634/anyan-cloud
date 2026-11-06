@@ -1,0 +1,3 @@
+91abda0cbc2342af84466f3250c76c12  LUX_Alchemy40.glb
+16263310f49b1ab61f3382012841916d  LUX_Hunter40.glb
+dbfd25e581227a172dad15c95e7b7ecc  LUX_Warrior40.glb
