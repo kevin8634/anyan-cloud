@@ -198,3 +198,6 @@
 | 17:42 | 绑骨 priest 成功 | 4705504 | 15 |
 | 17:41–44 | 绑骨 knight/captain/foreman RIG_ELIGIBILITY_FAILED | 4705297 / 4705484 / 4705534 | 0（按以往） |
 本段估约 250 分（以控制台为准），批额 295 内。失败 3 只由 Rhett 网页手绑。
+
+## 11-06 20:3x · 05 线 默认模型脸部 gpt 重绘（Rhett 20:27 批 ≤$0.50，7 张脸）
+- OpenAI Next gpt-image-1 medium edits：法师 30 样片 1 张（919 in / 1050 out tokens）。Aholo 0 分。累计 1/7 张，待 Rhett 看样片后续做。
