@@ -1,0 +1,4 @@
+# 镜渊城天空提示词（2026-10-27）
+设定：地底之海穹顶下的沉城，穹顶倒悬城市；天顶破口透过上层水面见月。
+Prompt: Seamless equirectangular 360-degree panorama skybox, 2:1, horizon at vertical center, lower half fading to near-black ink-green fog, no ground. Overhead a colossal cavern dome of dark wet rock; at its zenith a vast ragged opening where a pale cold full moon shines through a rippling water surface far above, soft wavering god-rays and faint teal caustic shimmer. Around the dome rim, ruins of an inverted gothic city hang upside-down like stalactites (spires, bell towers, broken arches pointing down, dim teal windows). Faint bioluminescent cyan motes. Near horizon thin layered sea-mist bands, distant silhouettes of sunken bell towers and a shipwreck mast. Palette ink black, deep teal-green, muted jade, cold silver moonlight, tiny cyan accents; low saturation, cinematic matte painting, photorealistic. No text, no people, no purple.
+生成图：sky_mirror_abyss.png（1456x720，并非严格等距柱状投影：左右接缝需羽化，月亮在上方中部而非天顶）。
