@@ -1,0 +1,60 @@
+time_cst,name,event,http,task_id,status,detail
+2026-10-31 18:24:14,f1s3_clockstop,submit,,,,
+2026-10-31 18:26:14,f1s3_clockstop,create_failed,504,,,upstream request deadline exceeded
+2026-11-01 17:32:41,ping_min_480p4s,submit,,,,
+2026-11-01 17:32:43,ping_min_480p4s,created,200,task_0Tic46k7hv4qCRHgEEBgW473UBo2rczV,,
+2026-11-01 17:35:01,ping_min_480p4s,done,,task_0Tic46k7hv4qCRHgEEBgW473UBo2rczV,succeeded,{"completion_tokens": 40594; "total_tokens": 40594}
+2026-11-01 17:35:04,ping_min_480p4s,saved,,task_0Tic46k7hv4qCRHgEEBgW473UBo2rczV,succeeded,test/ping_min.mp4
+2026-11-01 17:38:03,f1s3_clockstop,submit,,,,
+2026-11-01 17:38:22,f1s3_clockstop,created,200,task_bZ3DgrDMzrK9A55GEwgdfAzjYgsfoTXN,,
+2026-11-01 17:42:28,f1s3_clockstop,done,,task_bZ3DgrDMzrK9A55GEwgdfAzjYgsfoTXN,succeeded,{"completion_tokens": 108900; "total_tokens": 108900}
+2026-11-01 17:42:31,f1s3_clockstop,saved,,task_bZ3DgrDMzrK9A55GEwgdfAzjYgsfoTXN,succeeded,/workspace/projects/d4bb0e99-c32a-4fa3-801b-770702e4a9d6/cloud/CG制作/renders/cg2_v1/f1s3_clockstop.mp4
+2026-11-01 17:47:35,f1s4_bridge,submit,,,,
+2026-11-01 17:47:55,f1s5_morveth,submit,,,,
+2026-11-01 17:48:02,f1s4_bridge,created,200,task_AX8y5QSHeQlfikDV5yH1xgm0DEnPnIBa,,
+2026-11-01 17:48:16,f1s5_morveth,created,200,task_6J7UVPn9AJ9ExtyjUD84vrrgsdB7618H,,
+2026-11-01 17:51:06,f1s5_morveth,done,,task_6J7UVPn9AJ9ExtyjUD84vrrgsdB7618H,succeeded,{"completion_tokens": 108900; "total_tokens": 108900}
+2026-11-01 17:51:15,f1s5_morveth,saved,,task_6J7UVPn9AJ9ExtyjUD84vrrgsdB7618H,succeeded,/workspace/projects/d4bb0e99-c32a-4fa3-801b-770702e4a9d6/cloud/CG制作/renders/cg2_v1/f1s5_morveth.mp4
+2026-11-01 17:51:42,f1s4_bridge,done,,task_AX8y5QSHeQlfikDV5yH1xgm0DEnPnIBa,succeeded,{"completion_tokens": 108900; "total_tokens": 108900}
+2026-11-01 17:51:46,f1s4_bridge,saved,,task_AX8y5QSHeQlfikDV5yH1xgm0DEnPnIBa,succeeded,/workspace/projects/d4bb0e99-c32a-4fa3-801b-770702e4a9d6/cloud/CG制作/renders/cg2_v1/f1s4_bridge.mp4
+2026-11-01 17:52:49,f1s6_aethelon,submit,,,,
+2026-11-01 17:53:08,f1s7_moyan,submit,,,,
+2026-11-01 17:53:20,f1s6_aethelon,created,200,task_oqo2cl4mIaLnC7ItkXMzK3cXOr9kaGd9,,
+2026-11-01 17:53:38,f1s7_moyan,create_failed,400,,,{"error":{"code":"invalid_request";"message":"{\"error\":{\"code\":\"InputImageSensitiveContentDetected.PrivacyInformation\";\"message\":\"The request failed because the input image 'content[0]' may c
+2026-11-01 17:55:54,f1s6_aethelon,done,,task_oqo2cl4mIaLnC7ItkXMzK3cXOr9kaGd9,succeeded,{"completion_tokens": 108900; "total_tokens": 108900}
+2026-11-01 17:55:58,f1s6_aethelon,saved,,task_oqo2cl4mIaLnC7ItkXMzK3cXOr9kaGd9,succeeded,/workspace/projects/d4bb0e99-c32a-4fa3-801b-770702e4a9d6/cloud/CG制作/renders/cg2_v1/f1s6_aethelon.mp4
+2026-11-01 17:56:47,f5s1_cellar,submit,,,,
+2026-11-01 17:57:07,f5s2_iola,submit,,,,
+2026-11-01 17:57:24,f5s1_cellar,created,200,task_8Vb2O5vcqUS7FQ2dbV15ru1reqpARcYu,,
+2026-11-01 17:57:37,f5s2_iola,created,200,task_jCjlOtxT5V7gJFMBc9mdGcbYrJrwHqz5,,
+2026-11-01 17:59:58,f5s1_cellar,done,,task_8Vb2O5vcqUS7FQ2dbV15ru1reqpARcYu,succeeded,{"completion_tokens": 108900; "total_tokens": 108900}
+2026-11-01 18:00:04,f5s1_cellar,saved,,task_8Vb2O5vcqUS7FQ2dbV15ru1reqpARcYu,succeeded,/workspace/projects/d4bb0e99-c32a-4fa3-801b-770702e4a9d6/cloud/CG制作/renders/cg2_v1/f5s1_cellar.mp4
+2026-11-01 18:01:29,f5s2_iola,done,,task_jCjlOtxT5V7gJFMBc9mdGcbYrJrwHqz5,succeeded,{"completion_tokens": 108900; "total_tokens": 108900}
+2026-11-01 18:01:33,f5s2_iola,saved,,task_jCjlOtxT5V7gJFMBc9mdGcbYrJrwHqz5,succeeded,/workspace/projects/d4bb0e99-c32a-4fa3-801b-770702e4a9d6/cloud/CG制作/renders/cg2_v1/f5s2_iola.mp4
+2026-11-01 18:03:26,f5s3_charon,submit,,,,
+2026-11-01 18:03:33,f5s3_charon,created,200,task_o9AyozULy9KLhcHpKSb9EfNVcCbasT6S,,
+2026-11-01 18:03:46,f5s4_reflection,submit,,,,
+2026-11-01 18:03:54,f5s4_reflection,created,200,task_0ZjWpXqUtoKTZxBwnaNpmUu7HShKxcg0,,
+2026-11-01 18:05:52,f5s3_charon,done,,task_o9AyozULy9KLhcHpKSb9EfNVcCbasT6S,succeeded,{"completion_tokens": 108900; "total_tokens": 108900}
+2026-11-01 18:05:56,f5s3_charon,saved,,task_o9AyozULy9KLhcHpKSb9EfNVcCbasT6S,succeeded,/workspace/projects/d4bb0e99-c32a-4fa3-801b-770702e4a9d6/cloud/CG制作/renders/cg2_v1/f5s3_charon.mp4
+2026-11-01 18:08:46,f5s4_reflection,done,,task_0ZjWpXqUtoKTZxBwnaNpmUu7HShKxcg0,succeeded,{"completion_tokens": 108900; "total_tokens": 108900}
+2026-11-01 18:08:49,f5s4_reflection,saved,,task_0ZjWpXqUtoKTZxBwnaNpmUu7HShKxcg0,succeeded,/workspace/projects/d4bb0e99-c32a-4fa3-801b-770702e4a9d6/cloud/CG制作/renders/cg2_v1/f5s4_reflection.mp4
+2026-11-01 18:09:33,f1s7_moyan,submit,,,,
+2026-11-01 18:09:37,f1s7_moyan,created,200,task_9uZJyHkb7bXKkqP1ftRicJGAE0jdcfaI,,
+2026-11-01 18:09:53,f5s5_crossroads,submit,,,,
+2026-11-01 18:10:00,f5s5_crossroads,created,200,task_2bLsn3dlG2SN42bMg7dsL006vfDnHX15,,
+2026-11-01 18:13:44,f1s7_moyan,done,,task_9uZJyHkb7bXKkqP1ftRicJGAE0jdcfaI,succeeded,{"completion_tokens": 108900; "total_tokens": 108900}
+2026-11-01 18:13:53,f1s7_moyan,saved,,task_9uZJyHkb7bXKkqP1ftRicJGAE0jdcfaI,succeeded,/workspace/projects/d4bb0e99-c32a-4fa3-801b-770702e4a9d6/cloud/CG制作/renders/cg2_v1/f1s7_moyan.mp4
+2026-11-01 18:14:23,f5s5_crossroads,done,,task_2bLsn3dlG2SN42bMg7dsL006vfDnHX15,succeeded,{"completion_tokens": 108900; "total_tokens": 108900}
+2026-11-01 18:14:26,f5s5_crossroads,saved,,task_2bLsn3dlG2SN42bMg7dsL006vfDnHX15,succeeded,/workspace/projects/d4bb0e99-c32a-4fa3-801b-770702e4a9d6/cloud/CG制作/renders/cg2_v1/f5s5_crossroads.mp4
+2026-11-01 15:41:33,M1_logo_anim_a,created,,task_BAWmLn9gGOlX43RbTj2HwFtlHuefH9TI,,
+2026-11-01 15:42:15,M1_logo_anim_b,created,,task_UP8rdpbhnyVVf47FsxMgyPA3silkbhhv,,
+2026-11-01 15:44:21,M1_logo_anim_a,done,,task_BAWmLn9gGOlX43RbTj2HwFtlHuefH9TI,succeeded,{"completion_tokens": 108900; "total_tokens": 108900}
+2026-11-01 15:47:39,M1_logo_anim_b,done,,task_UP8rdpbhnyVVf47FsxMgyPA3silkbhhv,succeeded,{"completion_tokens": 108900; "total_tokens": 108900}
+2026-11-03 12:06 CST,kling-3.0,morvis_sample,946437303759680218,submitted
+2026-11-03 12:06 CST,veo3.1-fast,morvis_sample,veo3.1-fast:task_zb2hPheJ0mI3LWly0DvUo3QyKpe1t2rE,submitted
+2026-11-03 12:34 CST,doubao-seedance-2-0-260128,morvis_sample 720p 5s noaudio,task_jn2vPTtpImvdDkHpMtuLcDbwiDP5NoNl,submitted
+2026-11-03 12:41 CST,MiniMax-H3,morvis_sample 768P 6s,task_UtgndpUEqzdckUewdP43bz4HcckwDboK,submitted
+2026-11-03 12:59 CST,MiniMax-H3,h_bell 768P 6s,task_VfChD7vvaOjl5DFMl3outR0xpYjgSUps,submitted
+2026-11-03 12:59 CST,MiniMax-H3,h_abyss 768P 6s,task_HdrEEIXBI4cfQCHGjZIHVa4f1rf61i4j,submitted
+2026-11-03 13:00 CST,MiniMax-H3,h_bgloop 768P 6s,task_GlokRNlJ13y7SVKgWXMKIXL3PCZRFqer,submitted
