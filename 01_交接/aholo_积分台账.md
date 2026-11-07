@@ -212,3 +212,5 @@
 
 ## 2026-11-07 10:34 05 无缝贴图第 2 批（Rhett 10:32 批 约 $0.25）
 - gpt-image-1 medium 1024 ×5（mud/coffinwood/chestmetal/bronzebell/bone），每次约 76 in / 1,050 out，估约 $0.21。Aholo 0 分。
+| 11-07 10:45 | OpenAI Next gpt-image-1 medium edits ×4，选角脸部重绘（法师/猎手/负棺/时砂，参考 keyvisual_v1 定稿 C2_mage_v3/C5_hunter_v2/C6_coffin/C3_chrono；每次 1370 in / 1050 out） | — | 约 $0.17 | Rhett 10:44 批（上限 $0.45） |
+| 11-07 11:31 | OpenAI Next gpt-image-1 medium edits ×4，选角脸部 v2（几何修后正面渲染 + 定稿脸，法师/猎手/负棺/时砂；每次 1427 in / 1050 out） | — | 约 $0.17 | Rhett 11:30「可以」（≤$0.35 方案） |
