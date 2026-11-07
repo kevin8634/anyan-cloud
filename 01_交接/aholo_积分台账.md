@@ -225,3 +225,5 @@
 - 预估 $1.61；账户累计读数 $210.07（15:55）→ **$211.68（18:58）**，增 $1.61，与预估一致。Aholo 0 分。
 - 成品：p73 `docs/设计/钟井v2/concept_*.png`（9ce9d9a）；贴图源 `/workspace/work/well2/gpt/tex_*.png`（选定后进 assets_aholo/dlc1/）。
 - 读数基线更新：$211.68 @ 11-07 18:58。
+
+- 2026-11-07 22:33 01：#22 DLC 40 级绝技图标 12 张，gpt-image-2 1024 high（api.openai-next.com），Rhett 22:25 批上限 $3.4；实扣未读，预估约 $0.5–0.9。另 #17 音效试样 Seedance 2.0 Fast 480p 5s 1 条，预估约 $0.17–0.2。
