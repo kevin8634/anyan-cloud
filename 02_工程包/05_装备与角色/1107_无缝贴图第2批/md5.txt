@@ -1,0 +1,17 @@
+75204da06592377af09e7dc1445c0a34  README.md
+1ecbfbb61d3ccec1807d1248cbdc8cbb  bone_basecolor.jpg
+8ab22907b787d2e0ac4f78d42ee1a28e  bone_normal.png
+711be30e1612b98917bd6498b20ef74b  bone_roughness.jpg
+32492676e42c25c50328675dea8227dd  bronzebell_basecolor.jpg
+983b7b0c7cc9ec22f25608b064b3e581  bronzebell_normal.png
+2c37f473c2963491e4f87c6a90e3fe9d  bronzebell_roughness.jpg
+45b6985257c34ac72294f3e8b062c634  chestmetal_basecolor.jpg
+59f0bc99f64893638f18b9fcca4569d4  chestmetal_normal.png
+5efc16012a9edb5582f8f5a9bfe27f0a  chestmetal_roughness.jpg
+b01697002c439aca553390edb2a02079  coffinwood_basecolor.jpg
+950fc20f41a3c8375a341d1a41122eee  coffinwood_normal.png
+f14e8d7a158ba2944f096397e5401701  coffinwood_roughness.jpg
+f74e748e3d31fdabfe806a9c97494a9d  mud_basecolor.jpg
+fd40f95e9c9070425d1a30b945252bfb  mud_normal.png
+aec2d46b9292eafbb5f6ae5679f1124d  mud_roughness.jpg
+ac3eb5c61bd322c162354b81ed586224  preview_2x2.jpg
