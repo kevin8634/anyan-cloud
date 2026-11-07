@@ -214,3 +214,8 @@
 - gpt-image-1 medium 1024 ×5（mud/coffinwood/chestmetal/bronzebell/bone），每次约 76 in / 1,050 out，估约 $0.21。Aholo 0 分。
 | 11-07 10:45 | OpenAI Next gpt-image-1 medium edits ×4，选角脸部重绘（法师/猎手/负棺/时砂，参考 keyvisual_v1 定稿 C2_mage_v3/C5_hunter_v2/C6_coffin/C3_chrono；每次 1370 in / 1050 out） | — | 约 $0.17 | Rhett 10:44 批（上限 $0.45） |
 | 11-07 11:31 | OpenAI Next gpt-image-1 medium edits ×4，选角脸部 v2（几何修后正面渲染 + 定稿脸，法师/猎手/负棺/时砂；每次 1427 in / 1050 out） | — | 约 $0.17 | Rhett 11:30「可以」（≤$0.35 方案） |
+
+## 2026-11-07 15:55 · 00 核对 Suno 五首扣费（OpenAI Next）
+- 接口 /v1/dashboard/billing/usage 只给账户累计、日期参数不生效，后台日志（/api/log）此 Key 无权读取；仓库内也无 Suno 任务号 → **无法单独定出 Suno 实扣**。
+- 推算：账户累计 11-03 晚 $196.92 → 11-07 15:55 **$210.07**（usage 21007.05 美分，上限 $588），增 $13.15；同期台账逐笔登记约 $10–12（均为估算）。未登记差额约 $1–3，Suno 五首应在其中，**低于 Rhett 批的 $5 上限**。精确数需 Rhett 登录 openai-next 控制台看 11-07 00:44–01:05 CST 日志。
+- 以后读数基线：$210.07 @ 11-07 15:55。
