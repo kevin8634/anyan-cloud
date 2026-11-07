@@ -1,3 +1,4 @@
+8ab16bb4e3e0c8ac183f24b42b1f81e2  LUX_Chrono.glb
 955b3fd2e5a9dfad07cab1ea1b9607f4  LUX_Coffin.glb
 cea236d70192b5d9c4cd8347c8ea0556  LUX_Hunter.glb
 123570a7eeca1ef1a6160a1ff1ed6400  LUX_Mage.glb

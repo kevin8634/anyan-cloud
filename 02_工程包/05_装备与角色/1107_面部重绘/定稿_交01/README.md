@@ -5,3 +5,6 @@ Rhett 13:43：法师、猎手可以；负棺人 12:51 认可。时砂另做（�
 - 法师、猎手 v3：按网格几何五官对齐（gpt 定稿长相 + Real-ESRGAN x4，K=0.6）；负棺人为 v2。
 - 无细节法线贴图（MI_LuxFace 无 normalTexture）；游戏 shader 若需要请 01 说。
 - 请 01 接入后实渲选角画面回报（脸是否有 z-fighting / 透明排序问题）。
+
+## 14:30 追加：时砂 v4（Rhett 14:29 批「交付01合进游戏」）
+- LUX_Chrono.glb 8ab16bb4 → 覆盖 assets_aholo/models_hd/LUX_Chrono.glb。底件 7c662c9 LUX_Chrono 原件，只换脸贴花（MI_LuxFace，img5 2048 webp）眼眉带，眼睛大小位置与原件一致；网格、骨骼、其他贴图不变。做法见 ../v4_时砂原尺寸眼/README.md。
