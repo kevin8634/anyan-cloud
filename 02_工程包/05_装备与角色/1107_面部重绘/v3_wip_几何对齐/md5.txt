@@ -1,3 +1,3 @@
-43f3865883fd8baddb2861db006daa38  LUX_Chrono.glb
+f398297158e2d482c175e60543b0c277  LUX_Chrono.glb
 cea236d70192b5d9c4cd8347c8ea0556  LUX_Hunter.glb
 123570a7eeca1ef1a6160a1ff1ed6400  LUX_Mage.glb

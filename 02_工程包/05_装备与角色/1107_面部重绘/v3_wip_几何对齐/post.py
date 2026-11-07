@@ -36,6 +36,9 @@ a=np.clip((0.5-r)/0.07,0,1)*cv2.GaussianBlur(cov,(0,0),10)
 if L.get('bgcut'):
   gm=(cv2.cvtColor(cv2.resize(al,(2048,2048)),cv2.COLOR_BGR2GRAY)>22).astype(np.uint8)
   gm=cv2.morphologyEx(gm,cv2.MORPH_OPEN,np.ones((9,9),np.uint8));a=a*cv2.GaussianBlur(cv2.erode(gm,np.ones((13,13),np.uint8)).astype(np.float32),(0,0),8)
+if 'eyes' in L:
+  ex,ey,rx,ry=[v*4 for v in L['eyes']];e=((xx-ex)/rx)**2+((yy-ey)/ry)**2
+  a=cv2.GaussianBlur(np.clip((1-e)/0.35,0,1).astype(np.float32),(0,0),6)*(cov>0)
 if 'band' in L:
   b0,b1=[v*4 for v in L['band']];a=a*np.clip(np.minimum(yy-b0,b1-yy)/48+0.5,0,1)
 cv2.imwrite(W+c+'_decal2.webp',np.dstack([base.astype(np.uint8),(a*255).astype(np.uint8)]),[cv2.IMWRITE_WEBP_QUALITY,95]);print(c,'M',np.round(M,3).tolist())
