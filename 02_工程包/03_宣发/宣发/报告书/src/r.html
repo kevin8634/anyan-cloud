@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8">
-<title>暗岩传说：深渊回响 · Aholo 黑客松项目报告书</title>
+<title>锐特AI工坊 · 暗岩传说：一句话铸造武器的 AI 3D 网页 RPG</title>
 <style>
 @page{size:210mm 297mm;margin:0}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -70,12 +70,12 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
   <div class="top"><span>AHOLO 黑客松 · PLAY IN 3D, CREATE WITH AHOLO</span><span>项目报告书</span></div>
   <div class="in">
     <img class="logo" src="img/logo.jpg">
-    <h1>暗岩传说：深渊回响</h1>
-    <div class="en">Darkrock Legends: Abyssal Echoes</div>
+    <h1>暗岩传说：一句话铸造武器的<br>AI 3D 网页 RPG</h1>
+    <div class="en">Darkrock Legends: Abyssal Echoes · 资料片「沉钟之海」</div>
     <div class="meta">
-      一款打开浏览器就能玩的暗黑风 3D 动作 RPG<br>
+      打开浏览器就能玩的暗黑 3D 动作 RPG：1–40 级、六职业、双结局资料片，手机也能运行<br>
       角色、首领、怪物、武器、场景件由 Aholo Lux3D 生成；游戏里的铸造台能用一句话现场铸出一把 3D 武器<br>
-      团队：<span class="todo">【团队名称待定】</span>　·　作者：Rhett（独立开发）　·　版本：<span class="todo">【11-12 冻结版本号】</span>　·　2026 年 11 月
+      团队：锐特AI工坊（团队编号 3F04K4W0CV5I）　·　队长：王磊　·　版本：<span class="todo">【11-12 冻结版本号】</span>　·　2026 年 11 月
     </div>
   </div>
 </section>
@@ -88,7 +88,7 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
   <p class="lead">《暗岩传说：深渊回响》是一款单 HTML 文件就能运行的网页 3D 动作 RPG。比赛版资料片「沉钟之海」里的写实职业、怪物、首领、武器和地标场景件，都由 Aholo Lux3D 生成，再经过减面、压缩和自动绑骨后放进 three.js 实时渲染。铁匠铺的「铸造台」把 Lux3D 直接接进玩法：玩家写一句话，一把只属于自己的 3D 武器会从熔炉里烧出来，飞到角色手上。</p>
   <div class="stats">
     <div class="stat"><div class="v">242<small>条</small></div><div class="k">Lux3D 任务记录<br>10-24 至 11-04 逐条登记</div></div>
-    <div class="stat"><div class="v">224<small>个</small></div><div class="k">比赛资产包 GLB<br>assets_aholo/ 逐件登记</div></div>
+    <div class="stat"><div class="v">94.5<small>%</small></div><div class="k">比赛版 3D 模型来自 Lux3D<br>237 个中 224 个</div></div>
     <div class="stat"><div class="v">9.7万→7900</div><div class="k">模型面数中位数<br>生成原件 → 游戏用件</div></div>
     <div class="stat"><div class="v">1/32</div><div class="k">183 个模型体积<br>2.03 GB → 65 MB</div></div>
   </div>
@@ -99,13 +99,13 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
   <h2>评委 30 秒看什么</h2>
   <table>
     <tr><th style="width:24%">评分维度</th><th>本作对应</th><th style="width:12%">页码</th></tr>
-    <tr><td>群核技术栈应用 30%</td><td>Lux3D 承担全部写实角色、约百只怪物与首领、武器和地标件的生成，外加运行时“一句话铸武器”和人形自动绑骨</td><td>4–8</td></tr>
+    <tr><td>群核技术栈应用 30%</td><td>比赛版 94.5% 的 3D 模型由 Lux3D 生成：写实职业、约百只怪物与首领、武器、地标件；运行时“一句话铸武器”；人形自动绑骨。本报告 10 / 19 页讲 Lux3D</td><td>4–13</td></tr>
     <tr><td>作品有趣程度 25%</td><td>熔炉锻打演出、刻着铸造者名字的武器、首领逐招战斗、六职业技能特效</td><td>10–13</td></tr>
     <tr><td>创新性 20%</td><td>生成式 3D 进入玩法循环（而非只做美术）；网页端 10 万面 → 60 帧的整条流水线</td><td>10, 14</td></tr>
     <tr><td>完成度 20%</td><td>六职业、深渊 20 层、长副本、资料片、离线包与在线版</td><td>15</td></tr>
   </table>
   <div class="box"><b>试玩</b>　在线体验：<span class="todo">【Demo 公开链接 / 二维码待定】</span>　演示视频：<span class="todo">【90 秒主片链接，11-15】</span>　小红书：<span class="todo">【#Aholo黑客松 帖链接】</span></div>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>2</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>2</span></div>
 </section>
 
 <!-- 3 目录 + 创意 -->
@@ -128,23 +128,23 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
   <ul class="toc">
     <li><span>01　一页看懂</span><span>2</span></li>
     <li><span>02　创意由来</span><span>3</span></li>
-    <li><span>03　Lux3D 在作品中的核心作用（用途、数量、流水线、对照）</span><span>4–8</span></li>
-    <li><span>04　关键资产迭代对比（职业、首领、场景件）</span><span>9–11</span></li>
-    <li><span>05　运行时铸造台：一句话铸武器</span><span>12–13</span></li>
+    <li><span>03　Lux3D · 生产管线：用途、数据、流水线、有无对照</span><span>4–8</span></li>
+    <li><span>04　Lux3D · 关键资产迭代对比：职业、首领、场景件</span><span>9–11</span></li>
+    <li><span>05　Lux3D · 运行时玩法：一句话铸武器</span><span>12–13</span></li>
     <li><span>06　游戏内容与趣味</span><span>14–15</span></li>
     <li><span>07　技术亮点与数据</span><span>16</span></li>
     <li><span>08　完成度与试玩</span><span>17</span></li>
     <li><span>09　踩坑与解决、开源、下一步</span><span>18–19</span></li>
   </ul>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>3</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>3</span></div>
 </section>
 
 <!-- 4 Lux3D 用途总表 -->
 <section class="page">
-  <div class="hd"><span><b>03</b>　Lux3D 的核心作用 · 1/5</span><span>群核技术栈应用 30%</span></div>
+  <div class="hd"><span><b>03</b>　Lux3D 的核心作用 · 1/5</span><span>群核技术栈应用 30% · 生产管线</span></div>
   <div class="kick">WHERE LUX3D IS USED</div>
   <h1>Lux3D 不是点缀，<br>是这部资料片的“美术部门”。</h1>
-  <p class="lead">比赛版的写实资产全部来自 Lux3D；原有资产包保持冻结，比赛资产单独放在 <b>assets_aholo/</b> 里叠加，每一件登记任务号、输入、积分和后处理。</p>
+  <p class="lead">比赛版构建里共 237 个 3D 模型，<b>224 个（94.5%）由 Lux3D 生成</b>，只有 13 个是原有资产。写实资产全部来自 Lux3D；原有资产包保持冻结，比赛资产单独放在 <b>assets_aholo/</b> 里叠加，每一件登记任务号、输入、积分和后处理。</p>
   <table>
     <tr><th style="width:22%">用途</th><th style="width:12%">规模</th><th>Lux3D 能力</th><th style="width:26%">进入游戏的方式</th></tr>
     <tr><td>写实职业角色</td><td class="n">6 职业</td><td>严格 T 字概念图 → 四视图 → G1 多图生 3D → 人形自动绑骨</td><td>换装、技能、40 级套装全部在这套骨架上运行</td></tr>
@@ -159,7 +159,7 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
     <div><img src="img/mobs.jpg" style="height:60mm"><div class="cap">沉钟之海怪物板（比赛版）</div></div>
   </div>
   <div class="box lux">评分标准要求“群核技术栈在项目中承担核心作用”。在本作中，去掉 Lux3D，资料片就只剩程序化方块模型（见第 8 页对照）；铸造台这个玩法也将不复存在。</div>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>4</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>4</span></div>
 </section>
 
 <!-- 5 数据 -->
@@ -189,7 +189,7 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
     <div class="stat"><div class="v">约 3300<small>积分</small></div><div class="k">比赛积分已全部投入<br><span class="todo">以 Aholo 控制台为准</span></div></div>
   </div>
   <div class="rel"><img src="img/gallery.jpg" style="height:90mm;object-position:top"><span class="lbl n">Lux3D 资产总览（截取）</span></div>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>5</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>5</span></div>
 </section>
 
 <!-- 6 流水线 -->
@@ -224,7 +224,7 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
   </div>
   <div class="rel" style="margin-top:2.5mm"><img src="img/cmp_warrior.jpg" style="height:62mm;object-position:center 30%"><span class="lbl n">③ 进游戏：旧战士 vs Lux3D 写实战士</span></div>
   <div class="box lux small">链路跑通后，一个职业从概念图到能在游戏里战斗约 1 小时；后续 5 个职业与人形首领全部沿用。</div>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>6</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>6</span></div>
 </section>
 
 <!-- 7 网页化 -->
@@ -249,7 +249,7 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
   </div>
   <h3>画质分档</h3>
   <p class="small">低 / 中 / 高 / 超高四档：超高档开 ACES 色调、泛光、SMAA、4096–6144 阴影和武器刃上流光；低档自动用回退模型。同一份 Lux3D 资产在核显笔记本和独显台式机上都能玩。<span class="todo">【实测帧率：待 01 在冻结版上复核】</span></p>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>7</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>7</span></div>
 </section>
 
 <!-- 8 去掉 Lux3D -->
@@ -262,12 +262,12 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
   <div class="pair" style="margin-bottom:2.5mm"><div class="rel"><img src="img/toon_camp.jpg" style="height:56mm"><span class="lbl">无 Lux3D · 营地</span></div><div class="rel"><img src="img/real_camp.jpg" style="height:56mm"><span class="lbl n">Lux3D · 营地</span></div></div>
   <div class="rel"><img src="img/camp_cmp.jpg" style="height:54mm"><span class="lbl n">营地 A「沉船拾荒营」接入前后：船首像、沉船围墙、船灯、篝火石圈均为 Lux3D 件</span></div>
   <div class="box lux small">资产双包的另一个好处：比赛资产逐件登记来源与积分，将来商用时可以一键换回原有资产，不影响代码。</div>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>8</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>8</span></div>
 </section>
 
 <!-- 9 职业迭代 -->
 <section class="page">
-  <div class="hd"><span><b>04</b>　关键资产迭代对比 · 1/3</span><span>六职业</span></div>
+  <div class="hd"><span><b>04</b>　Lux3D · 关键资产迭代 · 1/3</span><span>六职业</span></div>
   <div class="kick">ITERATION · CLASSES</div>
   <h1>六职业：从设定图到可战斗角色</h1>
   <p>先用 AI 定统一的“写实电影”画风，出六职业主视觉；再按严格 T 字重出设定图，走 Lux3D 链路落地。下排是实机里的六职业。</p>
@@ -289,12 +289,12 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
     <li><b>服装要贴身、空手</b>：长袍下摆、披风、武器在绑骨后本地挂上，只改贴图不影响权重。</li>
     <li><b>脸部细节</b>：首领脸部在减面后单独做区域保面和法线烘焙，零积分提升近景质量（见第 10 页）。</li>
   </ul>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>9</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>9</span></div>
 </section>
 
 <!-- 10 首领迭代 -->
 <section class="page">
-  <div class="hd"><span><b>04</b>　关键资产迭代对比 · 2/3</span><span>首领</span></div>
+  <div class="hd"><span><b>04</b>　Lux3D · 关键资产迭代 · 2/3</span><span>首领</span></div>
   <div class="kick">ITERATION · BOSSES</div>
   <h1>首领：从一张概念图到逐招战斗</h1>
   <div class="rel"><img src="img/virg_cmp.jpg" style="height:34mm;object-fit:cover"><span class="lbl n">维尔格：概念图 → T 字 → Lux3D → 绑骨 → 实机</span></div>
@@ -315,12 +315,12 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
       <div class="rel" style="margin-top:2mm"><img src="img/a10_gate.jpg" style="height:40mm"><span class="lbl n">长副本尾王门口（实机）</span></div>
     </div>
   </div>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>10</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>10</span></div>
 </section>
 
 <!-- 11 场景件迭代 -->
 <section class="page">
-  <div class="hd"><span><b>04</b>　关键资产迭代对比 · 3/3</span><span>场景件与地标</span></div>
+  <div class="hd"><span><b>04</b>　Lux3D · 关键资产迭代 · 3/3</span><span>场景件与地标</span></div>
   <div class="kick">ITERATION · LANDMARKS</div>
   <h1>场景：概念图定调，Lux3D 出件</h1>
   <p>先出 19 张“写实电影”风格的场景定稿图统一美术方向，再挑出能做成独立 3D 件的地标（巨钟、沉船、礁柱、倒挂钟楼城、门架裂钟、垂链、渡船等），用 G1 图生出模型，放进场景。</p>
@@ -331,12 +331,12 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
     <div class="rel"><img src="img/raidA_land.jpg" style="height:92mm;object-fit:cover;object-position:top"><span class="lbl n">长副本地标 4 件</span></div>
     <div class="rel"><img src="img/scene_3land.jpg" style="height:92mm;object-fit:cover;object-position:top"><span class="lbl n">实机 · 三地标</span></div>
   </div>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>11</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>11</span></div>
 </section>
 
 <!-- 12 铸造台 1 -->
 <section class="page">
-  <div class="hd"><span><b>05</b>　运行时铸造台 · 1/2</span><span>创新性 · 趣味性</span></div>
+  <div class="hd"><span><b>05</b>　Lux3D · 运行时铸造台 · 1/2</span><span>创新性 · 趣味性</span></div>
   <div class="kick">FORGE A WEAPON WITH ONE SENTENCE</div>
   <h1>写一句话，<br>铸一把世上只有一把的武器</h1>
   <p class="lead">在资料片铁匠铺找到伊奥拉或戈兹，打开「铸造台」，写下你想要的武器。Lux3D 在服务端现场生成，游戏用熔炉演出把它“烧”出来：熔岩翻涌、三记重锤、淬火白汽、铭文扫过刃身，最后飞到角色手上。武器说明里刻着铸造者的名字。</p>
@@ -354,16 +354,16 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
         <li>生成式 3D 第一次进入玩家的<b>玩法循环</b>，而不只是开发者的美术工具。</li>
         <li>每把武器独一无二、可以装备、可以导出分享卡，带来话题和传播。</li>
         <li>生成要几十秒到几分钟，我们用演出把等待变成仪式感；在线部署时还支持“提交后去打怪，到点回来领取”。</li>
-        <li>实测：点「铸造」到换上手 154 秒，模型 10.1 MB → 0.92 MB，一次约 13 积分。</li>
+        <li>实测：Lux3D Turbo 生成 25–60 秒；含取回、压缩和演出，点「铸造」到换上手 154 秒；模型 10.1 MB → 0.92 MB，一次约 13 积分。</li>
       </ul>
     </div>
   </div>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>12</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>12</span></div>
 </section>
 
 <!-- 13 铸造台 2 -->
 <section class="page">
-  <div class="hd"><span><b>05</b>　运行时铸造台 · 2/2</span><span>架构与可靠性</span></div>
+  <div class="hd"><span><b>05</b>　Lux3D · 运行时铸造台 · 2/2</span><span>架构与可靠性</span></div>
   <div class="kick">ARCHITECTURE</div>
   <h1>让实时生成在网页里可靠地跑</h1>
   <div class="flow">
@@ -386,7 +386,7 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
     <div class="rel"><img src="img/sc_forge.jpg" style="height:68mm"><span class="lbl">铸坊概念定稿</span></div>
     <div class="rel"><img src="img/photomode.jpg" style="height:68mm"><span class="lbl n">拍照模式：环绕、调焦、存水印 PNG</span></div>
   </div>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>13</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>13</span></div>
 </section>
 
 <!-- 14 内容 -->
@@ -401,6 +401,7 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
   </div>
   <table style="margin-top:3mm">
     <tr><th style="width:24%">内容</th><th>规模与亮点</th></tr>
+    <tr><td>等级与结局</td><td>1–40 级成长；资料片双结局</td></tr>
     <tr><td>职业</td><td>6 个写实职业，各有天赋树与技能替换联动；40 级套装与专属暗金</td></tr>
     <tr><td>区域</td><td>沉钟海岸三区（退潮浅滩 / 风暴码头 / 鲸骨礁湾）、镜渊城、无声钟楼、营地、钟井长通道</td></tr>
     <tr><td>首领与副本</td><td>长副本：摆渡双子两岸锁血、尾王三阶段；深渊 20 层；世界首领</td></tr>
@@ -408,7 +409,7 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
     <tr><td>视听</td><td>开场动画（钟裂 → 深井 → 莫尔维斯 → 动态 LOGO）、动态选角背景、原创配乐（-16 LUFS）、首领配音</td></tr>
   </table>
   <div class="rel"><img src="img/six_heroes.jpg" style="height:84mm;object-position:center 40%"><span class="lbl">六职业主视觉（宣传图）</span></div>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>14</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>14</span></div>
 </section>
 
 <!-- 15 战斗趣味 -->
@@ -434,7 +435,7 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
       <div class="box small">实机截图来自 v1.2.3x–1107 各版本。<span class="todo">【11-12 冻结版新截图：尾王战、钟井、六职业 40 级套装，待补】</span></div>
     </div>
   </div>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>15</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>15</span></div>
 </section>
 
 <!-- 16 技术亮点 -->
@@ -459,7 +460,7 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
     <div class="stat"><div class="v">约 15 亿</div><div class="k">AI 编程 Token</div></div>
   </div>
   <div class="rel"><img src="img/camp_shot.jpg" style="height:84mm"><span class="lbl n">实机 · 营地南门低角（超高画质）</span></div>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>16</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>16</span></div>
 </section>
 
 <!-- 17 完成度 -->
@@ -488,7 +489,7 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
     <div class="box" style="height:42mm"><b>演示视频二维码</b><br><span class="todo">【90 秒主片，11-15】</span></div>
   </div>
   <div class="rel"><img src="img/real_mirror.jpg" style="height:76mm"><span class="lbl n">实机 · 镜渊城</span></div>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>17</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>17</span></div>
 </section>
 
 <!-- 18 踩坑 -->
@@ -511,7 +512,7 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
   <h2>积分怎么花</h2>
   <p class="small">每次付费生成前先列清单和预估，再生成，再记台账；铸造台、批量重做等都按批次核对。比赛积分约 3300 已全部用在角色、怪物、首领、武器、场景件和铸造台实测上，没有重复生成已有武器。<span class="todo">【以 Aholo 控制台最终数为准】</span></p>
   <div class="g2" style="margin-top:3mm"><div class="rel"><img src="img/a10_gate.jpg" style="height:56mm"><span class="lbl n">长副本尾王门口（实机）</span></div><div class="rel"><img src="img/f_2b_hammer.jpg" style="height:56mm"><span class="lbl n">铸造台锻打（实机）</span></div></div>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>18</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>18</span></div>
 </section>
 
 <!-- 19 开源 + 下一步 -->
@@ -534,10 +535,10 @@ td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
     <li>把“设定图 → 四视图 → G1 → 绑骨”链路做成游戏内创作工具，玩家也能生成自己的角色外观。</li>
   </ul>
   <h2>团队</h2>
-  <p>Rhett，独立开发：策划、美术方向、测试与全部决策；编程、资产处理与宣发素材借助 AI 协作完成。</p>
+  <p><b>锐特AI工坊</b>　队长：王磊。一个人负责策划、美术方向、测试与全部决策；代码、关卡、剧情、资产处理与宣发素材借助 AI 协作完成。3D 美术是不会建模的独立开发者最大的短板，这一块交给了 Lux3D。</p>
   <div class="rel" style="margin-top:3mm"><img src="img/sc_coast.jpg" style="height:74mm"><span class="lbl">沉钟海岸 · 定稿图</span></div>
   <p class="muted small" style="margin-top:3mm">致谢：Aholo / 群核科技提供 Lux3D 与比赛积分；魔搭社区提供部署平台。配乐为作者 Suno 曲目，仅用于比赛。</p>
-  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>19</span></div>
+  <div class="ft"><span>锐特AI工坊 · 暗岩传说 · Aholo 黑客松项目报告书</span><span>19</span></div>
 </section>
 
 </body></html>
