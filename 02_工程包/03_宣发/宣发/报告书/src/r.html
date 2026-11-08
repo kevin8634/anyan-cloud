@@ -1,0 +1,543 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<title>暗岩传说：深渊回响 · Aholo 黑客松项目报告书</title>
+<style>
+@page{size:210mm 297mm;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0d0f12}
+body{font-family:"Noto Sans SC",sans-serif;color:#d9dde2;font-size:10.2pt;line-height:1.62;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{width:210mm;height:297mm;padding:16mm 15mm 14mm;position:relative;overflow:hidden;page-break-after:always;background:#0d0f12}
+.page:last-child{page-break-after:auto}
+.hd{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #3a2f22;padding-bottom:2.4mm;margin-bottom:6mm;font-size:8pt;color:#8c7a62;letter-spacing:.08em}
+.hd b{color:#c8924a;font-weight:700}
+.ft{position:absolute;left:15mm;right:15mm;bottom:8mm;display:flex;justify-content:space-between;font-size:7.5pt;color:#5d6268}
+h1{font-size:22pt;line-height:1.25;color:#f1e6d4;font-weight:700;margin-bottom:2mm}
+h2{font-size:12.5pt;color:#e7b56b;margin:5mm 0 2mm;font-weight:700}
+h3{font-size:10.5pt;color:#f1e6d4;margin:3.5mm 0 1.2mm}
+.kick{font-size:8.5pt;color:#c8924a;letter-spacing:.2em;margin-bottom:1mm}
+.lead{font-size:11pt;color:#e9e2d6;margin-bottom:3mm}
+p{margin-bottom:2mm}
+.muted{color:#8f969e}
+.small{font-size:8.5pt}
+ul{padding-left:4.5mm;margin-bottom:2mm} li{margin-bottom:1mm}
+img{display:block;width:100%;border-radius:1.5mm;object-fit:cover}
+.cap{font-size:7.8pt;color:#8f969e;margin-top:1mm;line-height:1.4}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:3mm}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2.5mm}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:2mm}
+.tag{display:inline-block;font-size:7.5pt;padding:.3mm 1.6mm;border-radius:1mm;background:#2a2118;color:#e7b56b;margin-right:1mm}
+.tag.lux{background:#123033;color:#7fe0d6}
+table{width:100%;border-collapse:collapse;font-size:8.8pt;margin:1.5mm 0 3mm}
+th{background:#1d1913;color:#e7b56b;text-align:left;font-weight:700;padding:1.6mm 2mm;border-bottom:1px solid #4a3a28}
+td{padding:1.5mm 2mm;border-bottom:1px solid #22262b;vertical-align:top}
+td.n{text-align:right;white-space:nowrap;color:#f1e6d4}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5mm;margin:3mm 0}
+.stat{background:#15181c;border:1px solid #262b31;border-radius:2mm;padding:3mm 2.5mm}
+.stat .v{font-size:17pt;font-weight:700;color:#f1e6d4;line-height:1.1}
+.stat .v small{font-size:9pt;color:#c8924a;margin-left:.6mm}
+.stat .k{font-size:7.8pt;color:#8f969e;margin-top:1mm;line-height:1.35}
+.box{background:#14171b;border-left:2px solid #c8924a;padding:2.5mm 3.5mm;margin:2.5mm 0;border-radius:0 1.5mm 1.5mm 0}
+.box.lux{border-left-color:#4fc7bb}
+.todo{color:#ff9c6b;background:#2a160e;padding:0 1mm;border-radius:.8mm}
+.flow{display:flex;gap:1.6mm;align-items:stretch;margin:3mm 0}
+.flow .s{flex:1;background:#15181c;border:1px solid #2a2f35;border-radius:1.8mm;padding:2mm;font-size:8pt;line-height:1.4}
+.flow .s b{display:block;color:#7fe0d6;font-size:8.6pt;margin-bottom:.6mm}
+.flow .s.own b{color:#e7b56b}
+.flow .ar{align-self:center;color:#5d6268;font-size:10pt}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:2mm;position:relative}
+.lbl{position:absolute;top:1.5mm;left:1.5mm;font-size:7pt;background:rgba(0,0,0,.7);color:#fff;padding:.3mm 1.4mm;border-radius:.8mm}
+.lbl.n{background:rgba(20,90,85,.9)}
+.rel{position:relative}
+.toc li{list-style:none;display:flex;justify-content:space-between;border-bottom:1px dotted #2c3136;padding:1.3mm 0}
+.toc{padding:0}
+.cover{padding:0;background:#07080a}
+.cover .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55;border-radius:0}
+.cover .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(7,8,10,.35) 0%,rgba(7,8,10,.1) 35%,rgba(7,8,10,.85) 70%,#07080a 100%)}
+.cover .in{position:absolute;left:16mm;right:16mm;bottom:22mm}
+.cover .logo{width:130mm;margin:0 0 6mm -6mm;mix-blend-mode:screen;border-radius:0}
+.cover h1{font-size:28pt}
+.cover .en{font-size:12pt;color:#c8924a;letter-spacing:.06em;margin-bottom:6mm}
+.cover .meta{font-size:9pt;color:#b9b2a6;line-height:1.8}
+.cover .top{position:absolute;top:14mm;left:16mm;right:16mm;display:flex;justify-content:space-between;font-size:8.5pt;color:#d8c7ad;letter-spacing:.15em}
+.score{display:flex;height:6mm;border-radius:1mm;overflow:hidden;margin:2mm 0 1mm;font-size:7.5pt}
+.score div{display:flex;align-items:center;justify-content:center;color:#0d0f12;font-weight:700}
+</style></head><body>
+
+<!-- 1 封面 -->
+<section class="page cover">
+  <img class="bg" src="img/sc_coast.jpg">
+  <div class="shade"></div>
+  <div class="top"><span>AHOLO 黑客松 · PLAY IN 3D, CREATE WITH AHOLO</span><span>项目报告书</span></div>
+  <div class="in">
+    <img class="logo" src="img/logo.jpg">
+    <h1>暗岩传说：深渊回响</h1>
+    <div class="en">Darkrock Legends: Abyssal Echoes</div>
+    <div class="meta">
+      一款打开浏览器就能玩的暗黑风 3D 动作 RPG<br>
+      角色、首领、怪物、武器、场景件由 Aholo Lux3D 生成；游戏里的铸造台能用一句话现场铸出一把 3D 武器<br>
+      团队：<span class="todo">【团队名称待定】</span>　·　作者：Rhett（独立开发）　·　版本：<span class="todo">【11-12 冻结版本号】</span>　·　2026 年 11 月
+    </div>
+  </div>
+</section>
+
+<!-- 2 一页看懂 -->
+<section class="page">
+  <div class="hd"><span><b>01</b>　一页看懂</span><span>暗岩传说：深渊回响</span></div>
+  <div class="kick">ONE-PAGE SUMMARY</div>
+  <h1>一句话：<br>用 Lux3D 把整部资料片“生成”出来，再让玩家用一句话打出自己的武器。</h1>
+  <p class="lead">《暗岩传说：深渊回响》是一款单 HTML 文件就能运行的网页 3D 动作 RPG。比赛版资料片「沉钟之海」里的写实职业、怪物、首领、武器和地标场景件，都由 Aholo Lux3D 生成，再经过减面、压缩和自动绑骨后放进 three.js 实时渲染。铁匠铺的「铸造台」把 Lux3D 直接接进玩法：玩家写一句话，一把只属于自己的 3D 武器会从熔炉里烧出来，飞到角色手上。</p>
+  <div class="stats">
+    <div class="stat"><div class="v">242<small>条</small></div><div class="k">Lux3D 任务记录<br>10-24 至 11-04 逐条登记</div></div>
+    <div class="stat"><div class="v">224<small>个</small></div><div class="k">比赛资产包 GLB<br>assets_aholo/ 逐件登记</div></div>
+    <div class="stat"><div class="v">9.7万→7900</div><div class="k">模型面数中位数<br>生成原件 → 游戏用件</div></div>
+    <div class="stat"><div class="v">1/32</div><div class="k">183 个模型体积<br>2.03 GB → 65 MB</div></div>
+  </div>
+  <div class="g2">
+    <div class="rel"><img src="img/real_coast.jpg" style="height:52mm"><span class="lbl n">实机 · 沉钟海岸（Lux3D 写实）</span></div>
+    <div class="rel"><img src="img/f_3_spin.jpg" style="height:52mm"><span class="lbl n">实机 · 铸造台出炉</span></div>
+  </div>
+  <h2>评委 30 秒看什么</h2>
+  <table>
+    <tr><th style="width:24%">评分维度</th><th>本作对应</th><th style="width:12%">页码</th></tr>
+    <tr><td>群核技术栈应用 30%</td><td>Lux3D 承担全部写实角色、约百只怪物与首领、武器和地标件的生成，外加运行时“一句话铸武器”和人形自动绑骨</td><td>4–8</td></tr>
+    <tr><td>作品有趣程度 25%</td><td>熔炉锻打演出、刻着铸造者名字的武器、首领逐招战斗、六职业技能特效</td><td>10–13</td></tr>
+    <tr><td>创新性 20%</td><td>生成式 3D 进入玩法循环（而非只做美术）；网页端 10 万面 → 60 帧的整条流水线</td><td>10, 14</td></tr>
+    <tr><td>完成度 20%</td><td>六职业、深渊 20 层、长副本、资料片、离线包与在线版</td><td>15</td></tr>
+  </table>
+  <div class="box"><b>试玩</b>　在线体验：<span class="todo">【Demo 公开链接 / 二维码待定】</span>　演示视频：<span class="todo">【90 秒主片链接，11-15】</span>　小红书：<span class="todo">【#Aholo黑客松 帖链接】</span></div>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>2</span></div>
+</section>
+
+<!-- 3 目录 + 创意 -->
+<section class="page">
+  <div class="hd"><span><b>02</b>　创意由来</span><span>从想法到成品</span></div>
+  <div class="kick">WHY THIS GAME</div>
+  <h1>一个人，能不能做一款“像样”的 3D 网游？</h1>
+  <p class="lead">做 3D 游戏最贵的不是代码，是资产：每个角色要建模、拓扑、贴图、绑骨，一只首领动辄几周。独立开发者通常只能退回低模卡通风。</p>
+  <p>Aholo Lux3D 让这件事有了另一种做法：先用 AI 画出统一画风的概念图，再让 Lux3D 生成 3D、自动绑骨，开发者把精力放在“让它在网页上跑得动、打得爽”。我们想验证两件事：</p>
+  <ul>
+    <li><b>生产力</b>：一个人能不能用 Lux3D 把整部资料片的角色、怪物、首领、武器和场景件全部换成写实模型，而且浏览器里还能流畅运行；</li>
+    <li><b>玩法</b>：生成式 3D 能不能不只是美术工具，而是直接变成玩家手里的东西——于是有了“一句话铸武器”的铸造台。</li>
+  </ul>
+  <div class="g2" style="margin-top:3mm">
+    <div class="rel"><img src="img/toon_coast.jpg" style="height:50mm"><span class="lbl">之前 · 程序化低模卡通</span></div>
+    <div class="rel"><img src="img/real_coast.jpg" style="height:50mm"><span class="lbl n">之后 · Lux3D 写实资产</span></div>
+  </div>
+  <div class="cap">同一机位、同一版本，只切换资产包。左为原有程序化资产，右为 Lux3D 比赛资产包。</div>
+  <h2>报告目录</h2>
+  <ul class="toc">
+    <li><span>01　一页看懂</span><span>2</span></li>
+    <li><span>02　创意由来</span><span>3</span></li>
+    <li><span>03　Lux3D 在作品中的核心作用（用途、数量、流水线、对照）</span><span>4–8</span></li>
+    <li><span>04　关键资产迭代对比（职业、首领、场景件）</span><span>9–11</span></li>
+    <li><span>05　运行时铸造台：一句话铸武器</span><span>12–13</span></li>
+    <li><span>06　游戏内容与趣味</span><span>14–15</span></li>
+    <li><span>07　技术亮点与数据</span><span>16</span></li>
+    <li><span>08　完成度与试玩</span><span>17</span></li>
+    <li><span>09　踩坑与解决、开源、下一步</span><span>18–19</span></li>
+  </ul>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>3</span></div>
+</section>
+
+<!-- 4 Lux3D 用途总表 -->
+<section class="page">
+  <div class="hd"><span><b>03</b>　Lux3D 的核心作用 · 1/5</span><span>群核技术栈应用 30%</span></div>
+  <div class="kick">WHERE LUX3D IS USED</div>
+  <h1>Lux3D 不是点缀，<br>是这部资料片的“美术部门”。</h1>
+  <p class="lead">比赛版的写实资产全部来自 Lux3D；原有资产包保持冻结，比赛资产单独放在 <b>assets_aholo/</b> 里叠加，每一件登记任务号、输入、积分和后处理。</p>
+  <table>
+    <tr><th style="width:22%">用途</th><th style="width:12%">规模</th><th>Lux3D 能力</th><th style="width:26%">进入游戏的方式</th></tr>
+    <tr><td>写实职业角色</td><td class="n">6 职业</td><td>严格 T 字概念图 → 四视图 → G1 多图生 3D → 人形自动绑骨</td><td>换装、技能、40 级套装全部在这套骨架上运行</td></tr>
+    <tr><td>怪物 / 精英 / 首领</td><td class="n">约 100 只</td><td>G1 文生 photorealistic、G1 图生；人形首领走自动绑骨</td><td>减面到约 8000 面，逐招动作</td></tr>
+    <tr><td>武器</td><td class="n">16 件</td><td>G1 文生；10 把主手再做高清化</td><td>2–3 万面 + 法线 + 发光遮罩</td></tr>
+    <tr><td>地标与场景件</td><td class="n">20+ 件</td><td>G1 图生（巨钟、沉船、礁柱、倒挂钟楼、渡船等）</td><td>电影感地标，低画质自动回退</td></tr>
+    <tr><td>运行时铸造台</td><td class="n">玩家驱动</td><td>G1-Turbo 文生，服务端中转</td><td>熔炉演出中实时成形、换到手上</td></tr>
+  </table>
+  <div class="g3">
+    <div><img src="img/cmp_bellcrab.jpg" style="height:60mm"><div class="cap">钟壳蟹：程序化 → Lux3D 写实</div></div>
+    <div><img src="img/cmp_drowned.jpg" style="height:60mm"><div class="cap">溺亡回响：旧件 → Lux3D G1</div></div>
+    <div><img src="img/mobs.jpg" style="height:60mm"><div class="cap">沉钟之海怪物板（比赛版）</div></div>
+  </div>
+  <div class="box lux">评分标准要求“群核技术栈在项目中承担核心作用”。在本作中，去掉 Lux3D，资料片就只剩程序化方块模型（见第 8 页对照）；铸造台这个玩法也将不复存在。</div>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>4</span></div>
+</section>
+
+<!-- 5 数据 -->
+<section class="page">
+  <div class="hd"><span><b>03</b>　Lux3D 的核心作用 · 2/5</span><span>生成记录与数据</span></div>
+  <div class="kick">BY THE NUMBERS</div>
+  <h1>每一次生成都有账可查</h1>
+  <p>所有 Lux3D 任务都写进 <b>docs/黑客松素材/lux3d_log.jsonl</b>：时间、任务号、工具与模式、输入、耗时、减面前后的面数和体积。以下数据统计自 2026-10-24 至 11-04 的 242 条记录。</p>
+  <div class="stats">
+    <div class="stat"><div class="v">180<small>次</small></div><div class="k">3D 生成任务<br>G1 / G1-Turbo</div></div>
+    <div class="stat"><div class="v">33<small>张</small></div><div class="k">单图（概念 / T 字设定图）</div></div>
+    <div class="stat"><div class="v">12<small>组</small></div><div class="k">四视图</div></div>
+    <div class="stat"><div class="v">12<small>次</small></div><div class="k">人形自动绑骨</div></div>
+  </div>
+  <table>
+    <tr><th>工具与模式</th><th style="width:16%">次数</th><th>主要用途</th></tr>
+    <tr><td>Lux3D G1 文生 photorealistic</td><td class="n">134</td><td>怪物、首领、武器、道具</td></tr>
+    <tr><td>Lux3D G1 图生</td><td class="n">31</td><td>地标场景件、按概念图还原的首领</td></tr>
+    <tr><td>Lux3D G1-Turbo 图生 / 文生</td><td class="n">14</td><td>快速迭代、铸造台链路连通与评委实测</td></tr>
+    <tr><td>Lux3D G1 多图生 3D</td><td class="n">1+</td><td>战士样板（四视图 → 3D），后续职业沿用此链路</td></tr>
+    <tr><td>单图 / 四视图 / 绑骨 / 材质重绘</td><td class="n">58</td><td>人形角色链路的前置与绑骨</td></tr>
+  </table>
+  <div class="stats">
+    <div class="stat"><div class="v">97,362</div><div class="k">生成原件面数中位数</div></div>
+    <div class="stat"><div class="v">7,900</div><div class="k">进游戏面数中位数</div></div>
+    <div class="stat"><div class="v">约 4.6<small>分钟</small></div><div class="k">单件生成耗时中位数<br>（276 秒，含排队）</div></div>
+    <div class="stat"><div class="v">约 3300<small>积分</small></div><div class="k">比赛积分已全部投入<br><span class="todo">以 Aholo 控制台为准</span></div></div>
+  </div>
+  <div class="rel"><img src="img/gallery.jpg" style="height:90mm;object-position:top"><span class="lbl n">Lux3D 资产总览（截取）</span></div>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>5</span></div>
+</section>
+
+<!-- 6 流水线 -->
+<section class="page">
+  <div class="hd"><span><b>03</b>　Lux3D 的核心作用 · 3/5</span><span>从概念图到网页实时渲染</span></div>
+  <div class="kick">PIPELINE</div>
+  <h1>一条能复用的流水线</h1>
+  <p>人形角色和怪物、武器走两条支线，最终汇到同一个 three.js 运行时。青色是 Lux3D 完成的步骤，铜色是我们自己写的工具。</p>
+  <h3>人形角色（职业、人形首领、NPC）</h3>
+  <div class="flow">
+    <div class="s"><b>T 字设定图</b>统一画风，严格 T 字：双臂水平、双腿分开、空手</div><div class="ar">→</div>
+    <div class="s own"><b>人工核对</b>逐张核姿势，不合格不进入付费步骤</div><div class="ar">→</div>
+    <div class="s"><b>四视图</b>正 / 侧 / 背 / 3/4</div><div class="ar">→</div>
+    <div class="s"><b>G1 多图生 3D</b>约 10 万面写实件</div><div class="ar">→</div>
+    <div class="s"><b>自动绑骨</b>humanoidAutoRig</div><div class="ar">→</div>
+    <div class="s own"><b>权重转移 + 骨名映射</b>复用现有动作库与武器挂点</div>
+  </div>
+  <h3>怪物、武器、场景件</h3>
+  <div class="flow">
+    <div class="s"><b>G1 文生 / 图生</b>photorealistic，或按概念图图生</div><div class="ar">→</div>
+    <div class="s own"><b>减面</b>weld + meshopt，保接缝</div><div class="ar">→</div>
+    <div class="s own"><b>贴图</b>webp / KTX2，≤2048</div><div class="ar">→</div>
+    <div class="s own"><b>高清化（武器）</b>底色生成法线 + 发光遮罩，0 积分</div><div class="ar">→</div>
+    <div class="s own"><b>登记</b>任务号、输入、积分写入台账</div>
+  </div>
+  <h3>战士样板：一条链路的实物</h3>
+  <div class="g4" style="grid-template-columns:1.25fr 1fr 1fr 1fr">
+    <div><img src="img/w_concept.jpg" style="height:52mm;object-fit:contain;background:#fff"><div class="cap">① T 字设定图</div></div>
+    <div><img src="img/w_1_front34.jpg" style="height:52mm;object-fit:contain;background:#fff"><div class="cap">② 四视图 · 3/4 正</div></div>
+    <div><img src="img/w_3_side.jpg" style="height:52mm;object-fit:contain;background:#fff"><div class="cap">② 四视图 · 侧</div></div>
+    <div><img src="img/w_4_back.jpg" style="height:52mm;object-fit:contain;background:#fff"><div class="cap">② 四视图 · 背</div></div>
+  </div>
+  <div class="rel" style="margin-top:2.5mm"><img src="img/cmp_warrior.jpg" style="height:62mm;object-position:center 30%"><span class="lbl n">③ 进游戏：旧战士 vs Lux3D 写实战士</span></div>
+  <div class="box lux small">链路跑通后，一个职业从概念图到能在游戏里战斗约 1 小时；后续 5 个职业与人形首领全部沿用。</div>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>6</span></div>
+</section>
+
+<!-- 7 网页化 -->
+<section class="page">
+  <div class="hd"><span><b>03</b>　Lux3D 的核心作用 · 4/5</span><span>让生成的模型在网页上跑得动</span></div>
+  <div class="kick">FROM 100K FACES TO 60 FPS</div>
+  <h1>生成只是开始：<br>从 10 万面到网页 60 帧</h1>
+  <p>Lux3D 原件质量高，但一件约 10 MB、10 万面，直接放进网页会把浏览器拖垮。我们为每类资产定了面数和贴图预算，用自动工具批量处理。</p>
+  <table>
+    <tr><th>资产类型</th><th>原件</th><th>游戏用件</th><th>处理</th></tr>
+    <tr><td>普通怪物</td><td>约 9.7 万面</td><td>约 8000 面</td><td>weld + meshopt 简化，webp 贴图</td></tr>
+    <tr><td>主手武器（高清）</td><td>约 10 万面</td><td>2–3 万面</td><td>2048 底色 + 自动法线 + 发光遮罩</td></tr>
+    <tr><td>铸造台实时武器</td><td>10,081,916 B</td><td>961,336 B</td><td>浏览器端纯 JS 减面到 12000 面，贴图 ≤1024 JPEG</td></tr>
+    <tr><td>地标场景件</td><td>约 10 万面</td><td>1–3 万面</td><td>保接缝减面；低画质回退程序化造景</td></tr>
+    <tr><td>合计 183 个模型</td><td>2.03 GB</td><td>65 MB</td><td>约 1/32</td></tr>
+  </table>
+  <div class="g2">
+    <div class="rel"><img src="img/real_camp.jpg" style="height:112mm"><span class="lbl n">实机 · Lux3D 写实角色与营地道具</span></div>
+    <div>
+      <div class="rel"><img src="img/weapons.jpg" style="height:112mm;object-fit:contain;background:#15181c"><span class="lbl n">十把高清武器</span></div>
+    </div>
+  </div>
+  <h3>画质分档</h3>
+  <p class="small">低 / 中 / 高 / 超高四档：超高档开 ACES 色调、泛光、SMAA、4096–6144 阴影和武器刃上流光；低档自动用回退模型。同一份 Lux3D 资产在核显笔记本和独显台式机上都能玩。<span class="todo">【实测帧率：待 01 在冻结版上复核】</span></p>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>7</span></div>
+</section>
+
+<!-- 8 去掉 Lux3D -->
+<section class="page">
+  <div class="hd"><span><b>03</b>　Lux3D 的核心作用 · 5/5</span><span>如果没有 Lux3D</span></div>
+  <div class="kick">WITH vs WITHOUT</div>
+  <h1>同一个游戏，切换一个资产包</h1>
+  <p>比赛版和本体共用一套代码，构建时只叠加 assets_aholo/。下面三组截图来自同一版本、同一机位，左边关掉比赛资产包，右边打开。</p>
+  <div class="pair" style="margin-bottom:2.5mm"><div class="rel"><img src="img/toon_mirror.jpg" style="height:56mm"><span class="lbl">无 Lux3D · 镜渊城</span></div><div class="rel"><img src="img/real_mirror.jpg" style="height:56mm"><span class="lbl n">Lux3D · 镜渊城</span></div></div>
+  <div class="pair" style="margin-bottom:2.5mm"><div class="rel"><img src="img/toon_camp.jpg" style="height:56mm"><span class="lbl">无 Lux3D · 营地</span></div><div class="rel"><img src="img/real_camp.jpg" style="height:56mm"><span class="lbl n">Lux3D · 营地</span></div></div>
+  <div class="rel"><img src="img/camp_cmp.jpg" style="height:54mm"><span class="lbl n">营地 A「沉船拾荒营」接入前后：船首像、沉船围墙、船灯、篝火石圈均为 Lux3D 件</span></div>
+  <div class="box lux small">资产双包的另一个好处：比赛资产逐件登记来源与积分，将来商用时可以一键换回原有资产，不影响代码。</div>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>8</span></div>
+</section>
+
+<!-- 9 职业迭代 -->
+<section class="page">
+  <div class="hd"><span><b>04</b>　关键资产迭代对比 · 1/3</span><span>六职业</span></div>
+  <div class="kick">ITERATION · CLASSES</div>
+  <h1>六职业：从设定图到可战斗角色</h1>
+  <p>先用 AI 定统一的“写实电影”画风，出六职业主视觉；再按严格 T 字重出设定图，走 Lux3D 链路落地。下排是实机里的六职业。</p>
+  <div class="g3">
+    <div><img src="img/C1_warrior_v2.jpg" style="height:36mm"><div class="cap">战士 · 主视觉 v2</div></div>
+    <div><img src="img/C2_mage_v3.jpg" style="height:36mm"><div class="cap">法师 · 主视觉 v3</div></div>
+    <div><img src="img/C3_chrono.jpg" style="height:36mm"><div class="cap">时砂行者</div></div>
+    <div><img src="img/C4_alchemy.jpg" style="height:36mm"><div class="cap">炼金投弹手</div></div>
+    <div><img src="img/C5_hunter_v2.jpg" style="height:36mm"><div class="cap">灵契猎手 · v2</div></div>
+    <div><img src="img/C6_coffin.jpg" style="height:36mm"><div class="cap">负棺人</div></div>
+  </div>
+  <div class="g2" style="margin-top:3mm;grid-template-columns:1fr 1fr">
+    <div class="rel"><img src="img/board_classes.jpg" style="height:76mm;object-fit:contain;background:#15181c"><span class="lbl">T 字设定图板（进入 Lux3D 前）</span></div>
+    <div class="rel"><img src="img/cmp_warrior.jpg" style="height:76mm;object-fit:cover;object-position:bottom"><span class="lbl n">Lux3D 写实件（实机）</span></div>
+  </div>
+  <h3>迭代里学到的规则</h3>
+  <ul class="small">
+    <li><b>A 字姿势连续 3 次绑骨失败</b>：自动绑骨只认严格 T 字。之后定下“两道关卡”：设定图人工核姿势，G1 出件后再核一次，不合格不进入下一步付费环节。</li>
+    <li><b>服装要贴身、空手</b>：长袍下摆、披风、武器在绑骨后本地挂上，只改贴图不影响权重。</li>
+    <li><b>脸部细节</b>：首领脸部在减面后单独做区域保面和法线烘焙，零积分提升近景质量（见第 10 页）。</li>
+  </ul>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>9</span></div>
+</section>
+
+<!-- 10 首领迭代 -->
+<section class="page">
+  <div class="hd"><span><b>04</b>　关键资产迭代对比 · 2/3</span><span>首领</span></div>
+  <div class="kick">ITERATION · BOSSES</div>
+  <h1>首领：从一张概念图到逐招战斗</h1>
+  <div class="rel"><img src="img/virg_cmp.jpg" style="height:34mm;object-fit:cover"><span class="lbl n">维尔格：概念图 → T 字 → Lux3D → 绑骨 → 实机</span></div>
+  <div class="g2" style="margin-top:2.5mm">
+    <div class="rel"><img src="img/sarin_face.jpg" style="height:66mm"><span class="lbl n">萨琳：脸部高清化前后（区域保面 + 法线烘焙）</span></div>
+    <div class="rel"><img src="img/morvis_cmp.jpg" style="height:66mm"><span class="lbl n">莫尔维斯（鮟鱇首领）：Lux3D 原件 vs 游戏成品</span></div>
+  </div>
+  <div class="g2" style="margin-top:2.5mm;grid-template-columns:1fr 1.25fr">
+    <div class="rel"><img src="img/morvis_moves.jpg" style="height:92mm;object-position:top"><span class="lbl n">莫尔维斯逐招总览（实机）</span></div>
+    <div>
+      <h3 style="margin-top:0">做法</h3>
+      <ul class="small">
+        <li>人形首领（维尔格、萨琳、戈尔顿、摆渡双子）走 Lux3D 自动绑骨，复用人形动作库，再补首领专属招式。</li>
+        <li>非人形首领莫尔维斯（鮟鱇）不在自动绑骨支持范围内：保留 Lux3D 原件网格，本地精细绑定，逐招做关键帧。</li>
+        <li>首领贴图底色升到 2048，近景不糊。</li>
+        <li>每只首领 6–12 个招式都录了实机动图存档，便于对照迭代。</li>
+      </ul>
+      <div class="rel" style="margin-top:2mm"><img src="img/a10_gate.jpg" style="height:40mm"><span class="lbl n">长副本尾王门口（实机）</span></div>
+    </div>
+  </div>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>10</span></div>
+</section>
+
+<!-- 11 场景件迭代 -->
+<section class="page">
+  <div class="hd"><span><b>04</b>　关键资产迭代对比 · 3/3</span><span>场景件与地标</span></div>
+  <div class="kick">ITERATION · LANDMARKS</div>
+  <h1>场景：概念图定调，Lux3D 出件</h1>
+  <p>先出 19 张“写实电影”风格的场景定稿图统一美术方向，再挑出能做成独立 3D 件的地标（巨钟、沉船、礁柱、倒挂钟楼城、门架裂钟、垂链、渡船等），用 G1 图生出模型，放进场景。</p>
+  <img src="img/sc_sheet.jpg" style="height:92mm;object-fit:cover">
+  <div class="cap">场景定稿图（部分）：镜渊城、沉钟海岸、无声钟楼、深渊、鸣钟港、铸坊等。</div>
+  <div class="g3" style="margin-top:2.5mm">
+    <div class="rel"><img src="img/scene_partsA.jpg" style="height:92mm;object-fit:cover;object-position:top"><span class="lbl n">地标件：概念 vs Lux3D</span></div>
+    <div class="rel"><img src="img/raidA_land.jpg" style="height:92mm;object-fit:cover;object-position:top"><span class="lbl n">长副本地标 4 件</span></div>
+    <div class="rel"><img src="img/scene_3land.jpg" style="height:92mm;object-fit:cover;object-position:top"><span class="lbl n">实机 · 三地标</span></div>
+  </div>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>11</span></div>
+</section>
+
+<!-- 12 铸造台 1 -->
+<section class="page">
+  <div class="hd"><span><b>05</b>　运行时铸造台 · 1/2</span><span>创新性 · 趣味性</span></div>
+  <div class="kick">FORGE A WEAPON WITH ONE SENTENCE</div>
+  <h1>写一句话，<br>铸一把世上只有一把的武器</h1>
+  <p class="lead">在资料片铁匠铺找到伊奥拉或戈兹，打开「铸造台」，写下你想要的武器。Lux3D 在服务端现场生成，游戏用熔炉演出把它“烧”出来：熔岩翻涌、三记重锤、淬火白汽、铭文扫过刃身，最后飞到角色手上。武器说明里刻着铸造者的名字。</p>
+  <div class="g2">
+    <div class="rel"><img src="img/f_1_brew.jpg" style="height:54mm"><span class="lbl">① 熔炉升温</span></div>
+    <div class="rel"><img src="img/f_2_dissolve.jpg" style="height:54mm"><span class="lbl n">② 溶解着色器自下而上成形</span></div>
+    <div class="rel"><img src="img/f_2b_hammer.jpg" style="height:54mm"><span class="lbl">③ 三记重锤 · 火花 · 镜头震</span></div>
+    <div class="rel"><img src="img/f_3_spin.jpg" style="height:54mm"><span class="lbl">④ 淬火、铭文扫光、出炉</span></div>
+  </div>
+  <div class="g2" style="margin-top:3mm;grid-template-columns:.62fr 1fr">
+    <img src="img/f_5_card.jpg" style="height:82mm;object-fit:contain;background:#15181c">
+    <div>
+      <h3 style="margin-top:0">为什么这是创新</h3>
+      <ul class="small">
+        <li>生成式 3D 第一次进入玩家的<b>玩法循环</b>，而不只是开发者的美术工具。</li>
+        <li>每把武器独一无二、可以装备、可以导出分享卡，带来话题和传播。</li>
+        <li>生成要几十秒到几分钟，我们用演出把等待变成仪式感；在线部署时还支持“提交后去打怪，到点回来领取”。</li>
+        <li>实测：点「铸造」到换上手 154 秒，模型 10.1 MB → 0.92 MB，一次约 13 积分。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>12</span></div>
+</section>
+
+<!-- 13 铸造台 2 -->
+<section class="page">
+  <div class="hd"><span><b>05</b>　运行时铸造台 · 2/2</span><span>架构与可靠性</span></div>
+  <div class="kick">ARCHITECTURE</div>
+  <h1>让实时生成在网页里可靠地跑</h1>
+  <div class="flow">
+    <div class="s own"><b>玩家输入</b>一句话 + 敏感词过滤，按提示词识别武器类型</div><div class="ar">→</div>
+    <div class="s own"><b>服务端中转</b>Key 只在服务端；全站日上限、每设备次数</div><div class="ar">→</div>
+    <div class="s"><b>Lux3D G1-Turbo</b>文生 3D，异步任务</div><div class="ar">→</div>
+    <div class="s own"><b>取回与压缩</b>分块下载、断点续取，减面到 12000 面</div><div class="ar">→</div>
+    <div class="s own"><b>熔炉演出</b>溶解成形 → 装备 → 存档</div>
+  </div>
+  <table>
+    <tr><th style="width:28%">问题</th><th>我们的处理</th></tr>
+    <tr><td>Aholo 接口正式响应不带跨域头，浏览器直连会扣积分却拿不到结果</td><td>浏览器永不直连；在线版走服务端，离线评委包附「本机铸造服务」，Key 只发本机</td></tr>
+    <tr><td>生成耗时长、网络会断</td><td>异步任务：提交秒回任务号，后台轮询；任务表落盘，重启续跑；前端 3 秒轮询、2 MB 分块、断点续取</td></tr>
+    <tr><td>积分被刷</td><td>全站日上限、每设备 / 每 IP 次数、敏感词；按拿到任务号计次</td></tr>
+    <tr><td>失败、超限或离线</td><td>自动从 10 把 Lux3D 武器库里挑最接近的一把，演出不中断</td></tr>
+    <tr><td>模型太大</td><td>浏览器端纯 JS 减面 + JPEG 贴图，9.7 MB → 0.88 MB</td></tr>
+    <tr><td>Key 安全</td><td>页面、控制台、截图中均不出现 Key 原文（评委版实测）</td></tr>
+  </table>
+  <div class="g2">
+    <div class="rel"><img src="img/sc_forge.jpg" style="height:68mm"><span class="lbl">铸坊概念定稿</span></div>
+    <div class="rel"><img src="img/photomode.jpg" style="height:68mm"><span class="lbl n">拍照模式：环绕、调焦、存水印 PNG</span></div>
+  </div>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>13</span></div>
+</section>
+
+<!-- 14 内容 -->
+<section class="page">
+  <div class="hd"><span><b>06</b>　游戏内容与趣味 · 1/2</span><span>作品有趣程度 25%</span></div>
+  <div class="kick">CONTENT</div>
+  <h1>资料片「沉钟之海」</h1>
+  <p class="lead">钟停了一千年，深渊在井底醒来。玩家从灰石营地的古井下行，穿过沉钟海岸、镜渊城、无声钟楼，最后在钟井深处面对鮟鱇首领莫尔维斯。</p>
+  <div class="g2">
+    <div class="rel"><img src="img/sc_mirror.jpg" style="height:48mm"><span class="lbl">镜渊城 · 定稿图</span></div>
+    <div class="rel"><img src="img/sc_whale.jpg" style="height:48mm"><span class="lbl">潮鲸 · 定稿图</span></div>
+  </div>
+  <table style="margin-top:3mm">
+    <tr><th style="width:24%">内容</th><th>规模与亮点</th></tr>
+    <tr><td>职业</td><td>6 个写实职业，各有天赋树与技能替换联动；40 级套装与专属暗金</td></tr>
+    <tr><td>区域</td><td>沉钟海岸三区（退潮浅滩 / 风暴码头 / 鲸骨礁湾）、镜渊城、无声钟楼、营地、钟井长通道</td></tr>
+    <tr><td>首领与副本</td><td>长副本：摆渡双子两岸锁血、尾王三阶段；深渊 20 层；世界首领</td></tr>
+    <tr><td>玩法系统</td><td>铸造台、我的铸造品、拍照模式、任务追踪与区域标注、两档难度</td></tr>
+    <tr><td>视听</td><td>开场动画（钟裂 → 深井 → 莫尔维斯 → 动态 LOGO）、动态选角背景、原创配乐（-16 LUFS）、首领配音</td></tr>
+  </table>
+  <div class="rel"><img src="img/six_heroes.jpg" style="height:84mm;object-position:center 40%"><span class="lbl">六职业主视觉（宣传图）</span></div>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>14</span></div>
+</section>
+
+<!-- 15 战斗趣味 -->
+<section class="page">
+  <div class="hd"><span><b>06</b>　游戏内容与趣味 · 2/2</span><span>战斗与特效</span></div>
+  <div class="kick">COMBAT</div>
+  <h1>打起来要爽</h1>
+  <p>写实模型解决了“好看”，战斗手感和特效解决“好玩”。技能特效全部用着色器和程序化方法做，配少量 AI 贴图，网页里也能放满屏技能。</p>
+  <div class="g2">
+    <div class="rel"><img src="img/fx_blade.jpg" style="height:52mm"><span class="lbl">剑刃风暴</span></div>
+    <div class="rel"><img src="img/fx_bliz.jpg" style="height:52mm"><span class="lbl">暴风雪</span></div>
+  </div>
+  <div class="g2" style="margin-top:2.5mm">
+    <div class="rel"><img src="img/a10_light.jpg" style="height:128mm;object-position:top"><span class="lbl n">长副本场地：压亮前后（实机）</span></div>
+    <div>
+      <h3 style="margin-top:0">趣味亮点</h3>
+      <ul class="small">
+        <li><b>你的武器你说了算</b>：评论区一句话，就能变成游戏里的一把刀。</li>
+        <li><b>首领有戏</b>：摆渡双子在两岸互相锁血，必须同时击破；尾王三阶段，码头塌到一半、潮汐每 60 秒涨落。</li>
+        <li><b>技能会“变形”</b>：天赋替换技能时，元素和名字一起变；奥术风暴瞬发后落 6 秒雷。</li>
+        <li><b>拍照与分享</b>：拍照模式和铸造分享卡，天然适合社交传播。</li>
+      </ul>
+      <div class="box small">实机截图来自 v1.2.3x–1107 各版本。<span class="todo">【11-12 冻结版新截图：尾王战、钟井、六职业 40 级套装，待补】</span></div>
+    </div>
+  </div>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>15</span></div>
+</section>
+
+<!-- 16 技术亮点 -->
+<section class="page">
+  <div class="hd"><span><b>07</b>　技术亮点与数据</span><span>工程实现</span></div>
+  <div class="kick">ENGINEERING</div>
+  <h1>技术亮点</h1>
+  <table>
+    <tr><th style="width:26%">亮点</th><th>说明</th></tr>
+    <tr><td>一句话铸武器</td><td>服务端中转 Lux3D Turbo → 异步任务 → 浏览器端压缩 → 熔岩噪声 + 溶解 + 铭文着色器演出 → 装备到写实角色手上</td></tr>
+    <tr><td>10 万面到网页 60 帧</td><td>weld + meshopt（允许跨 UV 接缝）、webp / KTX2 贴图、四档画质、低档回退</td></tr>
+    <tr><td>零积分高清化</td><td>从底色自动生成法线贴图与发光遮罩，同一件 Lux3D 模型升级到高画质</td></tr>
+    <tr><td>AI 绑骨复用动作库</td><td>Lux3D 人形绑骨 → 权重转移到显示件 → 骨名映射，复用现有动作和武器挂点</td></tr>
+    <tr><td>资产双包</td><td>原有资产冻结，比赛资产叠加；每件登记来源、积分、后处理；纯净度检查 74/74</td></tr>
+    <tr><td>单文件运行</td><td>整个游戏打成一个 HTML，双击即玩；也可部署到魔搭创空间在线玩</td></tr>
+    <tr><td>自动化测试</td><td>类型检查、四套构建、资产纯净度、铸造端到端、首领机制、装备一致性等脚本；着色器无头编译自检</td></tr>
+  </table>
+  <div class="stats">
+    <div class="stat"><div class="v">539<small>次</small></div><div class="k">git 提交<br>（10-23 重建仓库起）</div></div>
+    <div class="stat"><div class="v">90<small>个</small></div><div class="k">版本 tag</div></div>
+    <div class="stat"><div class="v">7.2万<small>行</small></div><div class="k">TypeScript 源码</div></div>
+    <div class="stat"><div class="v">约 15 亿</div><div class="k">AI 编程 Token</div></div>
+  </div>
+  <div class="rel"><img src="img/camp_shot.jpg" style="height:84mm"><span class="lbl n">实机 · 营地南门低角（超高画质）</span></div>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>16</span></div>
+</section>
+
+<!-- 17 完成度 -->
+<section class="page">
+  <div class="hd"><span><b>08</b>　完成度与试玩</span><span>完成度 20%</span></div>
+  <div class="kick">COMPLETENESS</div>
+  <h1>能玩、能下载、能在线</h1>
+  <table>
+    <tr><th style="width:26%">项目</th><th>状态</th></tr>
+    <tr><td>开发周期</td><td>2026-10-14 起，至 11-12 功能冻结约 4 周</td></tr>
+    <tr><td>比赛版本</td><td><span class="todo">【11-12 冻结版本号与提交号】</span>（当前最新离线包 1107j，11-07）</td></tr>
+    <tr><td>离线包</td><td>单 HTML + 音乐 + 副本资源，解压双击即玩；附本机铸造服务，可用自己的 Key 实时铸造</td></tr>
+    <tr><td>在线版</td><td>魔搭创空间 <span class="todo">【评审期公开链接待定】</span></td></tr>
+    <tr><td>可玩内容</td><td>6 职业 · 沉钟之海全区域 · 长副本 · 深渊 20 层 · 铸造台；<span class="todo">【可玩时长待 01 复核】</span></td></tr>
+    <tr><td>稳定性</td><td>每个候选包都跑类型检查、构建、纯净度和端到端脚本；Rhett 实机自测后才上传</td></tr>
+  </table>
+  <h2>试玩指引</h2>
+  <ol style="padding-left:5mm" class="small">
+    <li>打开在线链接，或下载离线包解压后双击 HTML（建议 Chrome / Edge，独显开“超高”画质）。</li>
+    <li>选择职业 → 灰石营地古井 → 进入资料片「沉钟之海」。</li>
+    <li>在营地找伊奥拉 / 戈兹 → 对话「铸造台」→ 写一句话 → 铸造。</li>
+    <li>沿海岸井口下行到钟井，挑战摆渡双子与尾王。</li>
+  </ol>
+  <div class="g2" style="margin-top:3mm">
+    <div class="box" style="height:42mm"><b>在线体验二维码</b><br><span class="todo">【待公开链接后生成】</span></div>
+    <div class="box" style="height:42mm"><b>演示视频二维码</b><br><span class="todo">【90 秒主片，11-15】</span></div>
+  </div>
+  <div class="rel"><img src="img/real_mirror.jpg" style="height:76mm"><span class="lbl n">实机 · 镜渊城</span></div>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>17</span></div>
+</section>
+
+<!-- 18 踩坑 -->
+<section class="page">
+  <div class="hd"><span><b>09</b>　踩坑与解决</span><span>过程记录</span></div>
+  <div class="kick">LESSONS</div>
+  <h1>踩过的坑</h1>
+  <table>
+    <tr><th style="width:34%">问题</th><th>解决</th></tr>
+    <tr><td>自动绑骨 A 字姿势连续 3 次失败</td><td>定下严格 T 字标准与“两道关卡”，不合格不进入付费步骤</td></tr>
+    <tr><td>接口正式响应不带跨域头，浏览器直连扣分却拿不到任务</td><td>改为服务端中转（在线服务 / 本机铸造服务）</td></tr>
+    <tr><td>超时设得太短，扣了积分却没拿到任务号</td><td>超时放宽，改异步任务，按拿到任务号计次</td></tr>
+    <tr><td>生成模型约 10 MB，网页扛不住</td><td>12000 面 + 1024 贴图，约 0.9 MB</td></tr>
+    <tr><td>写实模型贴图粗、接缝裂</td><td>保接缝减面、PBR 与 2K 贴图返工，武器自动法线</td></tr>
+    <tr><td>带底座 / 双体模型</td><td>提示词加 isolated single object、no base，重生成</td></tr>
+    <tr><td>非人形首领不支持自动绑骨</td><td>保留 Lux3D 网格，本地精绑 + 逐招关键帧</td></tr>
+    <tr><td>减面后首领脸糊</td><td>区域保面 + 法线烘焙 + 本地超分，零积分</td></tr>
+    <tr><td>无头浏览器软渲染下测试随机失败</td><td>着色器无头编译自检 + 真机复测</td></tr>
+  </table>
+  <h2>积分怎么花</h2>
+  <p class="small">每次付费生成前先列清单和预估，再生成，再记台账；铸造台、批量重做等都按批次核对。比赛积分约 3300 已全部用在角色、怪物、首领、武器、场景件和铸造台实测上，没有重复生成已有武器。<span class="todo">【以 Aholo 控制台最终数为准】</span></p>
+  <div class="g2" style="margin-top:3mm"><div class="rel"><img src="img/a10_gate.jpg" style="height:56mm"><span class="lbl n">长副本尾王门口（实机）</span></div><div class="rel"><img src="img/f_2b_hammer.jpg" style="height:56mm"><span class="lbl n">铸造台锻打（实机）</span></div></div>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>18</span></div>
+</section>
+
+<!-- 19 开源 + 下一步 -->
+<section class="page">
+  <div class="hd"><span><b>09</b>　开源与生态 · 下一步</span><span>团队</span></div>
+  <div class="kick">OPEN SOURCE</div>
+  <h1>把流水线开源出来</h1>
+  <p><b>lux3d-web-pipeline</b>（MIT）：把我们在这个项目里写的工具整理成独立仓库，方便其他开发者把 Lux3D 资产搬进网页。</p>
+  <ul class="small">
+    <li>lux3d.mjs：Lux3D 命令行（文生 / 图生 / 多图 / 绑骨 / 查询）</li>
+    <li>weapon-hd：零积分高清化（自动法线、发光遮罩）</li>
+    <li>riginput / rigfix：绑骨输入件与权重修正</li>
+    <li>lux3d-prop.js：three.js 加载与“溶解成形”演示；viewer 示例；不花积分的自检</li>
+  </ul>
+  <div class="box">源码 / 仓库链接：<span class="todo">【公开地址待定】</span></div>
+  <h2>下一步</h2>
+  <ul class="small">
+    <li>铸造台加入玩家间分享与展示墙，评论区投稿的武器进入游戏。</li>
+    <li>资料片鸣钟港主城与更多首领；更多职业的 40 级套装外观。</li>
+    <li>把“设定图 → 四视图 → G1 → 绑骨”链路做成游戏内创作工具，玩家也能生成自己的角色外观。</li>
+  </ul>
+  <h2>团队</h2>
+  <p>Rhett，独立开发：策划、美术方向、测试与全部决策；编程、资产处理与宣发素材借助 AI 协作完成。</p>
+  <div class="rel" style="margin-top:3mm"><img src="img/sc_coast.jpg" style="height:74mm"><span class="lbl">沉钟海岸 · 定稿图</span></div>
+  <p class="muted small" style="margin-top:3mm">致谢：Aholo / 群核科技提供 Lux3D 与比赛积分；魔搭社区提供部署平台。配乐为作者 Suno 曲目，仅用于比赛。</p>
+  <div class="ft"><span>Aholo 黑客松 · 项目报告书</span><span>19</span></div>
+</section>
+
+</body></html>
