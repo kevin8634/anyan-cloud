@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080, height=1920">
+<style>
+  .cg { object-fit: cover; animation: cgz var(--clip-length) linear both; }
+  @keyframes cgz { from { scale: 1.7; translate: 0 150px } to { scale: 1.76; translate: 0 150px } }
+  .logo { object-fit: contain; }
+  .shot { object-fit: cover; animation: push var(--clip-length) linear both; }
+  .dim { object-fit: cover; opacity: .4; filter: blur(2px) saturate(.7); animation: cgz var(--clip-length) linear both; }
+  @keyframes push { from { scale: 1 } to { scale: 1.08 } }
+</style>
+</head>
+<body>
+<section>
+  <iframe src="open.html" at="0"></iframe>
+  <iframe src="stats.html" at="5"></iframe>
+  <iframe src="cap1.html" at="37"></iframe>
+  <iframe src="cap2.html" at="41"></iframe>
+</section>
+<section>
+  <video src="assets/demo.webm#t=62,67" at="0" class="dim" muted></video>
+  <video src="assets/demo.webm#t=70,71.5" at="5" class="cg" muted></video>
+  <video src="assets/demo.webm#t=90,91.5" at="6.5" class="cg" muted></video>
+  <video src="assets/demo.webm#t=100.5,102" at="8" class="cg" muted></video>
+  <video src="assets/demo.webm#t=156,157.5" at="9.5" class="shot" muted></video>
+  <video src="assets/demo.webm#t=172,173.5" at="11" class="shot" muted></video>
+  <video src="assets/demo.webm#t=186,187.5" at="12.5" class="shot" muted></video>
+  <video src="assets/demo.webm#t=350,351.5" at="14" class="shot" muted></video>
+  <video src="assets/demo.webm#t=376,377.5" at="15.5" class="shot" muted></video>
+  <iframe src="codeforge.html" at="17"></iframe>
+  <video src="assets/demo.webm#t=30,34" at="37" class="shot" muted></video>
+  <video src="assets/demo.webm#t=37,41" at="41" class="shot" muted></video>
+  <iframe src="pipeline.html" at="45"></iframe>
+  <video src="assets/demo.webm#t=162,165" at="52" class="logo" muted></video>
+  <iframe src="cta.html#t=0,5" at="55"></iframe>
+</section>
+<section>
+  <audio src="assets/dread-ritual-drums-e7ee33.mp3#t=0,42" at="0"></audio>
+</section>
+<section>
+  <audio src="assets/building-strings-to-landing-9e57ca.mp3#t=0,28" at="32"></audio>
+</section>
+</body>
+</html>

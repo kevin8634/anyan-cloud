@@ -1,0 +1,27 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="shared.css">
+<style>
+#h{position:absolute;top:250px;left:0;right:0;text-align:center;font-size:72px;letter-spacing:.2em;opacity:0}
+#row{position:absolute;top:520px;left:0;right:0;display:flex;justify-content:center;align-items:center;gap:0}
+.node{width:230px;height:230px;border:2px solid #5a4a2a;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+ background:radial-gradient(circle,rgba(30,40,34,.9),rgba(8,10,10,.95));opacity:.25}
+.node b{font-size:40px;font-weight:700;color:#e6c67a}.node i{font-style:normal;font-size:22px;color:#bba878;margin-top:10px;letter-spacing:.2em}
+.ar{width:70px;height:2px;background:#5a4a2a;opacity:.25}
+#f{position:absolute;bottom:150px;left:0;right:0;text-align:center;font-size:30px;letter-spacing:.5em;opacity:0}
+</style></head><body><div class="stone"></div><div class="vign"></div>
+<div id="h" class="gold">这一整套，我拆成了一门课</div>
+<div id="row">
+<div class="node"><b>一句话</b><i>需求</i></div><div class="ar"></div>
+<div class="node"><b>AI 写码</b><i>Claude · GPT</i></div><div class="ar"></div>
+<div class="node"><b>3D 模型</b><i>Lux3D 生成</i></div><div class="ar"></div>
+<div class="node"><b>绑骨动作</b><i>T 字 · 骨骼</i></div><div class="ar"></div>
+<div class="node"><b>浏览器</b><i>压缩 · 上线</i></div>
+</div>
+<div id="f" class="rune">从零到能玩 · 每一步都拆开讲</div>
+<script type="module">
+const cl=x=>Math.max(0,Math.min(1,x));
+window.film={duration:7,frame(t){const h=document.getElementById('h');h.style.opacity=cl(t/.5);h.style.translate=`0 ${(1-cl(t/.5))*20}px`;
+ const nodes=[...document.querySelectorAll('.node')],ars=[...document.querySelectorAll('.ar')];
+ nodes.forEach((n,i)=>{const k=cl((t-.8-i*.7)/.35);n.style.opacity=.25+.75*k;n.style.borderColor=k>.5?'#9ff0c4':'#5a4a2a';n.style.boxShadow=k>.5?`0 0 ${30*k}px rgba(80,255,170,.35)`:'none';n.style.scale=1+.08*Math.sin(Math.PI*k);});
+ ars.forEach((a,i)=>{const k=cl((t-1.15-i*.7)/.35);a.style.opacity=.25+.75*k;a.style.background=k>.5?'#9ff0c4':'#5a4a2a';});
+ document.getElementById('f').style.opacity=cl((t-4.6)/.5);document.body.style.opacity=1-cl((t-6.6)/.4);}};
+</script></body></html>

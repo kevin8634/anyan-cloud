@@ -1,0 +1,12 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="shared.css">
+<style>#band{position:absolute;left:0;right:0;bottom:0;height:300px;background:linear-gradient(0deg,rgba(0,0,0,.85),transparent)}
+#t{position:absolute;left:140px;bottom:110px;font-size:64px;letter-spacing:.2em;opacity:0}
+#k{position:absolute;left:144px;bottom:200px;font-size:26px;letter-spacing:.45em;color:#bba878;opacity:0}</style></head><body>
+<div id="band"></div><div id="k"></div><div id="t" class="gold"></div>
+<script type="module">
+const S={1:['实机','放进游戏，就是这个法阵'],2:['实机','再加一道雷']};
+const [k,tx]=S[1];
+document.getElementById('k').textContent=k;document.getElementById('t').textContent=tx;
+const cl=x=>Math.max(0,Math.min(1,x));
+window.film={duration:4,frame(t){const a=cl(t/.4)*(1-cl((t-3.6)/.4));for(const id of['t','k']){const e=document.getElementById(id);e.style.opacity=a;e.style.translate=`${(1-cl(t/.4))*-30}px 0`;}}};
+</script></body></html>

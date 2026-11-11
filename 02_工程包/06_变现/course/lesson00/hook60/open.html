@@ -1,0 +1,17 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="shared.css">
+<style>
+.l{position:absolute;left:0;right:0;text-align:center;opacity:0;letter-spacing:.18em}
+#a{top:330px;font-size:96px}#b{top:470px;font-size:96px}#c{top:640px;font-size:44px;letter-spacing:.3em}
+#bar{position:absolute;left:760px;width:400px;top:610px;height:2px;background:linear-gradient(90deg,transparent,#9ff0c4,transparent);opacity:0}
+</style></head><body>
+<div class="vign"></div>
+<div id="a" class="l gold">一个人。</div>
+<div id="b" class="l gold">不到一个月。</div>
+<div id="bar"></div>
+<div id="c" class="l rune">做出一款打开浏览器就能玩的 3D RPG</div>
+<script type="module">
+const cl=(x)=>Math.max(0,Math.min(1,x));
+const show=(id,t,s,d=.6)=>{const e=document.getElementById(id);const k=cl((t-s)/d);e.style.opacity=k;e.style.filter=`blur(${(1-k)*10}px)`;e.style.translate=`0 ${(1-k)*20}px`;};
+window.film={duration:5,frame(t){show('a',t,.3);show('b',t,1.5);const bar=document.getElementById('bar');const k=cl((t-2.6)/.5);bar.style.opacity=k;bar.style.scale=`${k} 1`;show('c',t,2.9,.7);
+ const out=cl((t-4.5)/.5);document.body.style.opacity=1-out;}};
+</script></body></html>

@@ -1,0 +1,91 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="shared.css">
+<style>
+#title{position:absolute;top:56px;left:0;right:0;text-align:center;font-size:46px;letter-spacing:.25em}
+#paper{position:absolute;left:90px;top:160px;width:860px;height:830px;box-sizing:border-box;padding:46px 40px;
+ background:radial-gradient(ellipse at 30% 20%,#f1e4c0,#dcc797 70%,#c9ae74);border:3px solid #5a3b17;
+ box-shadow:0 0 0 6px #1a1108,0 0 0 8px #8a6a2c,0 30px 80px rgba(0,0,0,.8);border-radius:6px}
+#paper:before{content:"";position:absolute;inset:10px;border:1px solid rgba(90,59,23,.45);pointer-events:none}
+#code{font-family:"DejaVu Sans Mono",monospace;font-size:21px;line-height:33px;white-space:pre;color:#3a2410;margin:0}
+.c{color:#7a6a3c;font-family:Tome,serif}.k{color:#8c1d12;font-weight:bold}.n{color:#1f5a3a}.f{color:#4b2a8a}
+#cur{display:inline-block;width:11px;height:24px;background:#8c1d12;vertical-align:-4px}
+#tag{position:absolute;left:90px;top:1010px;font-size:24px;letter-spacing:.35em;color:#bba878}
+#gl{position:absolute;left:980px;top:120px;width:900px;height:900px}
+</style><link rel="stylesheet" href="v.css"></head><body>
+<div class="stone"></div>
+<div id="title" class="gold">一句话 · 一段代码 · 一个法阵</div>
+<div id="paper"><pre id="code"></pre></div>
+<canvas id="gl" width="900" height="900"></canvas>
+<div class="vign" style="pointer-events:none"></div>
+<script type="module">
+import * as THREE from './lib/three.module.min.js';
+// the listing shown on the page; each line has a key that turns on what it builds
+const L=[
+['c','// 需求：地上展开紫色法阵，六根符柱，施法时落雷'],
+['', 'const glow = c => new THREE.MeshBasicMaterial({'],
+['', '  color: c, transparent: true, side: 2,'],
+['', '  blending: THREE.AdditiveBlending });'],
+['', 'const ring = (r, w) => new THREE.Mesh('],
+['', '  new THREE.RingGeometry(r - w, r, 128), glow(0xb46cff));'],
+['', ''],
+['rings','circle.add(ring(3.0, .08), ring(2.6, .04), ring(1.2, .05));'],
+['', 'for (let i = 0; i < 6; i++) {'],
+['', '  const a = i / 6 * Math.PI * 2;'],
+['', '  const p = new THREE.Mesh(pillarGeo, runeStone);'],
+['', '  p.position.set(Math.cos(a) * 2.2, .45, Math.sin(a) * 2.2);'],
+['pillars','  circle.add(p);'],
+['', '}'],
+['star','circle.add(hexagram(2.6, glow(0xe08cff)));'],
+['', ''],
+['c','// 施法：缓慢旋转 + 天降一道雷'],
+['spin','circle.rotation.y = t * 0.6;'],
+['bolt','scene.add(lightning(sky, circle.position));'],
+];
+const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const hl=s=>esc(s).replace(/\b(const|new|for|let)\b/g,'<span class="k">$1</span>').replace(/\b(\d*\.?\d+|0x[0-9a-f]+)\b/g,'<span class="n">$1</span>').replace(/\b(ring|glow|hexagram|lightning)\b/g,'<span class="f">$1</span>');
+const total=L.reduce((s,l)=>s+l[1].length+1,0);
+const T0=.8,T1=12.5;
+// three.js scene
+const cv=document.getElementById('gl');
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true,preserveDrawingBuffer:true});R.setPixelRatio(1);R.setSize(900,900,false);
+const scene=new THREE.Scene();const cam=new THREE.PerspectiveCamera(42,1,.1,100);cam.position.set(0,6.2,7.4);cam.lookAt(0,.3,0);
+const glow=c=>new THREE.MeshBasicMaterial({color:c,transparent:true,side:2,blending:THREE.AdditiveBlending,depthWrite:false});
+const ring=(r,w,c=0xb46cff)=>new THREE.Mesh(new THREE.RingGeometry(r-w,r,128),glow(c));
+const circle=new THREE.Group();circle.rotation.x=0;scene.add(circle);
+const flat=o=>{o.rotation.x=-Math.PI/2;return o;};
+// ground halo
+const hc=document.createElement('canvas');hc.width=hc.height=256;const hx=hc.getContext('2d');const g=hx.createRadialGradient(128,128,10,128,128,128);g.addColorStop(0,'rgba(170,90,255,.55)');g.addColorStop(1,'rgba(0,0,0,0)');hx.fillStyle=g;hx.fillRect(0,0,256,256);
+const halo=flat(new THREE.Mesh(new THREE.PlaneGeometry(9,9),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(hc),transparent:true,blending:THREE.AdditiveBlending,depthWrite:false})));scene.add(halo);
+const rings=new THREE.Group();[[3,.08],[2.6,.04],[1.2,.05],[3.12,.25,0x5a2a99],[1.32,.18,0x5a2a99]].forEach(a=>rings.add(flat(ring(...a))));circle.add(rings);
+// rune ticks between rings
+const ticks=new THREE.Group();for(let i=0;i<48;i++){const a=i/48*Math.PI*2;const m=new THREE.Mesh(new THREE.PlaneGeometry(.05,i%4?0.18:0.34),glow(0xd7a6ff));m.rotation.x=-Math.PI/2;m.rotation.z=-a;m.position.set(Math.cos(a)*2.8,.01,Math.sin(a)*2.8);ticks.add(m);}rings.add(ticks);
+const pillars=[];const stone=new THREE.MeshBasicMaterial({color:0x1b1424});const runeM=glow(0xc78bff);
+for(let i=0;i<6;i++){const a=i/6*Math.PI*2;const p=new THREE.Group();const b=new THREE.Mesh(new THREE.CylinderGeometry(.12,.16,.9,6),stone);const cap=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,.06,6),runeM);cap.position.y=.48;const ln=new THREE.Mesh(new THREE.CylinderGeometry(.165,.165,.04,6),runeM);ln.position.y=0;p.add(b,cap,ln);p.position.set(Math.cos(a)*2.2,.45,Math.sin(a)*2.2);circle.add(p);pillars.push(p);}
+const hexagram=(r,m)=>{const gg=new THREE.Group();for(const off of [0,Math.PI/3]){const pts=[];for(let k=0;k<4;k++){const a=off+k*2*Math.PI/3;pts.push(new THREE.Vector3(Math.cos(a)*r,.02,Math.sin(a)*r));}
+ for(let k=0;k<3;k++){const A=pts[k],B=pts[k+1];const len=A.distanceTo(B);const s=new THREE.Mesh(new THREE.PlaneGeometry(len,.05),m);s.rotation.x=-Math.PI/2;s.position.copy(A).add(B).multiplyScalar(.5);s.rotation.z=-Math.atan2(B.z-A.z,B.x-A.x);gg.add(s);}}return gg;};
+const star=hexagram(2.6,glow(0xe08cff));circle.add(star);
+const boltMat=new THREE.LineBasicMaterial({color:0xf2dcff,transparent:true,blending:THREE.AdditiveBlending});
+const boltMat2=new THREE.LineBasicMaterial({color:0x9a5cff,transparent:true,blending:THREE.AdditiveBlending});
+let bolt=null;
+const rnd=s=>{let x=Math.sin(s*127.1)*43758.5453;return x-Math.floor(x);};
+function lightning(seed){const g2=new THREE.Group();const pts=[];let x=0,z=0;for(let i=0;i<=16;i++){const y=7-i*7/16;x+=(rnd(seed+i)-.5)*.7;z+=(rnd(seed+i+50)-.5)*.7;pts.push(new THREE.Vector3(i==16?0:x,y,i==16?0:z));}
+ const geo=new THREE.BufferGeometry().setFromPoints(pts);g2.add(new THREE.Line(geo,boltMat));for(let j=0;j<3;j++){const g3=new THREE.Line(geo,boltMat2);g3.position.set((j-1)*.03,0,.02*j);g2.add(g3);}return g2;}
+const cl=x=>Math.max(0,Math.min(1,x));
+window.film={duration:20,frame(t){
+ const chars=Math.floor(cl((t-T0)/(T1-T0))*total);let n=chars,html='',done=new Set(),cur=false;
+ for(const [k,s] of L){if(n<=0){if(!cur){html+='<span id="cur"></span>';cur=true;}break;}const take=Math.min(n,s.length);const part=s.slice(0,take);
+  html+=(k==='c'?'<span class="c">'+esc(part)+'</span>':hl(part));n-=take+1;if(take===s.length&&n>=0){done.add(k);html+='\n';}else{html+='<span id="cur"></span>';cur=true;break;}}
+ if(!cur&&Math.floor(t*2)%2===0)html+='<span id="cur"></span>';
+ document.getElementById('code').innerHTML=html;
+ const at=k=>done.has(k);
+ // fade components in by when their line finished: use time since finish approximated via chars
+ const vis=(k,o)=>{o.visible=at(k);};
+ rings.visible=at('rings');const rs=at('rings')?1:0;rings.scale.setScalar(rs);
+ pillars.forEach((p,i)=>{p.visible=at('pillars');});
+ star.visible=at('star');
+ halo.material.opacity=at('rings')?.7+.3*Math.sin(t*3):.15;
+ circle.rotation.y=at('spin')?(t-13)*0.6:0;
+ if(bolt){scene.remove(bolt);bolt=null;}
+ if(at('bolt')){const ph=(t*1.6)%1;if(ph<.35){bolt=lightning(Math.floor(t*1.6)*7+Math.floor(t*14));const f=1-ph/.35;boltMat.opacity=f;boltMat2.opacity=f*.8;scene.add(bolt);halo.material.opacity=1;}}
+ const outk=cl((t-19.5)/.5);document.body.style.opacity=1-outk;
+ R.render(scene,cam);}};
+</script></body></html>

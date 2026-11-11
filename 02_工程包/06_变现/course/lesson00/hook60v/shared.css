@@ -1,0 +1,10 @@
+@font-face{font-family:Tome;src:local("Noto Serif CJK SC"),local("Noto Serif SC");}
+html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:transparent;font-family:Tome,serif;color:#e8d9b0}
+.stone{position:absolute;inset:0;background:
+ radial-gradient(ellipse at 50% 40%,rgba(40,52,44,.55),transparent 60%),
+ radial-gradient(ellipse at 20% 90%,rgba(60,40,18,.35),transparent 55%),
+ repeating-linear-gradient(37deg,rgba(255,255,255,.012) 0 2px,transparent 2px 7px),
+ #07090a}
+.gold{color:#e6c67a;text-shadow:0 0 18px rgba(230,180,90,.35)}
+.rune{color:#9ff0c4;text-shadow:0 0 14px rgba(80,255,170,.55),0 0 40px rgba(60,220,150,.25)}
+.vign{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.85) 100%)}

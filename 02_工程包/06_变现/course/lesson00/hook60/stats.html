@@ -1,0 +1,19 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="shared.css">
+<style>
+#band{position:absolute;left:0;right:0;bottom:0;height:420px;background:linear-gradient(0deg,rgba(0,0,0,.9),transparent)}
+.s{position:absolute;left:140px;bottom:120px;opacity:0}
+.n{font-size:150px;line-height:1;font-weight:700;letter-spacing:.02em}
+.u{font-size:52px;margin-left:20px;letter-spacing:.2em}
+.k{font-size:30px;letter-spacing:.4em;margin-bottom:18px;color:#bba878}
+</style></head><body><div id="band"></div>
+<div class="s" id="s0"><div class="k">代码</div><span class="n gold" id="n0">0</span><span class="u gold">行</span></div>
+<div class="s" id="s1"><div class="k">3D 模型</div><span class="n gold" id="n1">0</span><span class="u gold">个</span></div>
+<div class="s" id="s2"><div class="k">提交</div><span class="n gold" id="n2">0</span><span class="u gold">次</span></div>
+<div class="s" id="s3"><div class="k">团队</div><span class="n rune">0 美术 · 0 外包</span></div>
+<script type="module">
+const cl=x=>Math.max(0,Math.min(1,x)),ease=x=>1-Math.pow(1-x,3);
+const V=[108000,240,566];
+window.film={duration:12,frame(t){for(let i=0;i<4;i++){const e=document.getElementById('s'+i);const lt=t-i*3;const vis=lt>=0&&lt<3;
+ const a=cl(lt/.35)*(1-cl((lt-2.6)/.4));e.style.opacity=vis?a:0;e.style.translate=`${(1-cl(lt/.35))*-40}px 0`;
+ if(i<3){document.getElementById('n'+i).textContent=Math.round(V[i]*ease(cl(lt/1.6))).toLocaleString('en-US');}}}};
+</script></body></html>

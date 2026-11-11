@@ -1,0 +1,30 @@
+[Script Info]
+ScriptType: v4.00+
+PlayResX: 1080
+PlayResY: 1920
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: S,Noto Sans SC,66,&H00FFFFFF,&H00FFFFFF,&H70000000,&H70000000,-1,0,0,0,100,100,2,0,3,10,0,2,90,90,470,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.30,0:00:02.40,S,,0,0,0,,{\fad(120,120)}一个人。不到一个月。
+Dialogue: 0,0:00:02.40,0:00:05.00,S,,0,0,0,,{\fad(120,120)}一款打开浏览器就能玩的 3D 网游
+Dialogue: 0,0:00:05.20,0:00:07.40,S,,0,0,0,,{\fad(120,120)}10.8 万行代码
+Dialogue: 0,0:00:07.40,0:00:09.40,S,,0,0,0,,{\fad(120,120)}240 个 3D 模型
+Dialogue: 0,0:00:09.40,0:00:11.40,S,,0,0,0,,{\fad(120,120)}566 次提交
+Dialogue: 0,0:00:11.60,0:00:14.20,S,,0,0,0,,{\fad(120,120)}没有美术，没有外包
+Dialogue: 0,0:00:14.20,0:00:16.80,S,,0,0,0,,{\fad(120,120)}只有我，和 AI
+Dialogue: 0,0:00:17.20,0:00:20.00,S,,0,0,0,,{\fad(120,120)}很多人问我，AI 真能写游戏吗？
+Dialogue: 0,0:00:20.30,0:00:22.00,S,,0,0,0,,{\fad(120,120)}你看——我只说一句：
+Dialogue: 0,0:00:22.00,0:00:26.50,S,,0,0,0,,{\fad(120,120)}地上展开一个紫色法阵，六根符柱，施法时落雷
+Dialogue: 0,0:00:26.80,0:00:31.50,S,,0,0,0,,{\fad(120,120)}代码一行行写出来，
+Dialogue: 0,0:00:31.50,0:00:36.50,S,,0,0,0,,{\fad(120,120)}法阵就一层层长出来
+Dialogue: 0,0:00:37.20,0:00:41.00,S,,0,0,0,,{\an8\fad(120,120)}放进游戏里，就是这个样子
+Dialogue: 0,0:00:41.50,0:00:44.50,S,,0,0,0,,{\an8\fad(120,120)}——再加一道雷
+Dialogue: 0,0:00:45.20,0:00:49.00,S,,0,0,0,,{\fad(120,120)}一句话、代码、模型、绑骨、上线——
+Dialogue: 0,0:00:49.00,0:00:52.00,S,,0,0,0,,{\fad(120,120)}这一整套，我拆成了一门课
+Dialogue: 0,0:00:52.50,0:00:56.00,S,,0,0,0,,{\fad(120,120)}你最想先学哪一段？评论区留个数字
+Dialogue: 0,0:00:56.20,0:00:59.50,S,,0,0,0,,{\fad(120,120)}暗岩秘典，卷零

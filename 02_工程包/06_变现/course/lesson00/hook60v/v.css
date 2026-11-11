@@ -1,0 +1,25 @@
+html,body{width:1080px;height:1920px}
+/* open */
+#a{top:700px}#b{top:840px}#c{top:1010px;font-size:40px;letter-spacing:.12em}
+#bar{left:340px;top:980px}
+/* stats */
+#band{height:700px}
+.s{left:80px;bottom:420px}
+.s .n.rune{font-size:104px}
+/* codeforge */
+#title{top:110px;font-size:40px;letter-spacing:.18em}
+#paper{left:60px;top:210px;width:960px;height:770px;padding:36px 34px}
+#gl{left:90px;top:1000px;width:900px;height:900px}
+#tag{display:none}
+/* cap */
+#t{left:80px;bottom:400px}#k{left:84px;bottom:490px}
+/* pipeline */
+#h{top:250px;font-size:60px;letter-spacing:.12em}
+#row{top:420px;flex-direction:column}
+.node{width:190px;height:190px}
+.ar{width:2px;height:44px}
+#f{bottom:200px;letter-spacing:.3em}
+/* cta */
+#vol{top:420px}#q{top:500px}
+#opts{top:740px;left:150px;right:150px;grid-template-columns:1fr;gap:26px}
+#ft{bottom:480px}#hd{bottom:400px}

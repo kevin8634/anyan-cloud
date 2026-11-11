@@ -1,0 +1,26 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="shared.css">
+<style>
+#vol{position:absolute;top:150px;left:0;right:0;text-align:center;font-size:30px;letter-spacing:.8em;color:#bba878;opacity:0}
+#q{position:absolute;top:230px;left:0;right:0;text-align:center;font-size:84px;letter-spacing:.15em;opacity:0}
+#opts{position:absolute;top:420px;left:420px;right:420px;display:grid;grid-template-columns:1fr 1fr;gap:26px 60px}
+.o{font-size:40px;padding:22px 30px;border:1px solid #5a4a2a;background:rgba(10,14,12,.8);opacity:0;letter-spacing:.1em}
+.o span{color:#9ff0c4;margin-right:18px}
+#ft{position:absolute;bottom:120px;left:0;right:0;text-align:center;font-size:34px;letter-spacing:.35em;opacity:0}
+#hd{position:absolute;bottom:60px;left:0;right:0;text-align:center;font-size:24px;letter-spacing:.3em;color:#8d7d55;opacity:0}
+</style></head><body><div class="stone"></div><div class="vign"></div>
+<div id="vol">暗 岩 秘 典 · 卷 零</div>
+<div id="q" class="gold">你最想先学哪一段？</div>
+<div id="opts">
+<div class="o"><span>①</span>AI 写游戏代码</div><div class="o"><span>②</span>一句话出 3D 模型</div>
+<div class="o"><span>③</span>绑骨 + 动作</div><div class="o"><span>④</span>多窗口 AI 协作</div>
+</div>
+<div id="ft" class="rune">评论区留个数字 · 完整课程即将开放</div>
+<div id="hd">@极峰Everest · 暗岩传说：深渊回响</div>
+<script type="module">
+const cl=x=>Math.max(0,Math.min(1,x));
+const f=(id,s,d=.5)=>{const e=document.getElementById(id);return e;};
+window.film={duration:8,frame(t){const set=(e,s)=>{const k=cl((t-s)/.45);e.style.opacity=k;e.style.translate=`0 ${(1-k)*16}px`;};
+ set(document.getElementById('vol'),.1);set(document.getElementById('q'),.5);
+ document.querySelectorAll('.o').forEach((o,i)=>{set(o,1.3+i*.35);const pulse=t>4.5?.5+.5*Math.sin((t-4.5)*2.2-i*1.2):0;o.style.borderColor=pulse>.7?'#9ff0c4':'#5a4a2a';});
+ set(document.getElementById('ft'),3.4);set(document.getElementById('hd'),4.0);}};
+</script></body></html>
