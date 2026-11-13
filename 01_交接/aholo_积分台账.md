@@ -242,3 +242,5 @@
 ## 2026-11-08 17:24 05 选角脸按 G1 比例重绘（Rhett 17:19 批约 $0.30）
 - gpt-image-1 medium edits 1024 ×6（战士、猎手、负棺人、法师30、时砂、法师40），每次 822 in / 1,050 out，估约 $0.30。法师40 出图未采用。Aholo 0 积分。
 - 18:1x 高档脸（Rhett 18:09 批高档，报价约 $1.10）：gpt-image-1 high 1024x1536 edits ×6，每次约 1,330 in / 6,250 out，估约 $1.57，超报价约 $0.47（报价按 1024 方图算错）。
+- 2026-11-13 21:40 CST · 07 · I07 灵契猎手按契音效 16 条（ElevenLabs eleven_text_to_sound_v3，api.openai-next.com /elevenlabs/v1/tasks，每条 0.6–1.8 秒）· Rhett 11-13 01:33 批（上限 $3.5）· 平台 usage 443.19→454.60（+11.41，按美分计约 $0.11）· 成品 assets_aholo/audio/sfx/h_*.mp3（wip/electron1109 dbafa7d）
+| 2026-11-13 22:54 | openai-next gpt-image-2 1024 high ×1 | 40 级套装 6 件符文光圈贴图（icons/fx_rune.jpg，Rhett 22:51 批） | 约 $0.2（估算） |
