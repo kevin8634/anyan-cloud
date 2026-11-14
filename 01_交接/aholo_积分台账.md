@@ -244,4 +244,5 @@
 - 18:1x 高档脸（Rhett 18:09 批高档，报价约 $1.10）：gpt-image-1 high 1024x1536 edits ×6，每次约 1,330 in / 6,250 out，估约 $1.57，超报价约 $0.47（报价按 1024 方图算错）。
 - 2026-11-13 21:40 CST · 07 · I07 灵契猎手按契音效 16 条（ElevenLabs eleven_text_to_sound_v3，api.openai-next.com /elevenlabs/v1/tasks，每条 0.6–1.8 秒）· Rhett 11-13 01:33 批（上限 $3.5）· 平台 usage 443.19→454.60（+11.41，按美分计约 $0.11）· 成品 assets_aholo/audio/sfx/h_*.mp3（wip/electron1109 dbafa7d）
 | 2026-11-13 22:54 | openai-next gpt-image-2 1024 high ×1 | 40 级套装 6 件符文光圈贴图（icons/fx_rune.jpg，Rhett 22:51 批） | 约 $0.2（估算） |
+| 2026-11-14 15:38 | openai-next gpt-image-2 1536x1024 high ×1 | 07 无声钟楼盆地概念图（面积 ×2，concepts/concept_bt_basin_x2.png；Rhett 15:36「找 GPT 生成概念图」） | 约 $0.25（估算，419 in / 1,584 image out） |
 | 2026-11-14 22:10 | openai-next gpt-image-2 1024 high ×10 | 07 猎手技能 GPT 化 8 张（icons/hfx_*.jpg：灵焰/爪痕/羽刃/箭尾/锁链/契印法阵/裂地/嚎声波，Rhett 21:57 批，上限 $1.6）+ 钟鸣技能钟 fx_chime_bell、伊奥拉胸前小钟 npc_iola_bell 2 张（Rhett 22:10「技能和伊奥拉用GPT」） | 约 $0.7（按 $0.07/张估算） |
