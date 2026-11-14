@@ -246,3 +246,4 @@
 | 2026-11-13 22:54 | openai-next gpt-image-2 1024 high ×1 | 40 级套装 6 件符文光圈贴图（icons/fx_rune.jpg，Rhett 22:51 批） | 约 $0.2（估算） |
 | 2026-11-14 15:38 | openai-next gpt-image-2 1536x1024 high ×1 | 07 无声钟楼盆地概念图（面积 ×2，concepts/concept_bt_basin_x2.png；Rhett 15:36「找 GPT 生成概念图」） | 约 $0.25（估算，419 in / 1,584 image out） |
 | 2026-11-14 22:10 | openai-next gpt-image-2 1024 high ×10 | 07 猎手技能 GPT 化 8 张（icons/hfx_*.jpg：灵焰/爪痕/羽刃/箭尾/锁链/契印法阵/裂地/嚎声波，Rhett 21:57 批，上限 $1.6）+ 钟鸣技能钟 fx_chime_bell、伊奥拉胸前小钟 npc_iola_bell 2 张（Rhett 22:10「技能和伊奥拉用GPT」） | 约 $0.7（按 $0.07/张估算） |
+| 2026-11-15 02:14 | openai-next gpt-image-2 1536x1024 high ×3 | 07 钟井井壁效果图（concepts/well/wall_closeup、shaft_down、wall_flat；Rhett 02:12「用 GPT 生成好看的效果图后再用代码模仿」，提示词含其井壁要求），每张约 235 in / 1,584 image out | 约 $0.75（估算） |
