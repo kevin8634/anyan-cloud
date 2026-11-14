@@ -1,0 +1,16 @@
+import * as THREE from 'three';
+import { wetWall } from './src/dlc/dlc1/well_wet_hd';
+import { wellWallDress } from './src/dlc/dlc1/well_wall_hd';
+const r = new THREE.WebGLRenderer({ antialias: true }); r.setSize(960, 540); document.body.appendChild(r.domElement);
+const sc = new THREE.Scene(); sc.background = new THREE.Color(0x101418); sc.fog = new THREE.Fog(0x101418, 30, 160);
+sc.add(new THREE.HemisphereLight(0x8aa0b0, 0x202020, 1.3)); const d = new THREE.DirectionalLight(0xfff0dd, 2.2); d.position.set(-60, 40, -20); sc.add(d);
+const wm = new THREE.MeshStandardMaterial({ color: 0x8a8a80, roughness: 1, side: THREE.BackSide }); wm.userData = { tile: 'wellbrick' };
+wm.onBeforeCompile = sh => { sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nvarying vec3 vTlW;').replace('#include <begin_vertex>', '#include <begin_vertex>\nvTlW = (modelMatrix * vec4(transformed,1.0)).xyz;'); sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>\nvarying vec3 vTlW;'); };
+wm.customProgramCacheKey = () => 'tiletex'; wetWall(wm);
+const wall = new THREE.Mesh(new THREE.CylinderGeometry(140, 140, 118, 720, 60, true), wm); wall.position.y = -19; sc.add(wall);
+const holes = [{ a: 0.12, y: -10, r: 4 }, { a: -0.25, y: 5, r: 3 }];
+const st = wellWallDress({ rAt: () => 140, y0: -78, y1: 36, holes, R: 140, hi: true, mid: true, add: o => sc.add(o) });
+console.log('dress ' + JSON.stringify(st));
+const cam = new THREE.PerspectiveCamera(55, 960 / 540, 0.1, 500);
+const V = [[128, 2, 0, 140, -1, 3], [132, -8, 6, 140, -10, 10], [110, -20, -10, 140, -25, 15], [134, -30, -4, 140, -34, -2]];
+(window as any).shot = (k: number) => { const v = V[k]; cam.position.set(v[0], v[1], v[2]); cam.lookAt(v[3], v[4], v[5]); r.render(sc, cam); return r.getContext().getError(); };
