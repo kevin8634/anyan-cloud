@@ -249,3 +249,4 @@
 | 2026-11-15 02:14 | openai-next gpt-image-2 1536x1024 high ×3 | 07 钟井井壁效果图（concepts/well/wall_closeup、shaft_down、wall_flat；Rhett 02:12「用 GPT 生成好看的效果图后再用代码模仿」，提示词含其井壁要求），每张约 235 in / 1,584 image out | 约 $0.75（估算） |
 | 2026-11-16 01:26 | openai-next gpt-image-2 high ×4（1024² ×1、1024x1536 ×2、1536x1024 ×1） | 07 羊皮纸界面：无缝底纹 / 窗口边框 / 行囊效果图 / 控件套（concepts/parchment/；Rhett 01:24「找GPT Image 2生成羊皮卷」） | 约 $0.8（估算，105–165 in / 1,056–1,584 image out） |
 | 2026-11-16 01:50 | openai-next gpt-image-2 high ×4（1536x1024） | 07 传送门/副本门重设计概念图（concepts/portals/；Rhett 01:47 第 8 点，钟井 Raid 门不变） | 约 $0.8（估算） |
+| 2026-11-16 02:27 | openai-next gpt-image-2 ×2（1536×1024 high） | 07_门_1116b 冰窟门/火焰山门概念图 | 约 $0.5 | Rhett 02:26 批 $50 额度，新 Key |
