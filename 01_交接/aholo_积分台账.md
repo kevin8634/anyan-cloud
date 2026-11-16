@@ -263,3 +263,10 @@
 | 2026-11-16 04:25 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_欢迎与HUD_1116 H2 新选角 HUD·负棺者（images/edits） | 约 $0.25 | Rhett 03:36 批额度 |
 | 2026-11-16 04:27 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_欢迎与HUD_1116 H1 新选角 HUD·法师重出（edits+mask，无字 UI） | 约 $0.25 | Rhett 03:36 批额度 |
 | 2026-11-16 04:27 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_欢迎与HUD_1116 H2 新选角 HUD·负棺者重出（edits+mask，无字 UI） | 约 $0.25 | Rhett 03:36 批额度 |
+| 2026-11-16 10:39 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_DLC欢迎与HUD_1116 W1 DLC欢迎分镜·沉钟之海开场 | 约 $0.25 | Rhett 11-16 10:31 指令（约 7 张内） |
+| 2026-11-16 10:39 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_DLC欢迎与HUD_1116 W2 DLC欢迎分镜·六职业群像 | 约 $0.25 | Rhett 11-16 10:31 指令（约 7 张内） |
+| 2026-11-16 10:39 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_DLC欢迎与HUD_1116 W3 DLC欢迎分镜·落版（留空 Logo 区） | 约 $0.25 | Rhett 11-16 10:31 指令（约 7 张内） |
+| 2026-11-16 10:39 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_DLC欢迎与HUD_1116 H1 法师换 DLC 背景（images/edits） | 约 $0.25 | Rhett 11-16 10:31 指令（约 7 张内） |
+| 2026-11-16 10:39 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_DLC欢迎与HUD_1116 H2 负棺人换 DLC 背景（images/edits） | 约 $0.25 | Rhett 11-16 10:31 指令（约 7 张内） |
+| 2026-11-16 10:42 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_DLC欢迎与HUD_1116 H1 无字 UI 边框（edits+mask） | 约 $0.25 | Rhett 11-16 10:31 指令（约 7 张内） |
+| 2026-11-16 10:42 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_DLC欢迎与HUD_1116 H2 无字 UI 边框（edits+mask） | 约 $0.25 | Rhett 11-16 10:31 指令（约 7 张内） |
