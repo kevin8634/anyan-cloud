@@ -270,3 +270,5 @@
 | 2026-11-16 10:39 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_DLC欢迎与HUD_1116 H2 负棺人换 DLC 背景（images/edits） | 约 $0.25 | Rhett 11-16 10:31 指令（约 7 张内） |
 | 2026-11-16 10:42 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_DLC欢迎与HUD_1116 H1 无字 UI 边框（edits+mask） | 约 $0.25 | Rhett 11-16 10:31 指令（约 7 张内） |
 | 2026-11-16 10:42 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_DLC欢迎与HUD_1116 H2 无字 UI 边框（edits+mask） | 约 $0.25 | Rhett 11-16 10:31 指令（约 7 张内） |
+| 2026-11-16 14:05 | openai-next gpt-image-2 ×1（1024×1024） | 传送门漩涡贴图 swirl（灰度螺旋能量纹，vortex_tex.ts） | 约 $0.25 | Rhett 11-16 14:03「可以」 |
+| 2026-11-16 14:05 | openai-next gpt-image-2 ×1（1024×1024） | 传送门漩涡贴图 sparks（灰度流光碎纹，可平铺） | 约 $0.25 | Rhett 11-16 14:03「可以」 |
