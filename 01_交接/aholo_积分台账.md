@@ -272,3 +272,9 @@
 | 2026-11-16 10:42 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_DLC欢迎与HUD_1116 H2 无字 UI 边框（edits+mask） | 约 $0.25 | Rhett 11-16 10:31 指令（约 7 张内） |
 | 2026-11-16 14:05 | openai-next gpt-image-2 ×1（1024×1024） | 传送门漩涡贴图 swirl（灰度螺旋能量纹，vortex_tex.ts） | 约 $0.25 | Rhett 11-16 14:03「可以」 |
 | 2026-11-16 14:05 | openai-next gpt-image-2 ×1（1024×1024） | 传送门漩涡贴图 sparks（灰度流光碎纹，可平铺） | 约 $0.25 | Rhett 11-16 14:03「可以」 |
+| 2026-11-16 17:30 | openai-next gpt-image-2 ×10（1024×1024 high） | 写实可平铺材质贴图：frostrock/basalt/ice/snow/masonry/bronze/iron/obsidian/bone/rope（pbr_tex_data.ts，代码几何补贴图） | 约 $2.50 | Rhett 11-16 17:28「缺乏贴图的让gpt帮你…额度都批」 |
+| 11-16 18:48 | gpt-image-2 ×7 森林贴图（土路/碎石/落叶地/泥地 + 蕨/野花/灌丛透明卡片） | 约 $1.75 | openai-next |
+| 11-16 18:55 | gpt-image-2 ×4 沉钟海岸贴图（干沙/湿沙 + 沙丘草/海石竹透明卡片） | 约 $1.00 | openai-next |
+| 11-16 17:32 | gpt-image-2 ×2 伊奥拉正脸 front.png + 金丝纹 fil.png（补记） | 约 $0.50 | openai-next |
+| 11-16 18:11 | gpt-image-2 ×1 伊奥拉全身立片 body.png（1024×1536 high，补记） | 约 $0.25 | openai-next |
+| 11-17 02:57 | gpt-image-2 ×1 伊奥拉 2048 平光正脸 face2k.png（edits，2048×2048 high；首次请求上游失败未出图） | 约 $0.40 | openai-next，Rhett 11-17「我要2048的正面」 |
