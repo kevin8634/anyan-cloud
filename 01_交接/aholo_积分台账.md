@@ -278,3 +278,4 @@
 | 11-16 17:32 | gpt-image-2 ×2 伊奥拉正脸 front.png + 金丝纹 fil.png（补记） | 约 $0.50 | openai-next |
 | 11-16 18:11 | gpt-image-2 ×1 伊奥拉全身立片 body.png（1024×1536 high，补记） | 约 $0.25 | openai-next |
 | 11-17 02:57 | gpt-image-2 ×1 伊奥拉 2048 平光正脸 face2k.png（edits，2048×2048 high；首次请求上游失败未出图） | 约 $0.40 | openai-next，Rhett 11-17「我要2048的正面」 |
+| 11-17 03:06 | gpt-image-2 ×1 伊奥拉 2048 发束图集 hair2k.png（generations 2048×2048 high，发片贴图） | 约 $0.40 | openai-next，Rhett 11-17「做继续吧」 |
