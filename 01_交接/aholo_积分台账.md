@@ -250,3 +250,16 @@
 | 2026-11-16 01:26 | openai-next gpt-image-2 high ×4（1024² ×1、1024x1536 ×2、1536x1024 ×1） | 07 羊皮纸界面：无缝底纹 / 窗口边框 / 行囊效果图 / 控件套（concepts/parchment/；Rhett 01:24「找GPT Image 2生成羊皮卷」） | 约 $0.8（估算，105–165 in / 1,056–1,584 image out） |
 | 2026-11-16 01:50 | openai-next gpt-image-2 high ×4（1536x1024） | 07 传送门/副本门重设计概念图（concepts/portals/；Rhett 01:47 第 8 点，钟井 Raid 门不变） | 约 $0.8（估算） |
 | 2026-11-16 02:27 | openai-next gpt-image-2 ×2（1536×1024 high） | 07_门_1116b 冰窟门/火焰山门概念图 | 约 $0.5 | Rhett 02:26 批 $50 额度，新 Key |
+| 2026-11-16 04:08 | openai-next gpt-image-2 ×4（1536×1024 high） | 07_创角_1116 创角画面概念图 | 约 $1.0 | Rhett 03:36 批额度 |
+| 2026-11-16 04:13 | openai-next gpt-image-2 ×2（1536×1024 high） | 07_创角_1116 时砂行者/炼金投弹手创角概念图 | 约 $0.5 | Rhett 03:36 批额度 |
+| 2026-11-16 04:15 | openai-next gpt-image-2 ×2（1536×1024 high） | 07_创角_1116 猎手/炼金重出（性别改男） | 约 $0.5 | Rhett 03:36 批额度 |
+| 2026-11-16 04:16 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_创角_1116 猎手重出（女） | 约 $0.25 | Rhett 03:36 批额度 |
+| 2026-11-16 04:18 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_创角_1116 法师重出（女，露脸） | 约 $0.25 | Rhett 03:36 批额度 |
+| 2026-11-16 04:20 | openai-next gpt-image-2 ×6（1536×1024 high） | 07_创角_1116 选角无人物背景板 6 张（wip/selui1116） | 约 $1.5 | Rhett 03:36 批额度；本任务上限 $2.5 |
+| 2026-11-16 04:25 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_欢迎与HUD_1116 W1 欢迎动画分镜·开场 | 约 $0.25 | Rhett 03:36 批额度 |
+| 2026-11-16 04:25 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_欢迎与HUD_1116 W2 欢迎动画分镜·六职业群像 | 约 $0.25 | Rhett 03:36 批额度 |
+| 2026-11-16 04:25 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_欢迎与HUD_1116 W3 欢迎动画分镜·落版 Logo | 约 $0.25 | Rhett 03:36 批额度 |
+| 2026-11-16 04:25 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_欢迎与HUD_1116 H1 新选角 HUD·法师（images/edits） | 约 $0.25 | Rhett 03:36 批额度 |
+| 2026-11-16 04:25 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_欢迎与HUD_1116 H2 新选角 HUD·负棺者（images/edits） | 约 $0.25 | Rhett 03:36 批额度 |
+| 2026-11-16 04:27 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_欢迎与HUD_1116 H1 新选角 HUD·法师重出（edits+mask，无字 UI） | 约 $0.25 | Rhett 03:36 批额度 |
+| 2026-11-16 04:27 | openai-next gpt-image-2 ×1（1536×1024 high） | 07_欢迎与HUD_1116 H2 新选角 HUD·负棺者重出（edits+mask，无字 UI） | 约 $0.25 | Rhett 03:36 批额度 |
