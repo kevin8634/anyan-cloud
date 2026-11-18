@@ -1,0 +1,16 @@
+暗岩传说 测试补丁 C23（wip/pack1118 9824a48e，2026-11-19 03:37 CST）
+用法：解压后把 resources 文件夹覆盖到游戏目录（DarkRock-win-x64）里，替换同名文件。
+
+本轮内容（全部未实机截图、未测帧率，请实测）：
+1. 枫树：本体野外阔叶老树整棵换 Demo 枫树，棵数 x2.5；秋色 / 夏绿混排。            ?off=qlmaplefull
+2. 光源：白天户外太阳、天空、阴影恒为秋林逆光 Demo 光源；日落后过渡到夜空，月亮固定。   ?off=qldemosun
+3. 超高画质树冠暗块修复（GTAO 不再算叶卡）。                                    ?off=gtaoleaf
+4. 本体河水 / 腐沼沼泽水按 r8 源码水重写；水流保留；中档开镜面；尾迹、落水涟漪。
+   ?off=qlriver（整体回旧）qlrivspec qlmirror qlwake qlsplash
+5. 钟井 Raid 最底黑水回 r8 原样：去压暗、波速 1.0、镜面、透明、瀑布落点涟漪。
+   ?off=wellr8（整体回旧）qlwellspd wellmirror wellalpha wellfallring
+6. 野外四足 / 蟾蜍 / 多足怪程序化绑骨（20 种，低画质不绑）。                       ?off=quadrig
+   注意：狼、野猪、蟾蜍绑骨时修正了朝向，关 quadrig 后这三种会侧着。
+
+性能风险：中档每帧多一次镜面渲染；钟井底每帧整井镜面；请重点看中档河边和钟井底帧率。
+多个开关可用逗号连写，如 ?off=qlriver,wellr8
