@@ -1,0 +1,170 @@
+diff --git a/src/dlc/dlc1/water_fx.ts b/src/dlc/dlc1/water_fx.ts
+index a0714806..b3399eb2 100644
+--- a/src/dlc/dlc1/water_fx.ts
++++ b/src/dlc/dlc1/water_fx.ts
+@@ -2,6 +2,7 @@
+ import * as THREE from 'three';
+ import { WATER2, W2_GLSL, w2Defs, w2Tier, w2ReflUpdate, w2SplashTick } from '../../web/water2';   // 11-17 水体 v2 共享件（?off=water2 回旧版）
+ import { riverReflU, riverReflMarkWater, RIVER_REFL, RIVER_REFL_GLSL } from '../../web/river_refl';
++import { wakeU, WAKE_GLSL, wakeOn, wakeMark } from '../../web/water_wake';   // 11-18 r8 尾迹场：玩家涉水涟漪（?off=wake）
+ 
+ let _rad: THREE.Texture | null = null, _rip: THREE.DataTexture | null = null;
+ /** 圆形软边：外 28% 半径内平滑渐隐，边上带一点不规则（不再是硬圆片） */
+@@ -117,6 +118,7 @@ mapN = normalize( vec3( mapN.xy + vec2( wRG.x, - wRG.y ) * 0.7, mapN.z ) );`))
+ export function waterBind(mesh: THREE.Object3D) { const prev = mesh.onBeforeRender; mesh.onBeforeRender = function (...a: Parameters<THREE.Object3D['onBeforeRender']>) {
+   waterTick();
+   const mt = (mesh as THREE.Mesh).material as THREE.Material | undefined;
++  { const g = (mesh as THREE.Mesh).geometry as THREE.BufferGeometry | undefined; if (g && mt && !Array.isArray(mt) && mt.userData.w2Wake) wakeMark(mesh, g, mesh.matrixWorld.elements[13]); }   // 11-18 尾迹：登记水面
+   if (mt && !Array.isArray(mt) && mt.userData.w2Refl) w2ReflUpdate(a[0], a[1] as THREE.Scene, a[2], mesh.matrixWorld.elements[13]);   // 11-17 v2：中 / 高档平面倒影（镜面 = 水面世界高度）
+   prev.apply(this, a); }; }
+ 
+@@ -131,23 +133,24 @@ function waterUpV2<M extends THREE.MeshStandardMaterial>(m: M, o: WaterOpt, low
+   const tier = low ? 'low' : w2Tier(), lo = tier === 'low', ql = !!o.ql && !QL_OFF, cave = ql && !!o.cave && !CAVE_OFF;
+   if (cave) { m.metalness = 0; m.roughness = 0.2; m.envMapIntensity = 0.3; }
+   const depth = o.depth ?? 1.5, refl = !!o.refl && !lo && !RIVER_REFL.off;
++  const wk = !lo && wakeOn(); if (wk) m.userData.w2Wake = true;   // 11-18 r8 尾迹场（低档 / ?off=wake 不接）
+   const U = { uT: { value: 0 }, uSh: { value: new THREE.Color(o.shallow) }, uDp: { value: new THREE.Color(o.deep) }, uSky: { value: new THREE.Color(o.sky ?? 0x8ab0c0) },
+     uFoam: { value: new THREE.Color(o.foam ?? 0xdfeff0) }, uFoamW: { value: o.foamW ?? 0.22 }, uFres: { value: o.fres ?? 0.55 }, uCaus: { value: lo ? 0 : (o.caus ?? 0.35) }, uSp: { value: o.speed ?? 1 }, uRip: RIP,
+     uDepth: { value: depth }, uMurk: { value: o.murk ?? 2.6 / Math.max(depth, 0.05) } };
+   _waterMats.add(U);
+   const EDGE = { alpha: 'texture2D( alphaMap, vAlphaMapUv ).g', radial: 'clamp( 1.0 - length( vWUv - 0.5 ) * 2.0, 0.0, 1.0 )', rect: 'clamp( min( min( vWUv.x, 1.0 - vWUv.x ), min( vWUv.y, 1.0 - vWUv.y ) ) * 2.0, 0.0, 1.0 )', strip: 'clamp( 1.0 - abs( vWUv.x * 2.0 - 1.0 ), 0.0, 1.0 )' }[o.edge === 'alpha' && !m.alphaMap ? 'rect' : o.edge];
+-  m.customProgramCacheKey = () => `waterUp2_${o.edge}_${tier}_${refl ? 1 : 0}_${ql ? 'ql' : ''}${cave ? 'cv' : ''}`;
++  m.customProgramCacheKey = () => `waterUp2_${o.edge}_${tier}_${refl ? 1 : 0}_${ql ? 'ql' : ''}${cave ? 'cv' : ''}${wk ? 'wk' : ''}`;
+   if (refl) { m.userData.w2Refl = true; riverReflMarkWater(m); }
+   m.onBeforeCompile = (sh) => {
+-    Object.assign(sh.uniforms, U, refl ? riverReflU : {});
++    Object.assign(sh.uniforms, U, refl ? riverReflU : {}, wk ? wakeU : {});
+     sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nvarying vec2 vWUv;\nvarying vec3 vWPos;')
+       .replace('#include <worldpos_vertex>', '#include <worldpos_vertex>\nvWUv = uv;\nvWPos = ( modelMatrix * vec4( transformed, 1.0 ) ).xyz;');
+     sh.fragmentShader = sh.fragmentShader.replace('#include <common>', `#include <common>
+-${w2Defs(tier)}${refl ? '#define W2_REFL\n' : ''}${ql ? '#define W2_QL\n' : ''}${cave ? '#define W2_CAVE\n' : ''}varying vec2 vWUv; varying vec3 vWPos;
++${w2Defs(tier)}${wk ? '#define W2_WAKE\n' + WAKE_GLSL : ''}${refl ? '#define W2_REFL\n' : ''}${ql ? '#define W2_QL\n' : ''}${cave ? '#define W2_CAVE\n' : ''}varying vec2 vWUv; varying vec3 vWPos;
+ vec2 wQg = vec2(0.0); float wQa = 1.0;
+ vec2 qlWav(vec2 p, vec2 d, float k, float w, float t){ return d * cos(dot(p, d) * k - t * w) * k; }
+ uniform float uT, uFoamW, uFres, uCaus, uSp, uDepth, uMurk; uniform vec3 uSh, uDp, uSky, uFoam; uniform vec4 uRip[12];
+-float wRC = 0.0, wE = 0.0, wFo = 0.0;
++float wRC = 0.0, wE = 0.0, wFo = 0.0; vec4 wWk = vec4( 0.0 );
+ float wN( vec2 p ) { return sin( p.x * 1.7 + sin( p.y * 1.3 + uT * 0.7 * uSp ) * 1.6 ) * sin( p.y * 1.9 - uT * 0.55 * uSp + sin( p.x * 0.8 ) ); }
+ ${W2_GLSL}
+ ${refl ? RIVER_REFL_GLSL : ''}
+@@ -178,6 +181,9 @@ wE = wEdge();
+   wFo = band * smoothstep( 0.55, 0.9, wn + ( 1.0 - wE / max( uFoamW, 0.01 ) ) * 0.3 ) * w2FoamOp( fA + 0.3, 0.6 );
+ #else
+   wFo = w2FoamLace( vWPos.xz, uT * uSp, fA ) * w2FoamOp( fA, w2Vn( vWPos.xz * 1.7 + uT * 0.2 ) ) * ( 0.78 + 0.22 * w2Vn( vWPos.xz * 23.0 + uT * 0.3 ) );
++#endif
++#ifdef W2_WAKE
++  wFo = max( wFo, wkFoam( vWPos.xz, uT, wWk.z ) * 0.85 );   // 11-18 r8 尾迹泡沫（网状）
+ #endif
+   diffuseColor.rgb = mix( diffuseColor.rgb, uFoam * 0.8, wFo );   // 泡沫进漫反射：由场景灯光照亮（太阳 Lambert + 天空半球），阴影里自然变暗
+ }`)
+@@ -189,13 +195,19 @@ for ( int i = 0; i < 12; i ++ ) { vec4 R = uRip[ i ]; float age = uT - R.z; if (
+   vec2 d = vWPos.xz - R.xy; float r = length( d ) + 1e-3, rad = age * ( 2.6 + R.w * 2.4 ), x = r - rad;
+   float env = exp( - x * x * 0.35 / ( 0.4 + R.w ) ) * exp( - age * 0.55 ) * R.w / ( 1.0 + r * 0.06 ) * smoothstep( 0.0, 0.3, age );
+   float k = 3.2 / ( 0.6 + R.w * 0.4 ); wRG += d / r * sin( x * k ) * env; wRC += max( 0.0, cos( x * k ) ) * env; }
+-mapN = normalize( vec3( mapN.xy + vec2( wRG.x, - wRG.y ) * 0.7, mapN.z ) );`) + `
++mapN = normalize( vec3( mapN.xy + vec2( wRG.x, - wRG.y ) * 0.7, mapN.z ) );
++#ifdef W2_WAKE
++wWk = wkG( vWPos.xz ); mapN = normalize( vec3( mapN.xy + vec2( - wWk.x, wWk.y ) * 0.6, mapN.z ) );
++#endif`) + `
+ #ifdef W2_QL
+ { vec2 qp = vWPos.xz; float qt = uT * uSp;
+   vec2 qg = ( qlWav( qp, vec2( 0.8, 0.6 ), 1.9, 1.6, qt ) + 0.6 * qlWav( qp, vec2( -0.5, 0.86 ), 3.1, 2.2, qt ) + 0.35 * qlWav( qp, vec2( 0.95, -0.3 ), 5.7, 3.0, qt ) + 0.2 * qlWav( qp, vec2( -0.2, -0.98 ), 9.3, 4.1, qt ) ) * 0.010;
+   qg += ( vec2( w2Vn( qp * 4.0 + qt * vec2( 0.3, 0.2 ) ), w2Vn( qp * 4.0 + 7.0 - qt * vec2( 0.2, 0.3 ) ) ) - 0.5 ) * 0.022;
+   qg *= mix( 0.45, 1.0, 1.0 / ( 1.0 + length( vViewPosition ) * 0.04 ) );
+   qg += wRG * 0.08;   // 钟声 / 涉水涟漪环
++#ifdef W2_WAKE
++  wWk = wkG( vWPos.xz ); qg += wWk.xy;   // 11-18 r8 尾迹坡度
++#endif
+   wQg = qg;
+   normal = normalize( ( viewMatrix * vec4( normalize( vec3( - qg.x, 1.0, - qg.y ) ), 0.0 ) ).xyz );
+ }
+diff --git a/src/web/cine.ts b/src/web/cine.ts
+index e23a5624..26bd91fa 100644
+--- a/src/web/cine.ts
++++ b/src/web/cine.ts
+@@ -11,7 +11,8 @@ import * as THREE from 'three';
+ import { seaSkyOn, ssU, ssGLSL, SS_TIER, ssDefs, ssBaseTick, ssLightDir, WAVE_GLSL, type SsTier } from './seasky_core';   // 11-15 海天共用件（?off=seasky 回旧版）
+ import { curQuality } from './gfx';
+ import { riverReflU, riverReflUpdate, riverReflMarkWater, riverReflSetSky, riverReflFrame, RIVER_REFL, RIVER_REFL_GLSL } from './river_refl';   // 11-15 河面镜面反射（高 / 超高档，?off=riverrefl）
+-import { WATER2, W2_GLSL } from './water2';   // 11-17 水体 v2：河岸泡沫 Beer-Lambert 透明度 + 受光（?off=water2 回旧）
++import { WATER2, W2_GLSL } from './water2';
++import { wakeU, WAKE_GLSL, wakeOn, wakeMark } from './water_wake';   // 11-18 r8 尾迹场：玩家涉水涟漪 / V 形波（?off=wake）   // 11-17 水体 v2：河岸泡沫 Beer-Lambert 透明度 + 受光（?off=water2 回旧）
+ /** 11-15 海天共用件开着（本体野外：天体模型穹顶 / 光色 / 太阳方向 / 水面） */
+ export const SS_ON = seaSkyOn();
+ const SS_BASE_GLSL = SS_ON ? ssGLSL() : '';
+@@ -432,7 +433,7 @@ function ssWaterMaterial(color: THREE.ColorRepresentation, opacity: number) {
+   const m = new THREE.ShaderMaterial({
+     transparent: true, depthWrite: false, fog: true,
+     uniforms: { ...ssU, ...THREE.UniformsLib.fog, ...cineUniforms(), uColor: { value: new THREE.Color(color) }, uOpacity: { value: Math.min(0.94, opacity + 0.04) },
+-      uK: { value: K }, uN: { value: cineWaterNormals() }, ...riverReflU },
++      uK: { value: K }, uN: { value: cineWaterNormals() }, ...riverReflU, ...wakeU },
+     vertexShader: /* glsl */ `varying vec3 vW; varying vec2 vUv;
+       #include <common>
+       #include <fog_pars_vertex>
+@@ -447,6 +448,7 @@ function ssWaterMaterial(color: THREE.ColorRepresentation, opacity: number) {
+     if (!kDone) { ssWaterGeoK(g as THREE.BufferGeometry, o, K); const gg = g as THREE.BufferGeometry; if (!gg.boundingBox) gg.computeBoundingBox();
+       planeY = gg.boundingBox!.getCenter(_wv).applyMatrix4(o.matrixWorld).y; kDone = true; }
+     if (K.w > 0.5 && ssReflOn()) riverReflUpdate(r, s as THREE.Scene, c, planeY, ssU.ssK3.value.y);
++    wakeMark(o, g as THREE.BufferGeometry, planeY);
+   };
+   riverReflMarkWater(m);
+   const build = () => {
+@@ -458,6 +460,7 @@ function ssWaterMaterial(color: THREE.ColorRepresentation, opacity: number) {
+       ${WAVE_GLSL}
+       ${refl ? RIVER_REFL_GLSL : ''}
+       ${WATER2.off || low ? '' : W2_GLSL}
++      ${wakeOn() ? WAKE_GLSL : ''}
+       float rvH(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+       float rvN(vec2 p){ vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
+         return mix(mix(rvH(i), rvH(i + vec2(1, 0)), f.x), mix(rvH(i + vec2(0, 1)), rvH(i + vec2(1, 1)), f.x), f.y); }
+@@ -512,6 +515,7 @@ function ssWaterMaterial(color: THREE.ColorRepresentation, opacity: number) {
+         vec2 sw2 = vec2(dot(sq, J[0]), dot(sq, J[1]));   // 链式法则：∂h/∂x_w = Σ ∂h/∂q · ∂q/∂x_w
+         float nearK = mix(1.25, 0.7, smoothstep(8.0, 70.0, dist));
+         vec3 n = normalize(vec3(-sw2.x * nearK, 1.0, -sw2.y * nearK));
++        ${wakeOn() ? 'vec4 wk = wkG(vW.xz); n = normalize(vec3(n.x / n.y - wk.x, 1.0, n.z / n.y - wk.y));   // 11-18 r8 尾迹坡度 → 法线（倒影、高光跟着扰动）' : 'vec4 wk = vec4(0.0);'}
+         // 水深（横向剖面：河中 0.58 米，到岸线 0；池塘按两向）
+         float halfV = uK.y * 0.5, across = abs(vUv.y - 0.5) * uK.y;
+         float shore = (halfV - 0.39) - across;
+@@ -568,6 +572,7 @@ function ssWaterMaterial(color: THREE.ColorRepresentation, opacity: number) {
+         // 岸边碎泡沫线：顺流漂的噪声，断断续续
+         ${low ? 'float foam = 0.0;' : `float fn = rvN(qa * vec2(0.9, 2.6)) * 0.65 + rvN(qa * vec2(2.3, 5.1) + 7.0) * 0.35;
+         float foam = smoothstep(0.56, 0.8, fn) * smoothstep(0.0, 0.07, shore) * (1.0 - smoothstep(0.12, 0.45, shore)) * 0.55;`}
++        ${wakeOn() ? 'foam = max(foam, wkFoam(vW.xz, t, wk.z) * 0.85);' : ''}
+         ${WATER2.off || low ? 'col = mix(col, light * 0.75 * vec3(0.95, 0.97, 1.0), foam);' : `foam *= 0.35 + 0.65 * w2FoamOp(foam * 1.8, rvN(qa * 3.1));   // 11-17 v2：泡沫透明度按光学厚度（Beer-Lambert）
+         col = mix(col, w2FoamLit(vec3(0.8, 0.86, 0.86), ssSunC * 0.0075 * max(dot(n, ssSunD), 0.0), ssAmb * 1.43, sky, fres), foam);   // 泡沫受光：太阳 Lambert + 天空半球 + 周围反射 + 湿面菲涅耳`}
+         col = mix(col, vec3(0.05, 0.045, 0.03) * light, wet * 0.55);
+@@ -582,7 +587,7 @@ function ssWaterMaterial(color: THREE.ColorRepresentation, opacity: number) {
+   };
+   m.fragmentShader = build();
+   m.onBeforeCompile = sh => { sh.fragmentShader = build(); };
+-  m.customProgramCacheKey = () => 'sswater2|' + ssTierNow() + (ssReflOn() ? '|refl' : '');
++  m.customProgramCacheKey = () => 'sswater2|' + ssTierNow() + (ssReflOn() ? '|refl' : '') + (wakeOn() ? '|wk' : '');
+   m.userData.outlineParameters = { visible: false };
+   return m;
+ }
+diff --git a/src/web/main.ts b/src/web/main.ts
+index 9b5def60..31c772c6 100644
+--- a/src/web/main.ts
++++ b/src/web/main.ts
+@@ -1,3 +1,4 @@
++import { wakeTick, WAKE } from './water_wake';   // 11-18 r8 尾迹场（?off=wake）
+ import { makeCineSky, cineUpdate, cineSunOffset, cineSnapShadow, CINE, CINE_NAMES, cineApplyFlags, cineSwapWater, cineWaterTick, autoTier } from './cine';
+ import { dayNightOn } from './daynight';
+ import { ssSetSunLock } from './seasky_core';
+@@ -2193,6 +2194,7 @@ function step(nowMs: number, forced: boolean) {
+   if (loadingEl.style.display === 'flex') return;
+   if (PERF_ON) renderer.info.reset();
+   cineUpdate(dt, { sun, sky, scene, enabled: CINE.on[3], outdoor: dayNightOn() });
++  if (player) wakeTick(renderer, dt, player.pos.x, player.pos.y, player.pos.z);   // 11-18 水面尾迹：玩家脚底低于水面才加源
+   { if (!motesMade) { motesMade = true; makeMotes(scene, G.curQuality); } updateMotes(performance.now() / 1000, camera, sun, dayNightOn() && G.curQuality !== 'low', renderer.domElement.height); }   // 11-16 阳光浮尘（秋林逆光）
+   if (selectBlank()) { renderer.setRenderTarget(null); const c0 = renderer.getClearColor(new THREE.Color()), a0 = renderer.getClearAlpha(); renderer.setClearColor(0x020708, 1); renderer.clear(); renderer.setClearColor(c0, a0); return; }   // 11-18 旧选人画面删除：详情页之前不画场景
+   pipeline.render();
+@@ -2409,7 +2411,7 @@ async function boot() {
+   $('pf-portrait').innerHTML = uiIcon(M.portraitKey(chosen));
+   // 调试/自动化测试入口
+   // 11-14 画质专长包 Self-check：无头浏览器自查用的调试钩子（只读写镜头角度 / 画质，不影响游戏）
+-  (window as unknown as Record<string, unknown>).__dbg = { renderer, scene, camera, sun, sky, pipeline, CINE, player: () => player, npcs: () => npcs,
++  (window as unknown as Record<string, unknown>).__dbg = { WAKE, renderer, scene, camera, sun, sky, pipeline, CINE, player: () => player, npcs: () => npcs,
+     /** 自查：只开第 1..k 步 */
+     cineSet: (n: string, v: boolean) => { const i = CINE_NAMES[n]; if (!i) return false; CINE.on[i] = v; cineApplyFlags(); pipeline.setQuality(pipeline.quality); cineSwapWater(scene); return true; },   // 11-14 A 档 第 21 步：单项开关对比
+     cineStep: (k: number) => { for (let i = 1; i <= 16; i++) CINE.on[i] = i <= k; cineApplyFlags(); const u = (sky.material as THREE.ShaderMaterial).uniforms; u.uS1.value = CINE.on[1] ? 1 : 0; pipeline.setQuality(pipeline.quality); cineSwapWater(scene); },
