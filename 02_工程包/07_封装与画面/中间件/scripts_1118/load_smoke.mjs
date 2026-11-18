@@ -1,0 +1,23 @@
+// 打包前冒烟 2：存档预置 → 标题页「开始冒险」→ 进游戏（curChar 有值、loading 关），低画质；统计 PAGEERR / 着色器报错
+import { chromium } from '/workspace/work/p73/node_modules/playwright-core/index.mjs';
+import { serve, ARGS, DRFS } from './_srv.mjs';
+const srv = serve(8772); const t0 = Date.now();
+const meta = { id: 'dk', name: '测试', classId: 'warrior', look: 0, level: 40, elite: 0, ilvl: 0, map: 'camp', playMs: 0, savedAt: 1, createdAt: 1, __q: 'low' };
+const SAVE = { version: 10, savedAt: 1, classId: 'warrior', name: '测试', level: { level: 40, xp: 0 }, talents: {}, quests: { active: {}, done: [] }, inventory: { gold: 10, bag: [], equipped: {} } };
+const b = await chromium.launch({ args: ARGS }); const page = await b.newPage({ viewport: { width: 960, height: 540 } });
+const errs = []; page.on('pageerror', e => errs.push('PAGEERR ' + e.message.slice(0, 300)));
+page.on('console', m => { const t = m.text(); if (/Shader Error|WebGLProgram|THREE\.WebGL|patch miss/i.test(t)) errs.push(t.slice(0, 300)); });
+await page.addInitScript(DRFS);
+await page.addInitScript(([m, s]) => { if (!sessionStorage.getItem('rc')) { sessionStorage.setItem('rc', '1'); localStorage.clear(); localStorage.setItem('darkrock_intro_seen', '1'); localStorage.setItem('darkrock_settings', JSON.stringify({ quality: m.__q, charModel: 'new' }));
+  localStorage.setItem('darkrock_roster', JSON.stringify({ v: 1, slots: [m, null, null, null, null, null, null, null], last: 'dk', legacyMigrated: true })); localStorage.setItem('darkrock_char_dk', JSON.stringify(s)); } }, [meta, SAVE]);
+await page.goto('http://127.0.0.1:8772/index.html?cg=0&op=0', { waitUntil: 'domcontentloaded' });
+await page.waitForFunction(() => window.__game && document.getElementById('start')?.textContent === '开始冒险', null, { timeout: 240000 });
+console.log('title', ((Date.now() - t0) / 1000).toFixed(0), 's');
+await page.evaluate(() => { const g = window.__game; g.selSlot = 0; g.renderTitle?.(); document.getElementById('start').click(); });
+await page.waitForFunction(() => window.__game.curChar && document.getElementById('loading')?.style.display !== 'flex', null, { timeout: 300000 });
+await page.waitForTimeout(8000);
+const st = await page.evaluate(() => ({ map: window.__game.curMap?.id ?? window.__game.mapId ?? null, char: window.__game.curChar?.name ?? !!window.__game.curChar }));
+await page.screenshot({ path: '/workspace/work/cineA/load_smoke.png' });
+console.log('INGAME', ((Date.now() - t0) / 1000).toFixed(0), 's', JSON.stringify(st));
+console.log('errs', errs.length); errs.forEach(e => console.log(e));
+await b.close(); srv.close(); process.exit(errs.some(e => e.startsWith('PAGEERR')) ? 1 : 0);
