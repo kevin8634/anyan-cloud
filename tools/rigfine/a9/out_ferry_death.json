@@ -1,0 +1,88 @@
+{
+ "clips": {
+  "idle": {
+   "zh": "待机",
+   "hit": null,
+   "dur": 3.2,
+   "loop": true
+  },
+  "walk": {
+   "zh": "行走（拖袍滑行）",
+   "hit": null,
+   "dur": 1.4,
+   "loop": true
+  },
+  "attack": {
+   "zh": "普攻 · 撑篙突刺",
+   "hit": 0.85,
+   "dur": 1.9,
+   "loop": false
+  },
+  "hit": {
+   "zh": "受击",
+   "hit": null,
+   "dur": 0.6,
+   "loop": false
+  },
+  "stagger": {
+   "zh": "被打断 · 踉跄",
+   "hit": null,
+   "dur": 1.1,
+   "loop": false
+  },
+  "death": {
+   "zh": "死亡",
+   "hit": 2.3,
+   "dur": 3.3,
+   "loop": false
+  },
+  "oar": {
+   "zh": "船篙横击",
+   "hit": 1.3,
+   "dur": 2.5,
+   "loop": false
+  },
+  "s_death": {
+   "zh": "死渡（读条 1.8 秒）",
+   "hit": 1.8,
+   "dur": 2.9,
+   "loop": false
+  },
+  "life": {
+   "zh": "生渡（读条 2.6 秒）",
+   "hit": 2.6,
+   "dur": 3.8,
+   "loop": false
+  },
+  "ferry": {
+   "zh": "渡魂（召唤）",
+   "hit": 1.2,
+   "dur": 2.4,
+   "loop": false
+  },
+  "phase": {
+   "zh": "双渡（阶段转换）",
+   "hit": 1.2,
+   "dur": 2.6,
+   "loop": false
+  }
+ },
+ "tex": [
+  "MI_FerryDeathBody:mr,MI_FerryDeathFace:mr 1024→512",
+  "MI_FerryDeathBody:nrm 2048→1024",
+  "MI_FerryDeathBody:base 2048→2048",
+  "MI_FerryDeathFace:base 2048→2048",
+  "MI_FerryDeathBody:emi 1024→1024",
+  "MI_FerryDeathFace:nrm 2048→1024",
+  "MI_FerryDeathFace:emi 2048→1024",
+  "MI_FerryDeathRobe:base 1024→1024",
+  "MI_FerryDeathRobe:nrm 1024→1024",
+  "MI_FerryDeathRobe:emi 1024→1024",
+  "MI_FerryDeathPole:base 512→512",
+  "MI_FerryDeathPole:nrm 512→512",
+  "MI_FerryDeathLantern:base,MI_FerryDeathLantern:emi 1024→512",
+  "MI_FerryDeathLantern:mr 1024→256"
+ ],
+ "tri": 45770,
+ "kb": 2898
+}

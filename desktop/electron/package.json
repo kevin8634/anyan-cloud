@@ -1,0 +1,8 @@
+{
+  "name": "darkrock-desktop",
+  "productName": "暗岩传说：深渊回响",
+  "version": "0.1.0",
+  "description": "暗岩传说 Windows 桌面版外壳（Electron），只加载 game/ 下的网页构建产物",
+  "main": "main.js",
+  "private": true
+}

@@ -1,0 +1,88 @@
+{
+ "clips": {
+  "idle": {
+   "zh": "待机",
+   "hit": null,
+   "dur": 3.2,
+   "loop": true
+  },
+  "walk": {
+   "zh": "行走（拖袍飘行）",
+   "hit": null,
+   "dur": 1.4,
+   "loop": true
+  },
+  "attack": {
+   "zh": "普攻 · 灯杖点射",
+   "hit": 0.7,
+   "dur": 1.5,
+   "loop": false
+  },
+  "fog": {
+   "zh": "溺毒雾",
+   "hit": 1.1,
+   "dur": 2.1,
+   "loop": false
+  },
+  "shriek": {
+   "zh": "溺魂尖啸",
+   "hit": 2.4,
+   "dur": 3.7,
+   "loop": false
+  },
+  "mark": {
+   "zh": "溺毙标记",
+   "hit": 1.6,
+   "dur": 2.6,
+   "loop": false
+  },
+  "souls": {
+   "zh": "溺魂（召唤）",
+   "hit": 1.5,
+   "dur": 2.9,
+   "loop": false
+  },
+  "hit": {
+   "zh": "受击",
+   "hit": null,
+   "dur": 0.6,
+   "loop": false
+  },
+  "death": {
+   "zh": "死亡（沉入水中）",
+   "hit": 2.6,
+   "dur": 3.6,
+   "loop": false
+  },
+  "phase": {
+   "zh": "溺魂（阶段转换）",
+   "hit": 1,
+   "dur": 2.6,
+   "loop": false
+  },
+  "stagger": {
+   "zh": "被打断 · 踉跄",
+   "hit": null,
+   "dur": 1.2,
+   "loop": false
+  }
+ },
+ "tex": [
+  "MI_SarinBody:mr,MI_SarinFace:mr 1024→512",
+  "MI_SarinBody:nrm 1024→1024",
+  "MI_SarinBody:base 2048→2048",
+  "MI_SarinFace:base 2048→2048",
+  "MI_SarinBody:emi 1024→1024",
+  "MI_SarinFace:nrm 1024→1024",
+  "MI_SarinFace:emi 1024→1024",
+  "MI_SarinRobe:base 1024→1024",
+  "MI_SarinRobe:nrm 512→512",
+  "MI_SarinRobe:emi 512→512",
+  "MI_SarinStaff:base 512→512",
+  "MI_SarinStaff:nrm 512→512",
+  "MI_SarinLantern:base,MI_SarinLantern:emi 1024→512",
+  "MI_SarinLantern:mr 1024→256"
+ ],
+ "tri": 49868,
+ "kb": 3401
+}

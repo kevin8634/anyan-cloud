@@ -1,0 +1,26 @@
+import { chromium } from 'playwright-core';
+const b = await chromium.launch({ executablePath: process.env.HOME+'/.cache/ms-playwright/chromium-1140/chrome-linux/chrome', args:['--use-gl=swiftshader','--enable-webgl','--ignore-gpu-blocklist'] });
+const p = await b.newPage({ viewport:{width:1280,height:720} });
+const errs=[]; p.on('pageerror', e=>errs.push(String(e)));
+await p.addInitScript(() => {
+  const orig = performance.now.bind(performance); let last = orig(), virt = last;
+  performance.now = () => { const n = orig(); virt += (n - last) * (window.__ts ?? 1); last = n; return virt; };
+  const raf = window.requestAnimationFrame.bind(window); window.requestAnimationFrame = cb => raf(() => cb(performance.now()));
+});
+await p.goto('file:///workspace/work/proj/web/index.html');
+await p.waitForTimeout(7000);
+await p.evaluate(()=>document.getElementById('start').click());
+await p.waitForTimeout(5000);
+const hide = () => p.evaluate(()=>{ ['settings','dlg','changelog'].forEach(id=>{const e=document.getElementById(id); if(e) e.style.display='none';}); });
+await p.evaluate(()=>{ const g=window.__game; g.settings.quality='high'; g.applySettings&&g.applySettings(); g.player.pos.z -= 9; });
+await hide(); await p.waitForTimeout(2500);
+await p.screenshot({path:'/workspace/work/t_free.png'});
+await p.evaluate(()=>document.getElementById('cam-lock').click());
+await p.waitForTimeout(2500);
+await p.screenshot({path:'/workspace/work/t_locked.png'});
+const show = async (name, js, wait=2200) => { await p.evaluate(()=>{window.__ts=1}); await p.waitForTimeout(800); await p.evaluate(js); await p.evaluate(()=>{window.__ts=0.12}); await p.waitForTimeout(wait); await p.screenshot({path:`/workspace/work/t_${name}.png`}); };
+await show('mage', ()=>{ const g=window.__game, V=g.VFX, q=g.player.pos; V.meteorImpact({x:q.x+3.5,z:q.z-1.5},3); V.frostNova({x:q.x-3.5,z:q.z+0.5},3.2); for(let i=0;i<12;i++) V.meteorTrail({x:q.x+3.5-i*0.35, y:1.5+i*0.9, z:q.z-1.5-i*0.35}); });
+await show('chrono_alch', ()=>{ const g=window.__game, V=g.VFX, q=g.player.pos; V.sandSigil({x:q.x-3.5,z:q.z},3); V.potionSplash({x:q.x+3,z:q.z-1.5},2.5,0x7aff3a,true); V.potionSplash({x:q.x+4,z:q.z+2},2,0x4ab0ff,true); V.alchemyBoom({x:q.x+0.5,z:q.z-4},2.2); });
+await show('hits', ()=>{ const g=window.__game, V=g.VFX, q=g.player.pos; ['physical','fire','frost','arcane','nature','shadow','holy'].forEach((el,i)=>{ for(let k=0;k<3;k++) V.elementHit({x:q.x-6+i*2,y:1.2,z:q.z+1}, el, true); }); }, 1200);
+console.log('errors', errs.slice(0,5));
+await b.close();

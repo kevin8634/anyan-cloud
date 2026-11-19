@@ -1,0 +1,64 @@
+{
+ "clips": {
+  "idle": {
+   "zh": "待机",
+   "hit": null,
+   "dur": 3.2,
+   "loop": true
+  },
+  "walk": {
+   "zh": "行走",
+   "hit": null,
+   "dur": 1.4,
+   "loop": true
+  },
+  "attack": {
+   "zh": "普攻 · 撑篙突刺",
+   "hit": 0.782,
+   "dur": 1.748,
+   "loop": false
+  },
+  "hit": {
+   "zh": "受击",
+   "hit": null,
+   "dur": 0.6,
+   "loop": false
+  },
+  "stagger": {
+   "zh": "被打断 · 踉跄（2.5 秒）",
+   "hit": null,
+   "dur": 2.5,
+   "loop": false
+  },
+  "death": {
+   "zh": "死亡",
+   "hit": 2.3,
+   "dur": 3.3,
+   "loop": false
+  },
+  "mend": {
+   "zh": "渡生引导（读条 4 秒）",
+   "hit": 4,
+   "dur": 4.8,
+   "loop": false
+  }
+ },
+ "tex": [
+  "MI_FerryLifeBody:mr,MI_FerryLifeFace:mr 1024→512",
+  "MI_FerryLifeBody:nrm 2048→1024",
+  "MI_FerryLifeBody:base 2048→2048",
+  "MI_FerryLifeFace:base 2048→2048",
+  "MI_FerryLifeBody:emi 1024→1024",
+  "MI_FerryLifeFace:nrm 2048→1024",
+  "MI_FerryLifeFace:emi 2048→1024",
+  "MI_FerryLifeRobe:base 1024→1024",
+  "MI_FerryLifeRobe:nrm 1024→1024",
+  "MI_FerryLifeRobe:emi 1024→1024",
+  "MI_FerryLifePole:base 512→512",
+  "MI_FerryLifePole:nrm 512→512",
+  "MI_FerryLifeLantern:base,MI_FerryLifeLantern:emi 1024→512",
+  "MI_FerryLifeLantern:mr 1024→256"
+ ],
+ "tri": 45770,
+ "kb": 2807
+}

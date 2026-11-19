@@ -1,0 +1,373 @@
+{
+ "version": 8,
+ "savedAt": 1760600000000,
+ "classId": "warrior",
+ "level": {
+  "level": 30,
+  "xp": 12
+ },
+ "talents": {},
+ "quests": {
+  "active": {},
+  "done": [
+   "q_wolves",
+   "q_fangs",
+   "q_mine"
+  ]
+ },
+ "playMs": 3600000,
+ "look": 1,
+ "elite": 0,
+ "name": "样本",
+ "tutorial": -1,
+ "waypoints": [
+  "camp",
+  "field",
+  "redsand"
+ ],
+ "inventory": {
+  "gold": 9000,
+  "bag": [
+   {
+    "id": "it_mvdipzn8_7_2379",
+    "baseId": "b_legs",
+    "name": "裂地者护腿",
+    "slot": "legs",
+    "quality": "orange",
+    "itemLevel": 30,
+    "hp": 979,
+    "armor": 402,
+    "modifiers": [
+     {
+      "id": "it_mvdipzn8_7_2379:lg_quake_boots",
+      "name": "裂地者护腿",
+      "source": "equipment",
+      "priority": 20,
+      "desc": "冲锋落地时爆炸，对周围造成60%伤害",
+      "match": {
+       "skillIds": [
+        "charge"
+       ]
+      },
+      "ops": [
+       {
+        "op": "addEffect",
+        "effect": {
+         "type": "explode",
+         "radius": 4,
+         "damagePercent": 0.6
+        }
+       },
+       {
+        "op": "rename",
+        "prefix": "裂地"
+       }
+      ]
+     },
+     {
+      "id": "it_mvdipzn8_7_2379:a_aoe",
+      "name": "裂地者护腿",
+      "source": "equipment",
+      "desc": "范围技能半径 +58%",
+      "match": {
+       "tagsAny": [
+        "aoe"
+       ]
+      },
+      "ops": [
+       {
+        "op": "mul",
+        "stat": "radius",
+        "value": 0.58
+       }
+      ]
+     }
+    ],
+    "lines": [
+     "★ 冲锋落地时爆炸，对周围造成60%伤害",
+     "范围技能半径 +58%",
+     "护甲 +220",
+     "生命 +654"
+    ],
+    "sellPrice": 1625,
+    "armorType": "plate",
+    "durability": 100,
+    "locked": true
+   },
+   {
+    "id": "it_mvdipzn8_8_9zuz",
+    "baseId": "b_sabaton",
+    "name": "钢铁战靴",
+    "slot": "feet",
+    "quality": "blue",
+    "itemLevel": 30,
+    "hp": 661,
+    "armor": 315,
+    "modifiers": [],
+    "lines": [
+     "护甲 +243",
+     "生命 +527"
+    ],
+    "sellPrice": 585,
+    "armorType": "plate",
+    "durability": 100
+   }
+  ],
+  "equipped": {
+   "mainHand": {
+    "id": "it_relic_b1",
+    "baseId": "b_sword",
+    "name": "血誓",
+    "slot": "oneHand",
+    "quality": "darkgold",
+    "itemLevel": 40,
+    "hp": 120,
+    "armor": 0,
+    "sellPrice": 0,
+    "weaponType": "sword",
+    "durability": 60,
+    "relic": "relic_bloodoath",
+    "noSalvage": true,
+    "modifiers": [
+     {
+      "id": "it_relic_b1:relic_bloodoath",
+      "name": "血誓",
+      "source": "equipment",
+      "priority": 25,
+      "desc": "英勇打击变为「血誓斩」：暗影伤害，命中后弹向附近 2 个敌人（每跳 70%），造成伤害的 10% 转化为生命",
+      "match": {
+       "skillIds": [
+        "slash"
+       ]
+      },
+      "ops": [
+       {
+        "op": "setElement",
+        "value": "shadow"
+       },
+       {
+        "op": "addTag",
+        "value": "fx_blood"
+       },
+       {
+        "op": "addEffect",
+        "effect": {
+         "type": "chain",
+         "jumps": 2,
+         "radius": 5,
+         "damagePercent": 0.7
+        }
+       },
+       {
+        "op": "addEffect",
+        "effect": {
+         "type": "heal",
+         "percentOfDamage": 0.1
+        }
+       },
+       {
+        "op": "rename",
+        "name": "血誓斩"
+       }
+      ]
+     },
+     {
+      "id": "it_relic_b1:a_dmg",
+      "name": "血誓",
+      "source": "equipment",
+      "desc": "所有技能伤害 +9%",
+      "match": {},
+      "ops": [
+       {
+        "op": "mul",
+        "stat": "damage",
+        "value": 0.09
+       }
+      ]
+     }
+    ],
+    "lines": [
+     "◆ 英勇打击变为「血誓斩」：暗影伤害，命中后弹向附近 2 个敌人（每跳 70%），造成伤害的 10% 转化为生命",
+     "所有技能伤害 +9%"
+    ]
+   },
+   "legs": {
+    "id": "it_mvdipzn6_4_guct",
+    "baseId": "b_legs",
+    "name": "狂怒腿铠",
+    "slot": "legs",
+    "quality": "purple",
+    "itemLevel": 33,
+    "hp": 981,
+    "armor": 368,
+    "modifiers": [],
+    "lines": [
+     "生命 +666",
+     "护甲 +192"
+    ],
+    "sellPrice": 1136,
+    "armorType": "plate",
+    "fixedId": "i_fury_legs",
+    "setId": "set_fury",
+    "durability": 0
+   },
+   "head": {
+    "id": "it_mvdipzn7_5_7sp0",
+    "baseId": "b_helm",
+    "name": "暗岩锻造·板甲头盔",
+    "slot": "head",
+    "quality": "purple",
+    "itemLevel": 33,
+    "hp": 665,
+    "armor": 255,
+    "modifiers": [
+     {
+      "id": "it_mvdipzn7_5_7sp0:a_cd",
+      "name": "铁盔",
+      "source": "equipment",
+      "desc": "技能冷却 -21%",
+      "match": {
+       "slots": [
+        "skill1",
+        "skill2",
+        "skill3"
+       ]
+      },
+      "ops": [
+       {
+        "op": "mul",
+        "stat": "cooldown",
+        "value": -0.21
+       }
+      ]
+     },
+     {
+      "id": "it_mvdipzn7_5_7sp0:sp_dmg:sp",
+      "name": "暗岩锻造·板甲头盔",
+      "source": "equipment",
+      "desc": "所有技能伤害 +12%",
+      "match": {},
+      "ops": [
+       {
+        "op": "mul",
+        "stat": "damage",
+        "value": 0.12
+       }
+      ]
+     }
+    ],
+    "lines": [
+     "技能冷却 -21%",
+     "生命 +413",
+     "护甲 +129",
+     "✦ 所有技能伤害 +12%"
+    ],
+    "sellPrice": 1136,
+    "armorType": "plate",
+    "forged": true,
+    "special": true,
+    "locked": true,
+    "durability": 100
+   },
+   "chest": {
+    "id": "it_mvdipzn7_6_f1bw",
+    "baseId": "b_chest",
+    "name": "链甲衫",
+    "slot": "chest",
+    "quality": "purple",
+    "itemLevel": 32,
+    "hp": 430,
+    "armor": 388,
+    "modifiers": [
+     {
+      "id": "it_mvdipzn7_6_f1bw:a_ult",
+      "name": "链甲衫",
+      "source": "equipment",
+      "desc": "大招伤害 +77%",
+      "match": {
+       "slots": [
+        "ultimate"
+       ]
+      },
+      "ops": [
+       {
+        "op": "mul",
+        "stat": "damage",
+        "value": 0.77
+       }
+      ]
+     },
+     {
+      "id": "it_mvdipzn7_6_f1bw:a_aoe",
+      "name": "链甲衫",
+      "source": "equipment",
+      "desc": "范围技能半径 +56%",
+      "match": {
+       "tagsAny": [
+        "aoe"
+       ]
+      },
+      "ops": [
+       {
+        "op": "mul",
+        "stat": "radius",
+        "value": 0.56
+       }
+      ]
+     }
+    ],
+    "lines": [
+     "大招伤害 +77%",
+     "范围技能半径 +56%",
+     "护甲 +143"
+    ],
+    "sellPrice": 1104,
+    "armorType": "plate",
+    "durability": 70,
+    "upgrade": 9,
+    "baseHp": 430,
+    "baseArmor": 388
+   }
+  },
+  "stacks": {
+   "mat_dust": 40,
+   "mat_shard": 10,
+   "mat_essence": 3,
+   "mat_relic": 4,
+   "charm_protect": 2,
+   "cur_ember": 7,
+   "cur_frost": 2,
+   "cur_sigil": 5,
+   "junk_ash": 3,
+   "potion_s": 6
+  }
+ },
+ "codex": [
+  "relic|relic_bloodoath",
+  "fixed|狂怒腿铠",
+  "b_chest|purple"
+ ],
+ "dungeonBest": {
+  "darkrock_mine": 3,
+  "rotting_temple": 1
+ },
+ "dungeonDiff": "nightmare",
+ "setPity": {
+  "dry": 2,
+  "seen": [
+   "i_fury_legs",
+   "i_helm"
+  ]
+ },
+ "relicChain": {
+  "step": 2,
+  "rounds": 0
+ },
+ "exchange": {
+  "week": "2026-W42",
+  "used": {
+   "forge": 1,
+   "charm": 2
+  }
+ }
+}

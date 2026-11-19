@@ -1,0 +1,22 @@
+// v0.9.6e 沙盘真浏览器冒烟：无头 Chromium + SwiftShader 打开 web/index.html，世界 / 区域沙盘各渲染几秒，打印调试信息 + 着色器错误，截图到 /tmp/wm3_*.png（需先 tools/preview/setup_env.sh，并 export LD_LIBRARY_PATH）
+import { chromium } from 'playwright-core';
+import { resolve } from 'path';
+const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const page = await b.newPage({ viewport: { width: 1280, height: 720 } });
+const errors = [];
+page.on('console', m => { if (m.type() === 'error' || /Shader Error|WebGL|THREE\.WebGLProgram/i.test(m.text())) errors.push(m.text().slice(0, 600)); });
+page.on('pageerror', e => errors.push('pageerror: ' + e.message));
+await page.goto('file://' + resolve('web/index.html'));
+await page.waitForFunction(() => window.__game && document.getElementById('start').textContent === '开始冒险', null, { timeout: 120000 });
+await page.evaluate(() => { localStorage.clear(); window.__game.startGame('warrior'); });
+await page.waitForTimeout(3000);
+await page.evaluate(() => window.__game.openWorldMap('world'));
+await page.waitForTimeout(9000);
+console.log(JSON.stringify(await page.evaluate(() => { const d = window.__game.wm3dDebug(); return { active: d.active, renders: d.renders, textured: d.textured, points: d.points, failed: d.failed }; })));
+await page.screenshot({ path: '/tmp/wm3_world.png' });
+await page.evaluate(() => { window.__game.openWorldMap('zone', 'star'); });
+await page.waitForTimeout(3000);
+console.log(JSON.stringify(await page.evaluate(() => { const d = window.__game.wm3dDebug(); return { key: d.key, renders: d.renders, textured: d.textured, clouds: d.clouds }; })));
+await page.screenshot({ path: '/tmp/wm3_zone.png' });
+console.log('errors', errors.length, errors.slice(0, 5).join('\n'));
+await b.close();

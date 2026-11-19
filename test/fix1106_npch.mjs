@@ -1,0 +1,26 @@
+// fix1106 首屏：选角背景改 VideoTexture（不再画布重画 / 声环），并量玩家与写实 NPC 显示高度
+import { chromium } from 'playwright-core'; import { resolve } from 'path'; import { mkdirSync } from 'fs';
+const CLS = process.env.CLS || 'mage';
+const HTML = resolve(process.argv[2] || 'web/index_dlc1_比赛版.html'), OUT = process.argv[3] || '/workspace/work/shots/fix1106/title'; mkdirSync(OUT, { recursive: true });
+const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--disable-dev-shm-usage', '--autoplay-policy=no-user-gesture-required'] });
+const page = await b.newPage({ viewport: { width: 1280, height: 720 } }); const errors = []; page.on('pageerror', e => errors.push(e.message)); const T00 = Date.now(); page.on('console', m => { const x = m.text(); console.log('[' + ((Date.now() - T00) / 1000 | 0) + 's]', x.slice(0, 200)); });
+page.setDefaultTimeout(900000);
+await page.goto('file://' + HTML + '?cg=0&op=0', { waitUntil: 'domcontentloaded', timeout: 900000 });
+await page.waitForFunction(() => window.__game && document.getElementById('start').textContent === '开始冒险', null, { timeout: 900000 });
+console.log('title', (Date.now() - T00) / 1000 | 0);
+await page.evaluate(c => window.__game.startGame(c), CLS);
+await page.waitForFunction(() => document.getElementById('loading').style.display !== 'flex' && document.getElementById('title').style.display === 'none', null, { timeout: 900000 });
+console.log('world', (Date.now() - T00) / 1000 | 0);
+await page.evaluate(() => { try { window.__game.goMap('dlc1_mirror'); } catch (e) { console.log('goMap err ' + e); } });
+await page.waitForTimeout(3000);
+await page.waitForFunction(() => document.getElementById('loading').style.display !== 'flex', null, { timeout: 900000 });
+await page.waitForTimeout(5000);
+const m = await page.evaluate(() => { const g = window.__game;
+  const h = o => { o.updateMatrixWorld(true); let lo = 1e9, hi = -1e9; o.traverse(c => { if (!c.isMesh || !c.visible || !c.geometry || /npcHalo|wfx/.test(c.name)) return; const mm = c.material; if (mm && mm.visible === false) return; c.geometry.computeBoundingBox?.(); const bb = c.geometry.boundingBox; if (!bb) return; const V = c.position.constructor; for (const x of [bb.min.x, bb.max.x]) for (const y of [bb.min.y, bb.max.y]) for (const z of [bb.min.z, bb.max.z]) { const v = c.localToWorld(new V(x, y, z)); lo = Math.min(lo, v.y); hi = Math.max(hi, v.y); } }); return +(hi - lo).toFixed(2); };
+  const out = { map: g.curMap?.id ?? g.mapId ?? null, player: h(g.player.rig.root), pScale: +g.player.rig.root.scale.y.toFixed(3), npcs: [] };
+  g.scene.traverse(o => { const u = o.userData || {}; if ((u.npcC || u.npcHd || u.npcCamp) && out.npcs.length < 30) out.npcs.push([u.npcC || u.npcCamp || 'ubc', u.npcHd || '', h(o)]); });
+  const p = g.player.rig.root.position; out.pp = [p.x | 0, p.z | 0];
+  return out; });
+console.log('measure', JSON.stringify(m));
+await page.screenshot({ path: `${OUT}/mirror_${CLS}.png`, timeout: 120000 });
+console.log('errors=' + JSON.stringify(errors.slice(0, 5))); await b.close();

@@ -1,0 +1,37 @@
+<html><body style="margin:0;background:#2a2d33"><script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js","three/addons/":"/node_modules/three/examples/jsm/"}}</script>
+<script type="module">
+// raidA 11-01（11-02 v2 加 waist*/hood* 近景机位）：Lux3D 绑骨首领试动（无附加件）。?glb=/路径.glb&w=宽&h=高；window.cam('front'|'side'|'face'|'q34')，window.pose({骨名:[x,y,z]})
+import * as THREE from 'three';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';import {MeshoptDecoder} from 'three/addons/libs/meshopt_decoder.module.js';
+const U=new URLSearchParams(location.search),W=+U.get('w')||640,HH=+U.get('h')||640;
+const R=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});R.setSize(W,HH);document.body.appendChild(R.domElement);R.outputColorSpace=THREE.SRGBColorSpace;
+const S=new THREE.Scene();S.background=new THREE.Color(0x2a2d33);S.add(new THREE.HemisphereLight(0xdde4ff,0x332b22,1.5));const d=new THREE.DirectionalLight(0xffffff,2.2);d.position.set(2,4,3);S.add(d);const d2=new THREE.DirectionalLight(0x9fb4ff,0.8);d2.position.set(-3,2,-2);S.add(d2);
+const C=new THREE.PerspectiveCamera(32,W/HH,0.01,100);
+const L=new GLTFLoader();L.setMeshoptDecoder(MeshoptDecoder);
+const g=await L.loadAsync(U.get('glb'));const m=g.scene;S.add(m);
+m.traverse(o=>{if(o.isMesh){o.frustumCulled=false;}});
+const box=new THREE.Box3().setFromObject(m);const sz=box.getSize(new THREE.Vector3()),ct=box.getCenter(new THREE.Vector3());const H=sz.y;
+const fl=new THREE.Mesh(new THREE.CircleGeometry(H*1.2,48),new THREE.MeshStandardMaterial({color:0x444038}));fl.rotation.x=-Math.PI/2;fl.position.y=box.min.y;S.add(fl);
+const B={},Q={};m.traverse(o=>{if(o.isBone){const n=o.name.replace(/^mixamorig:?/,'');B[n]=o;Q[n]=o.quaternion.clone();}});
+const hip0=B.Hips?B.Hips.position.clone():null;
+let head=null;if(B.Head){m.updateMatrixWorld(true);head=B.Head.getWorldPosition(new THREE.Vector3());}
+let camName='q34';
+window.cam=(n)=>{camName=n;const D=Math.max(sz.x,sz.y)*1.9;
+ if(n==='front'){C.position.set(ct.x,ct.y,ct.z+D);C.lookAt(ct);}
+ else if(n==='side'){C.position.set(ct.x+D,ct.y,ct.z);C.lookAt(ct);}
+ else if(n==='face'){const h=head||new THREE.Vector3(ct.x,box.max.y-H*0.08,ct.z);const t=new THREE.Vector3(h.x,h.y+H*0.03,h.z);C.position.set(t.x+H*0.08,t.y+H*0.01,t.z+H*0.42);C.lookAt(t);}
+ else if(n==='eyes'){const h=head||new THREE.Vector3(ct.x,box.max.y-H*0.08,ct.z);const t=new THREE.Vector3(h.x,h.y+H*0.045,h.z);C.position.set(t.x+H*0.02,t.y+H*0.005,t.z+H*0.2);C.lookAt(t);}
+ else if(n==='torso'){const t=new THREE.Vector3(ct.x,box.max.y-H*0.3,ct.z);C.position.set(t.x+H*0.25,t.y+H*0.05,t.z+H*0.9);C.lookAt(t);}
+ else if(n==='rarm'){const h=B.RightForeArm?B.RightForeArm.getWorldPosition(new THREE.Vector3()):ct;C.position.set(h.x,h.y+H*0.12,h.z+H*0.55);C.lookAt(h);}
+ else if(n.startsWith('waist')){const h=B.Hips?B.Hips.getWorldPosition(new THREE.Vector3()):ct;const t=new THREE.Vector3(h.x,h.y+H*0.02,h.z);const o={waist:[0.08,0.04,0.5],waist_s:[0.5,0.04,0.08],waist_b:[-0.1,0.04,-0.5],waist_q:[0.36,0.06,0.36],waist_r:[-0.5,0.04,0.08],waist_rq:[-0.36,0.06,0.36]}[n]||[0,0,0.5];C.position.set(t.x+H*o[0],t.y+H*o[1],t.z+H*o[2]);C.lookAt(t);}
+ else if(n.startsWith('hood')){const h=head||new THREE.Vector3(ct.x,box.max.y-H*0.08,ct.z);const t=new THREE.Vector3(h.x,h.y+H*0.04,h.z);const o={hood:[0,0.02,0.3],hood_l:[0.17,0.03,0.24],hood_r:[-0.17,0.03,0.24],hood_t:[0,0.2,0.22]}[n]||[0,0,0.3];C.position.set(t.x+H*o[0],t.y+H*o[1],t.z+H*o[2]);C.lookAt(t);}
+ else {C.position.set(ct.x+D*0.55,ct.y+H*0.1,ct.z+D*0.85);C.lookAt(ct);}
+ R.render(S,C);};
+const e=new THREE.Euler(),q=new THREE.Quaternion();
+function set(n,x,y,z){const b=B[n];if(!b)return;e.set(x,y,z);q.setFromEuler(e);b.quaternion.copy(Q[n]).multiply(q);}
+window.bones=Object.keys(B);
+window.pose=(p)=>{for(const n in B)B[n].quaternion.copy(Q[n]);if(hip0)B.Hips.position.copy(hip0);
+ for(const [n,v] of Object.entries(p))if(n[0]!='_')set(n,...v);
+ if(p._hy&&B.Hips){m.updateMatrixWorld(true);const s=B.Hips.parent.getWorldScale(new THREE.Vector3()).y;B.Hips.position.y+=p._hy*H/s;}
+ m.updateMatrixWorld(true);R.render(S,C);};
+window.cam('q34');window.pose({});window.ready=true;
+</script></body></html>

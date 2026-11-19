@@ -1,0 +1,94 @@
+{
+ "clips": {
+  "idle": {
+   "zh": "待机",
+   "hit": null,
+   "dur": 3,
+   "loop": true
+  },
+  "walk": {
+   "zh": "行走",
+   "hit": null,
+   "dur": 1.2,
+   "loop": true
+  },
+  "attack": {
+   "zh": "普攻 · 劈砍",
+   "hit": 0.85,
+   "dur": 1.7,
+   "loop": false
+  },
+  "crack": {
+   "zh": "冰裂",
+   "hit": 1.5,
+   "dur": 2.8,
+   "loop": false
+  },
+  "oath": {
+   "zh": "寒誓冰封",
+   "hit": 2.4,
+   "dur": 3.6,
+   "loop": false
+  },
+  "spike": {
+   "zh": "冰刺突进",
+   "hit": 1.2,
+   "dur": 2.2,
+   "loop": false
+  },
+  "bash": {
+   "zh": "盾击",
+   "hit": 1.2,
+   "dur": 2.1,
+   "loop": false
+  },
+  "guard": {
+   "zh": "冰誓扈从",
+   "hit": 1.4,
+   "dur": 2.6,
+   "loop": false
+  },
+  "hit": {
+   "zh": "受击",
+   "hit": null,
+   "dur": 0.6,
+   "loop": false
+  },
+  "death": {
+   "zh": "死亡",
+   "hit": 2.2,
+   "dur": 3.2,
+   "loop": false
+  },
+  "phase": {
+   "zh": "寒誓（阶段转换）",
+   "hit": 1.1,
+   "dur": 2.8,
+   "loop": false
+  },
+  "stagger": {
+   "zh": "被打断 · 踉跄",
+   "hit": null,
+   "dur": 1.1,
+   "loop": false
+  }
+ },
+ "tex": [
+  "MI_VirgBody:mr,MI_VirgFace:mr 1024→512",
+  "MI_VirgBody:nrm 1024→1024",
+  "MI_VirgBody:base 2048→2048",
+  "MI_VirgFace:base 2048→2048",
+  "MI_VirgBody:emi 1024→1024",
+  "MI_VirgFace:nrm 1024→1024",
+  "MI_VirgFace:emi 1024→1024",
+  "MI_VirgBlade:base 512→512",
+  "MI_VirgBlade:nrm 256→256",
+  "MI_VirgBlade:emi 256→256",
+  "MI_VirgGrip:base 256→256",
+  "MI_VirgShield:base 1024→1024",
+  "MI_VirgShield:nrm 512→512",
+  "MI_VirgShield:emi 512→512"
+ ],
+ "tri": 39998,
+ "kb": 3361
+}

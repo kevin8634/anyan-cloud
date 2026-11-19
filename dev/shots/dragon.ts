@@ -1,0 +1,22 @@
+import * as THREE from 'three';
+import { makeChiyi } from '../../src/web/creatures';
+import { makeGolem } from '../../src/web/models';
+import { refineRig } from '../../src/web/gfx';
+import { loadCreatures } from '../../src/web/creatures_glb';
+(async () => { await loadCreatures(30000);
+const W = 900, H = 560;
+const r = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true }); r.setSize(W, H); r.shadowMap.enabled = true; r.outputColorSpace = THREE.SRGBColorSpace; document.body.appendChild(r.domElement);
+const sc = new THREE.Scene(); sc.background = new THREE.Color(0x3a2a24);
+sc.add(new THREE.HemisphereLight(0xffe8d0, 0x402018, 1.5));
+const sun = new THREE.DirectionalLight(0xffd8b0, 2.4); sun.position.set(6, 14, 10); sun.castShadow = true; sun.shadow.camera.left = sun.shadow.camera.bottom = -12; sun.shadow.camera.right = sun.shadow.camera.top = 12; sc.add(sun);
+const g = new THREE.Mesh(new THREE.PlaneGeometry(80, 80), new THREE.MeshLambertMaterial({ color: 0x4a3a34 })); g.rotation.x = -Math.PI / 2; g.receiveShadow = true; sc.add(g);
+const d = makeChiyi(makeGolem); refineRig(d.root); d.root.scale.multiplyScalar(2.6); sc.add(d.root); d.tick?.(0.5, false);
+const old = makeGolem(); old.root.scale.multiplyScalar(2.6); old.root.position.set(-14, 0, 0); old.flash.forEach(m => { m.color.lerp(new THREE.Color(0x3a1208), 0.6); m.emissive.setHex(0x6a1a00); }); sc.add(old.root);
+const cam = new THREE.PerspectiveCamera(40, W / H, 0.1, 300);
+(window as any).ready = 1;
+(window as any).shot = (k: number) => {
+  const views = [[0, 8, 22], [22, 8, 0], [14, 12, 16], [-7, 10, 26]];
+  const v = views[k]; cam.position.set(v[0], v[1], v[2]); cam.lookAt(k === 3 ? -7 : 0, 3.5, 0);
+  r.render(sc, cam); return r.domElement.toDataURL('image/png');
+};
+})();

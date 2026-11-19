@@ -1,0 +1,37 @@
+<html><body style="margin:0;background:#22262c"><script type="importmap">{"imports":{"three":"/node_modules/three/build/three.module.js","three/addons/":"/node_modules/three/examples/jsm/"}}</script>
+<script type="module">
+// raidA 11-02 维尔格 / 萨琳首领出图页（萨琳共用）。?glb=/相对仓库路径.glb&w=&h=&bloom=1
+// window.cam(名 | [方位角, 俯仰, 距离倍数, 目标高度比例])、window.play(动画名, 秒)、window.rest()、window.pose({骨:[x,y,z]})、window.clips
+import * as THREE from 'three';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';import {MeshoptDecoder} from 'three/addons/libs/meshopt_decoder.module.js';
+import {EffectComposer} from 'three/addons/postprocessing/EffectComposer.js';import {RenderPass} from 'three/addons/postprocessing/RenderPass.js';import {UnrealBloomPass} from 'three/addons/postprocessing/UnrealBloomPass.js';import {OutputPass} from 'three/addons/postprocessing/OutputPass.js';
+const U=new URLSearchParams(location.search),W=+U.get('w')||640,HH=+U.get('h')||640;
+const R=new THREE.WebGLRenderer({antialias:true,preserveDrawingBuffer:true});R.setSize(W,HH);document.body.appendChild(R.domElement);R.outputColorSpace=THREE.SRGBColorSpace;R.toneMapping=THREE.ACESFilmicToneMapping;R.toneMappingExposure=1.15;
+const S=new THREE.Scene();S.background=new THREE.Color(0x1d2228);S.fog=new THREE.Fog(0x1d2228,8,30);
+S.add(new THREE.HemisphereLight(0xcfe8ff,0x2a3530,1.4));const d=new THREE.DirectionalLight(0xfff4e8,2.4);d.position.set(2,4,3);S.add(d);const d2=new THREE.DirectionalLight(0x60ffd0,1.1);d2.position.set(-3,2,-2.5);S.add(d2);
+const C=new THREE.PerspectiveCamera(30,W/HH,0.01,100);
+const L=new GLTFLoader();L.setMeshoptDecoder(MeshoptDecoder);
+const g=await L.loadAsync(U.get('glb'));const m=g.scene;S.add(m);
+m.traverse(o=>{if(o.isMesh)o.frustumCulled=false;});
+const B={},Q={};m.traverse(o=>{if(o.isBone){const n=o.name.replace(/^mixamorig:?/,'');B[n]=o;Q[n]=o.quaternion.clone();}});
+const P0=B.Hips.position.clone();
+const mixer=new THREE.AnimationMixer(m);const A={};for(const c of g.animations)A[c.name]=c;window.clips=g.animations.map(c=>({name:c.name,dur:c.duration,extras:c.userData}));
+let act=null;
+window.play=(n,t)=>{if(!act||act.getClip().name!==n){mixer.stopAllAction();act=mixer.clipAction(A[n]);act.setLoop(THREE.LoopOnce);act.clampWhenFinished=true;act.play();}act.time=t;mixer.update(0);m.updateMatrixWorld(true);draw();};
+window.rest=()=>{mixer.stopAllAction();act=null;for(const n in B)B[n].quaternion.copy(Q[n]);B.Hips.position.copy(P0);m.updateMatrixWorld(true);draw();};
+const e=new THREE.Euler(),q=new THREE.Quaternion();
+window.pose=p=>{window.rest();for(const [n,v] of Object.entries(p))if(B[n]&&n[0]!='_'){e.set(...v);q.setFromEuler(e);B[n].quaternion.copy(Q[n]).multiply(q);}m.updateMatrixWorld(true);draw();};
+// 体型参照：首帧（rest）包围盒
+m.updateMatrixWorld(true);const box=new THREE.Box3().setFromObject(m);const sz=box.getSize(new THREE.Vector3()),ct=box.getCenter(new THREE.Vector3());
+const head=B.Head.getWorldPosition(new THREE.Vector3());const foot=B.LeftFoot.getWorldPosition(new THREE.Vector3());const H=head.y-foot.y;const gy=box.min.y;
+const fl=new THREE.Mesh(new THREE.CircleGeometry(H*2.5,64),new THREE.MeshStandardMaterial({color:0x2c3330,roughness:0.85,metalness:0.0}));fl.rotation.x=-Math.PI/2;fl.position.y=gy;S.add(fl);
+const ring=new THREE.Mesh(new THREE.RingGeometry(H*0.55,H*0.57,64),new THREE.MeshBasicMaterial({color:0x50f0e0,transparent:true,opacity:0.35}));ring.rotation.x=-Math.PI/2;ring.position.y=gy+0.002;S.add(ring);
+const hips=()=>B.Hips.getWorldPosition(new THREE.Vector3());
+const CAMS={front:[0,0.05,1,0.55],side:[90,0.05,1,0.55],back:[180,0.05,1,0.55],q34:[35,0.12,1,0.55],q34l:[-35,0.12,1,0.55],q34r:[-40,0.1,1.05,0.55],sider:[-90,0.05,1.05,0.55],face:[15,0.02,0.22,0.94],facef:[0,0.0,0.14,0.962],facel:[-35,0.01,0.16,0.96],torso:[25,0.06,0.5,0.72],wide:[40,0.18,1.35,0.5]};
+let cur='q34';
+window.cam=(n,nd)=>{cur=n;const [az,el,dk,ty]=Array.isArray(n)?n:CAMS[n];const D=H*3.3*dk;const t=new THREE.Vector3(ct.x,gy+H*1.08*ty,ct.z);const a=az*Math.PI/180;
+ C.position.set(t.x+Math.sin(a)*Math.cos(el)*D,t.y+Math.sin(el)*D+(dk<0.4?0:H*0.05),t.z+Math.cos(a)*Math.cos(el)*D);C.lookAt(t);if(!nd)draw();};
+let comp=null;if(U.get('bloom')!=='0'){comp=new EffectComposer(R);comp.addPass(new RenderPass(S,C));comp.addPass(new UnrealBloomPass(new THREE.Vector2(W,HH),0.55,0.5,0.82));comp.addPass(new OutputPass());}
+function draw(){if(comp)comp.render();else R.render(S,C);}
+window.info=()=>{let tris=0;m.traverse(o=>{if(o.isMesh)tris+=(o.geometry.index?o.geometry.index.count:o.geometry.attributes.position.count)/3;});return {tris,H,bones:Object.keys(B).length,clips:window.clips};};
+window.cam('q34');window.ready=true;
+</script></body></html>

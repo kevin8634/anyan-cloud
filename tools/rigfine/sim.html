@@ -1,0 +1,225 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;background:#111;font-family:"Noto Sans CJK SC",sans-serif;overflow:hidden}
+#ui{position:fixed;inset:0;pointer-events:none;color:#eee}
+.bar{position:absolute;background:#0009;border:1px solid #000;border-radius:3px;overflow:hidden}
+.fill{position:absolute;left:0;top:0;bottom:0}
+.bt{position:absolute;inset:0;text-align:center;font:bold 13px "Noto Sans CJK SC";line-height:18px;text-shadow:0 0 3px #000,0 0 2px #000}
+#cap{position:absolute;left:10px;top:56px;font:bold 15px "Noto Sans CJK SC";text-shadow:0 0 4px #000;max-width:440px;line-height:21px}
+#cap small{display:block;font-weight:normal;font-size:12px;color:#cfc8b8}
+#yell{position:absolute;left:50%;bottom:62px;transform:translateX(-50%);font:bold 15px "Noto Serif CJK SC","Noto Sans CJK SC";color:#f2e2b0;text-shadow:0 0 4px #000,0 0 8px #000;white-space:nowrap}
+.num{position:absolute;transform:translate(-50%,-50%);font:900 20px "Noto Sans CJK SC";text-shadow:0 0 3px #000,0 0 2px #000;white-space:nowrap}
+#deb{position:absolute;left:14px;bottom:36px;width:28px;height:28px;border:2px solid #b070ff;border-radius:4px;background:radial-gradient(#7a30c0,#200830);font:bold 11px sans-serif;color:#fff;text-align:center;line-height:42px}
+#warn{position:absolute;left:50%;top:118px;transform:translateX(-50%);font:bold 17px "Noto Sans CJK SC";text-shadow:0 0 4px #000}
+</style></head><body>
+<div id="ui">
+ <div id="cap"></div>
+ <div class="bar" style="left:180px;top:30px;width:360px;height:18px"><div id="bhpL" class="fill" style="background:#7a3030"></div><div id="bhp" class="fill" style="background:linear-gradient(#c03838,#801c1c)"></div><div id="bhpT" class="bt"></div></div>
+ <div id="bname" style="position:absolute;left:180px;top:10px;width:360px;text-align:center;font:bold 14px 'Noto Sans CJK SC';text-shadow:0 0 3px #000">摆渡双子 · 生与死</div>
+ <div id="cb" class="bar" style="left:230px;top:330px;width:260px;height:18px;display:none"><div id="cbf" class="fill"></div><div id="cbt" class="bt"></div></div>
+ <div class="bar" style="left:12px;bottom:12px;width:180px;height:16px"><div id="php" class="fill" style="background:linear-gradient(#3cc050,#1c7a28)"></div><div id="phpT" class="bt" style="font-size:11px;line-height:16px"></div></div>
+ <div id="deb" style="display:none"></div>
+ <div id="warn"></div><div id="yell"></div><div id="nums"></div>
+</div>
+<script type="importmap">{"imports":{"three":"./three/build/three.module.js","three/addons/":"./three/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
+const W = 720, Hh = 450, Q = new URLSearchParams(location.search);
+const R = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true }); R.setSize(W, Hh); document.body.prepend(R.domElement);
+R.shadowMap.enabled = true; R.outputColorSpace = THREE.SRGBColorSpace; R.toneMapping = THREE.ACESFilmicToneMapping;
+const S = new THREE.Scene(); S.background = new THREE.Color(0x1c232c); S.fog = new THREE.Fog(0x1c232c, 10, 24);
+const cam = new THREE.PerspectiveCamera(40, W / Hh, 0.1, 100);
+S.add(new THREE.HemisphereLight(0xc8d4ea, 0x403830, 2.2)); { const f = new THREE.DirectionalLight(0xd8dcff, 1.6); f.position.set(5, 3, 9); S.add(f); }
+const sun = new THREE.DirectionalLight(0xe8eeff, 2.0); sun.position.set(4, 8, 5); sun.castShadow = true; sun.shadow.mapSize.set(1024, 1024);
+Object.assign(sun.shadow.camera, { left: -7, right: 7, top: 7, bottom: -7 }); S.add(sun);
+// 场景：石台 + 黑水
+const water = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshStandardMaterial({ color: 0x101a24, roughness: 0.25, metalness: 0.2 }));
+water.rotation.x = -Math.PI / 2; water.position.y = -0.02; water.receiveShadow = true; S.add(water);
+const PC = new THREE.Vector3(-1.6, 0, 3.4);
+const plat = new THREE.Mesh(new THREE.CylinderGeometry(3.1, 3.3, 0.3, 40), new THREE.MeshStandardMaterial({ color: 0x4a443c, roughness: 1 }));
+plat.position.set(PC.x, -0.15 + 0.02, PC.z); plat.receiveShadow = true; S.add(plat);
+const lamp = new THREE.PointLight(0xa070ff, 0, 7); S.add(lamp);
+const glow = new THREE.PointLight(0x60ff90, 0, 7); S.add(glow);
+// 玩家替身
+const P = new THREE.Group(); { const m = c => new THREE.MeshStandardMaterial({ color: c, roughness: 0.5, metalness: 0.4 });
+  const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.2, 0.5, 4, 10), m(0x5a6a88)); body.position.y = 0.5; P.add(body);
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.15, 14, 10), m(0x9aa4b8)); head.position.y = 1.0; P.add(head);
+  const sw = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.75, 0.05), m(0xd0d8e0)); sw.position.set(0.3, 0.75, 0.15); sw.rotation.x = -0.6; P.add(sw);
+  const sh = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.05, 16), m(0x704830)); sh.rotation.z = Math.PI / 2; sh.position.set(-0.26, 0.55, 0.05); P.add(sh);
+  P.traverse(o => o.castShadow = true); }
+S.add(P); const PP = new THREE.Vector3(-1.45, 0, 2.75); P.position.copy(PP); P.lookAt(0, 0, 0);
+// 首领（精绑）
+const rig = await (await fetch(Q.get('rig'))).json();
+const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
+const gl = await loader.loadAsync(Q.get('glb'));
+let src; gl.scene.traverse(o => { if (o.isMesh) src = o; });
+const geo = src.geometry.clone(); geo.setIndex(rig.index);
+geo.setAttribute('skinIndex', new THREE.Uint16BufferAttribute(rig.si, 4)); geo.setAttribute('skinWeight', new THREE.Float32BufferAttribute(rig.sw, 4));
+const bones = {}, list = [];
+for (const b of rig.bones) { const o = new THREE.Bone(); o.name = b.name; const pp = b.parent ? rig.bones.find(x => x.name === b.parent).p : [0, 0, 0]; o.position.set(b.p[0] - pp[0], b.p[1] - pp[1], b.p[2] - pp[2]); if (b.parent) bones[b.parent].add(o); bones[b.name] = o; list.push(o); }
+const bmat = src.material.clone(); bmat.emissive = new THREE.Color(0x1a0a2a); bmat.emissiveIntensity = 1;
+const sm = new THREE.SkinnedMesh(geo, bmat); sm.add(bones.root); sm.bind(new THREE.Skeleton(list)); sm.castShadow = true; sm.frustumCulled = false;
+const holder = new THREE.Group(); holder.add(sm); sm.position.copy(src.position); sm.scale.copy(src.scale); sm.quaternion.copy(src.quaternion);
+const BG = new THREE.Group(); BG.add(holder); S.add(BG);
+const H = 2 * src.scale.y, BH = 2.3; holder.scale.setScalar(BH / H);
+const K = (BH / H) * src.scale.y;
+const rest = {}; for (const k in bones) rest[k] = bones[k].position.clone();
+const r = (k, x = 0, y = 0, z = 0) => { const b = bones[k]; if (!b) return; b.rotation.x += x; b.rotation.y += y; b.rotation.z += z; };
+const sm3 = u => u <= 0 ? 0 : u >= 1 ? 1 : u * u * (3 - 2 * u);
+const CL = await (await fetch(Q.get('clips'))).json();
+function applyClip(name, t, T) {
+  for (const k in bones) { bones[k].rotation.set(0, 0, 0); bones[k].position.copy(rest[k]); }
+  holder.rotation.set(0, -0.5, 0); holder.position.set(0, BH / 2, 0);
+  const br = Math.sin(T * 2 * Math.PI / 2.6); r('chest', br * 0.02); r('neck', -br * 0.012);
+  if (!name) return; const c = CL[name]; t = Math.max(0, Math.min(c.dur, t));
+  const ks = c.keys; let i = 0; while (i < ks.length - 1 && ks[i + 1].t <= t) i++;
+  const a = ks[i], b = ks[Math.min(i + 1, ks.length - 1)], u = b === a ? 0 : sm3((t - a.t) / (b.t - a.t));
+  const names = new Set([...Object.keys(a.b || {}), ...Object.keys(b.b || {})]);
+  for (const n of names) { const va = (a.b || {})[n] || [0, 0, 0], vb = (b.b || {})[n] || [0, 0, 0]; r(n, va[0] + (vb[0] - va[0]) * u, va[1] + (vb[1] - va[1]) * u, va[2] + (vb[2] - va[2]) * u); }
+  const L = k => (a[k] || 0) + ((b[k] || 0) - (a[k] || 0)) * u;
+  bones.root.position.y = rest.root.y + L('dy') / K; holder.position.z = L('dz'); holder.rotation.y = -0.5 + L('ry'); holder.rotation.x = L('rx');
+}
+// 静态模型（生渡、渡魂）
+async function stat(url, h, tint) {
+  const g = (await loader.loadAsync(url)).scene; const bx = new THREE.Box3().setFromObject(g), sz = bx.getSize(new THREE.Vector3());
+  g.scale.setScalar(h / sz.y); g.position.y = -bx.min.y * h / sz.y;
+  g.traverse(o => { if (o.isMesh) { o.castShadow = true; o.material = o.material.clone(); o.material.transparent = true; if (tint) { o.material.color.lerp(new THREE.Color(tint), 0.5); o.material.emissive = new THREE.Color(tint); o.material.emissiveIntensity = 0.6; } } });
+  const w = new THREE.Group(); w.add(g); w.visible = false; S.add(w); return w; }
+const LIFE = await stat('wl_ferry_life.glb', 2.2, null);
+const ADDS = []; for (let i = 0; i < 3; i++) ADDS.push(await stat('dlc1_rope_wraith.glb', 1.3, 0x5a3a9a));
+const setOp = (g, a) => g.traverse(o => { if (o.isMesh) o.material.opacity = a; });
+// 特效：地面圈、粒子、弹体、护盾
+const tex = (() => { const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d'); const gr = x.createRadialGradient(32, 32, 0, 32, 32, 32); gr.addColorStop(0, '#fff'); gr.addColorStop(0.35, '#fffa'); gr.addColorStop(1, '#fff0'); x.fillStyle = gr; x.fillRect(0, 0, 64, 64); return new THREE.CanvasTexture(c); })();
+function pts(n, color, size) { const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(n * 3), 3));
+  const m = new THREE.PointsMaterial({ color, size, map: tex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }); const p = new THREE.Points(g, m); p.frustumCulled = false; S.add(p); return p; }
+const rnd = i => { const x = Math.sin(i * 127.1 + 311.7) * 43758.5453; return x - Math.floor(x); };
+const PA = pts(220, 0xc080ff, 0.2), PB = pts(160, 0x70ff90, 0.16), PD = pts(120, 0xb8a890, 0.22);
+function disc(color) { const g = new THREE.Group();
+  const f = new THREE.Mesh(new THREE.CircleGeometry(1, 48), new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.3, depthWrite: false }));
+  const e = new THREE.Mesh(new THREE.RingGeometry(0.95, 1, 64), new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.9, depthWrite: false }));
+  const fill = new THREE.Mesh(new THREE.CircleGeometry(1, 48), new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.35, depthWrite: false }));
+  for (const m of [f, e, fill]) { m.rotation.x = -Math.PI / 2; g.add(m); } f.position.y = 0.03; e.position.y = 0.035; fill.position.y = 0.04; g.userData = { f, e, fill }; g.visible = false; S.add(g); return g; }
+const TG = [disc(0xff3020), disc(0xff3020)], RING = disc(0x60ff90), SW = disc(0xffd8a0), SW2 = disc(0xb070ff);
+const bolt = new THREE.Mesh(new THREE.SphereGeometry(0.18, 16, 12), new THREE.MeshBasicMaterial({ color: 0xd0a0ff })); bolt.visible = false; S.add(bolt);
+const boltL = new THREE.PointLight(0xa060ff, 0, 4); bolt.add(boltL);
+const shield = new THREE.Mesh(new THREE.SphereGeometry(1.45, 32, 20), new THREE.MeshBasicMaterial({ color: 0xffd070, transparent: true, opacity: 0.18, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide }));
+shield.visible = false; S.add(shield);
+const tether = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 1, 6), new THREE.MeshBasicMaterial({ color: 0xffd070, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, depthWrite: false })); tether.visible = false; S.add(tether);
+// UI
+const $ = id => document.getElementById(id);
+const wp = (o, n) => { o.updateMatrixWorld(true); return new THREE.Vector3().setFromMatrixPosition(bones[n] ? bones[n].matrixWorld : o.matrixWorld); };
+const scr = v => { const p = v.clone().project(cam); return [(p.x + 1) / 2 * W, (1 - p.y) / 2 * Hh]; };
+let nums = [];
+const num = (pos, txt, col, t0, T) => { const a = T - t0; if (a < 0 || a > 1.1) return; const [x, y] = scr(pos.clone().add(new THREE.Vector3(0, 0.3 + a * 0.6, 0))); nums.push(`<div class="num" style="left:${x}px;top:${y}px;color:${col};opacity:${Math.min(1, 2.2 - a * 2)};font-size:${a < 0.12 ? 26 : 20}px">${txt}</div>`); };
+const lerp = (a, b, u) => a + (b - a) * Math.max(0, Math.min(1, u));
+// 场景脚本：每帧 (T) → 状态；全部是 T 的纯函数，可逐帧截图
+const BOSSHP = 76000;
+function frame(sc, T) {
+  nums = []; let clip = null, ct = 0, hp = 1, php = 1, cast = null, yell = '', warn = '', deb = '', shake = 0;
+  [PA, PB, PD].forEach(p => p.visible = false); [...TG, RING, SW, SW2].forEach(d => d.visible = false); bolt.visible = false; boltL.intensity = 0;
+  shield.visible = false; tether.visible = false; LIFE.visible = false; ADDS.forEach(a => a.visible = false); lamp.intensity = 0; glow.intensity = 0;
+  BG.position.set(0, 0, 0); P.rotation.set(0, 0, 0); P.position.copy(PP); P.lookAt(0, 0, 0); bmat.emissive.set(0x1a0a2a);
+  const hand = () => wp(holder, 'handL'), handR = () => wp(holder, 'handRend');
+  const ring = (d, c, rad, a) => { d.visible = true; d.position.set(c.x, 0, c.z); d.scale.setScalar(rad); d.userData.f.material.opacity = 0.25 * a; d.userData.e.material.opacity = 0.9 * a; d.userData.fill.scale.setScalar(0.001); };
+  const burst = (p, c, t, n, sp, up, life) => { p.visible = true; const a = p.geometry.attributes.position; for (let i = 0; i < a.count; i++) { const th = rnd(i) * 6.283, s = sp * (0.4 + rnd(i + 9)), u = Math.min(t, life); a.setXYZ(i, c.x + Math.cos(th) * s * u, c.y + up * rnd(i + 3) * u - 2.5 * u * u * (up > 0 ? 0.3 : 0), c.z + Math.sin(th) * s * u); } a.needsUpdate = true; p.material.opacity = Math.max(0, 1 - t / life); };
+  const swirl = (p, c, t, rad, h, k) => { p.visible = true; const a = p.geometry.attributes.position; for (let i = 0; i < a.count; i++) { const ph = (rnd(i) + t * (0.35 + rnd(i + 5) * 0.4)) % 1, th = rnd(i + 2) * 6.283 + t * 2.5, rr = rad * (1 - k * ph); a.setXYZ(i, c.x + Math.cos(th) * rr, c.y + h * ph * (k ? 0.4 : 1), c.z + Math.sin(th) * rr); } a.needsUpdate = true; p.material.opacity = 0.9; };
+  let cap = '';
+  if (sc === 'intro') {
+    cap = '登场 · 摆渡人从黑水中升起<small>开场台词 → 进入战斗</small>'; hp = 1;
+    const u = sm3((T - 0.3) / 2.0); BG.position.y = -2.4 * (1 - u); clip = null;
+    swirl(PA, new THREE.Vector3(0, 0, 0), T, 1.1 * (1 - u * 0.5), 2.4, 0); PA.material.opacity = 1 - sm3((T - 2.6) / 0.8);
+    lamp.intensity = 4 * u; lamp.position.copy(hand());
+    if (T > 1.0) yell = '「上船。」「下船。」两个声音同时说。';
+    if (T > 2.6) { clip = 'phase2'; ct = (T - 2.6) * 0.8 + 0.3; }
+  }
+  if (sc === 'basic') {
+    cap = '普攻 · 撑篙突刺<small>近战单体 · 175 物理 · 预备 0.55s → 出手 → 收招</small>'; hp = 0.9; clip = 'basic'; ct = T - 0.3;
+    if (T > 1.05) { burst(PD, PP.clone().setY(0.7), T - 1.05, 0, 1.2, 0.4, 0.4); PD.material.color.set(0xfff0c0); }
+    num(PP.clone().setY(1.1), '-175', '#ff5050', 1.05, T); php = T > 1.05 ? 0.92 : 1;
+    if (T > 1.05 && T < 1.35) { P.rotateX(-0.25); shake = 0.04; }
+  }
+  if (sc === 'oar') {
+    cap = '船篙横击 ×2<small>地面预警 1.3s · 半径 5 · 每次 240 物理 · 两处落点间隔 7 · 冷却 9s</small>'; hp = 0.8; clip = 'oar_slam'; ct = T - 0.3;
+    const c1 = PP.clone(), c2 = PP.clone().add(new THREE.Vector3(2.4, 0, -0.6)), R5 = 1.6;
+    // 第一下：0.3→1.6 预警，1.75 落下；第二下：1.75 起预警 → 3.05 落下
+    const hit = [[0.3, 1.75, c1], [1.75, 3.05, c2]];
+    hit.forEach(([a, b, c], k) => { if (T >= a && T < b + 0.05) { ring(TG[k], c, R5, 1); TG[k].userData.fill.scale.setScalar(R5 * 0 + Math.max(0.001, (T - a) / (b - a))); } });
+    if (T > 0.3 && T < 1.75) warn = '<span style="color:#ff6050">⚠ 船篙横击 — 离开红圈！</span>';
+    if (T > 1.75 && T < 3.05) warn = '<span style="color:#ff6050">⚠ 第二击！</span>';
+    hit.forEach(([a, b, c], k) => { const d = T - b; if (d > 0 && d < 0.6) { const s = k ? SW2 : SW; ring(s, c, R5 * (0.5 + d * 1.6), 1 - d / 0.6); s.userData.e.material.color.set(0xffd8a0); burst(PD, c.clone().setY(0.05), d, 0, 3.5, 1.6, 0.6); PD.material.color.set(0xb8a890); shake = 0.08 * (1 - d / 0.6); } });
+    // 玩家在第一圈预警中途走出红圈
+    const mv = sm3((T - 0.8) / 0.6); P.position.copy(PP).add(new THREE.Vector3(-1.3 * mv, 0, 1.0 * mv));
+    if (T > 3.05) { num(c2.clone().setY(0.4), '躲开', '#ffe080', 3.05, T); }
+    num(c1.clone().setY(0.4), '躲开', '#ffe080', 1.75, T);
+  }
+  if (sc === 'death') {
+    cap = '死渡 · 读条 1.8s（暗影）<small>140 暗影 + 「死渡」持续伤害 75/秒 × 6 秒 · 冷却 12s</small>'; hp = 0.72; clip = 'death_cast'; ct = T - 0.3;
+    const L = hand(); lamp.position.copy(L); bmat.emissive.set(0x2a0a40);
+    if (T >= 0.3 && T < 2.1) { cast = ['死渡', (T - 0.3) / 1.8, '#9040e0', `${(T - 0.3).toFixed(1)} / 1.8`]; lamp.intensity = 2 + 5 * (T - 0.3) / 1.8; swirl(PA, L.clone().setY(L.y - 0.6), T, 0.55, 1.2, 0.8); }
+    const fly = (T - 2.1) / 0.35;
+    if (fly >= 0 && fly < 1) { bolt.visible = true; boltL.intensity = 4; bolt.position.lerpVectors(L, PP.clone().setY(0.8), fly); bolt.position.y += Math.sin(fly * Math.PI) * 0.5; lamp.intensity = 3; }
+    if (T > 2.45) { deb = `死渡<br>`; const dt = T - 2.45; burst(PA, PP.clone().setY(0.6), dt % 1, 0, 0.6, 1.2, 1); PA.material.opacity *= 0.8;
+      php = 1 - 0.14 - Math.min(4, Math.floor(dt)) * 0.06; }
+    num(PP.clone().setY(1.1), '-140', '#e0b0ff', 2.45, T);
+    for (let k = 1; k <= 4; k++) num(PP.clone().setY(1.0), '-75', '#d090ff', 2.45 + k, T);
+    if (T > 2.45) $('deb').textContent = Math.max(0, 6 - (T - 2.45)).toFixed(0) + 's';
+  }
+  if (sc === 'life' || sc === 'kick') {
+    const kick = sc === 'kick';
+    cap = kick ? '生渡 · 被打断<small>玩家打断后读条中止 · 生渡技能锁 3 秒 · 不回血</small>' : '生渡 · 引导 2.6s（自然）<small>回复自身 5% 生命（3800）· 可打断 · 冷却 15s</small>';
+    hp = 0.64; clip = 'life_cast'; ct = T - 0.3; const L = hand(); glow.position.copy(L);
+    const end = kick ? 1.75 : 2.9;
+    if (T >= 0.3 && T < end) { cast = ['生渡（可打断）', (T - 0.3) / 2.6, '#40c060', `${(T - 0.3).toFixed(1)} / 2.6`]; glow.intensity = 2 + 3 * (T - 0.3) / 2.6;
+      ring(RING, new THREE.Vector3(0, 0, 0), 1.2 + 0.08 * Math.sin(T * 8), 0.8); swirl(PB, new THREE.Vector3(0, 0, 0), T, 1.1, 2.6, 0); }
+    if (!kick && T >= 2.9) { const d = T - 2.9; burst(PB, new THREE.Vector3(0, 1.4, 0), d, 0, 1.4, 2.0, 0.8); hp = lerp(0.64, 0.69, d / 0.4); num(new THREE.Vector3(0, 2.3, 0), '+3800', '#60ff80', 2.9, T); if (d < 0.5) warn = '<span style="color:#70ff90">没打断 — 首领回血 5%</span>'; }
+    if (kick) {
+      if (T > 1.45 && T < 1.75) { const u = (T - 1.45) / 0.3; P.position.lerpVectors(PP, PP.clone().multiplyScalar(0.72), Math.sin(u * Math.PI)); }
+      if (T >= 1.75) { cast = T < 2.6 ? ['已打断', (1.75 - 0.3) / 2.6, '#c03030', '打断！'] : null; ct = 1.45; clip = 'life_cast';
+        const st = sm3((T - 1.75) / 0.25) * (1 - sm3((T - 2.3) / 0.8)); num(new THREE.Vector3(0, 2.3, 0), '打断！', '#ffd040', 1.75, T);
+        if (T < 2.3) burst(PD, new THREE.Vector3(0, 1.5, 0), T - 1.75, 0, 1.5, 0.5, 0.5), PD.material.color.set(0xffe060);
+        warn = '<span style="color:#ffd040">生渡锁定 3 秒</span>'; BG.userData.stag = st; }
+    }
+  }
+  if (sc === 'phase2') {
+    cap = '50% 转阶段 · 生死同渡<small>生渡从对岸上船；生渡活着，死渡锁血（30 秒门槛）· 伤害 ×1.2</small>';
+    hp = Math.max(0.5, lerp(0.53, 0.5, T / 0.5)); clip = T > 0.6 ? 'phase2' : null; ct = T - 0.6;
+    if (T > 0.6 && T < 1.5) { const d = T - 0.9; if (d > 0) { ring(SW2, new THREE.Vector3(0, 0, 0), 0.6 + d * 4, 1 - d / 0.6); SW2.userData.e.material.color.set(0xb070ff); shake = 0.05 * Math.max(0, 1 - d / 0.6); } }
+    if (T > 0.8) yell = '「生的一边，死的一边——你站哪边？」';
+    const lu = sm3((T - 1.6) / 1.4); if (T > 1.6) { LIFE.visible = true; setOp(LIFE, Math.min(1, lu * 1.5)); LIFE.position.set(1.7, -1.8 * (1 - lu), -1.0); LIFE.lookAt(PP.x, 0, PP.z); LIFE.position.y = -1.8 * (1 - lu);
+      glow.intensity = 3; glow.position.set(1.7, 1.6, -1.0); swirl(PB, new THREE.Vector3(1.7, 0, -1.0), T, 0.9, 2.4, 0); PB.material.opacity = 0.6; }
+    if (T > 3.0) { shield.visible = true; shield.position.set(0, 1.2, 0); shield.material.opacity = 0.12 + 0.06 * Math.sin(T * 6);
+      tether.visible = true; const a = new THREE.Vector3(1.7, 1.3, -1.0), b = new THREE.Vector3(0, 1.3, 0); tether.position.lerpVectors(a, b, 0.5); tether.scale.y = a.distanceTo(b); tether.lookAt(b); tether.rotateX(Math.PI / 2);
+      warn = '<span style="color:#ffd070">生渡存活：死渡锁血 — 先击倒生渡</span>'; }
+    if (T > 3.6) num(new THREE.Vector3(0, 2.4, 0), '免疫', '#ffd070', 3.6, T);
+  }
+  if (sc === 'ferry') {
+    cap = '渡魂 · 召唤 3 只渡魂（二阶段）<small>划桨两下，渡魂从黑水爬上石台 · 每只 3200 生命 · 冷却 24s</small>'; hp = 0.44; clip = 'summon'; ct = T - 0.3;
+    const sp = [new THREE.Vector3(-0.2, 0, 2.2), new THREE.Vector3(-2.9, 0, 2.3), new THREE.Vector3(-0.9, 0, 4.6)];
+    sp.forEach((p, i) => { const t0 = 1.2 + i * 0.5, u = sm3((T - t0) / 1.0); if (T > t0 - 0.3) { const a = ADDS[i]; a.visible = true; setOp(a, Math.min(1, u * 1.3));
+      a.position.set(p.x, -1.3 * (1 - u) + 0.08 * Math.sin(T * 3 + i), p.z); a.lookAt(P.position.x, a.position.y, P.position.z);
+      const ph = T - t0; if (ph > -0.3 && ph < 1.4) { ring(i === 0 ? SW2 : i === 1 ? RING : SW, p, 0.55 + 0.1 * Math.sin(T * 9), 1 - Math.max(0, ph - 0.9) / 0.5); const d = [SW2, RING, SW][i]; d.userData.e.material.color.set(0xa060ff); d.userData.f.material.color.set(0x6030a0); } } });
+    swirl(PA, new THREE.Vector3(-1.3, 0, 3.0), T, 2.2, 1.6, 0); PA.material.opacity = T > 1.0 && T < 3.6 ? 0.7 : 0;
+    lamp.intensity = 3; lamp.position.copy(hand());
+    if (T > 1.3) warn = '<span style="color:#c090ff">渡魂 ×3 出现</span>';
+  }
+  if (sc === 'die') {
+    cap = '死亡<small>船篙沉入黑水 · 跪倒 · 前扑</small>'; hp = Math.max(0, lerp(0.02, 0, T / 0.4)); clip = 'death'; ct = T - 0.3;
+    if (T > 1.0) yell = '两支船篙一起沉进了黑水。';
+    if (T > 2.4) { swirl(PA, new THREE.Vector3(0, 0, 0.5), T, 0.8, 1.6, 0); PA.material.opacity = Math.max(0, 1 - (T - 2.4) / 1.6); bmat.emissive.set(0x000000); }
+  }
+  applyClip(clip, ct, T);
+  if (BG.userData.stag && sc === 'kick') { holder.rotation.x = -0.22 * BG.userData.stag; holder.position.z = -0.25 * BG.userData.stag; }
+  BG.userData.stag = 0;
+  cam.position.set(4.0 + Math.sin(T * 61) * shake, 3.6 + Math.cos(T * 53) * shake, 7.4); cam.lookAt(-0.5, 1.0, 1.4);
+  // UI
+  $('cap').innerHTML = cap; $('bhp').style.width = hp * 100 + '%'; $('bhpL').style.width = hp * 100 + '%';
+  $('bhpT').textContent = `${Math.round(hp * BOSSHP).toLocaleString()} / ${BOSSHP.toLocaleString()}  (${Math.round(hp * 100)}%)`;
+  $('php').style.width = php * 100 + '%'; $('phpT').textContent = `玩家 ${Math.round(php * 100)}%`;
+  const cb = $('cb'); cb.style.display = cast ? 'block' : 'none';
+  if (cast) { $('cbf').style.width = Math.min(1, cast[1]) * 100 + '%'; $('cbf').style.background = cast[2]; $('cbt').textContent = `${cast[0]}   ${cast[3]}`; const [x, y] = scr(new THREE.Vector3(0, 0, 0)); cb.style.left = (x - 130) + 'px'; cb.style.top = (y + 14) + 'px'; }
+  $('yell').textContent = yell; $('warn').innerHTML = warn; $('deb').style.display = deb ? 'block' : 'none'; $('nums').innerHTML = nums.join('');
+  R.render(S, cam);
+}
+window.sim = frame; window.ready = true; frame('basic', 0);
+</script></body></html>

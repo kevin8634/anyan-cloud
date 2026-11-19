@@ -1,0 +1,22 @@
+// v0.9.3a 真实 Chromium 冒烟：node test/terrain-check.mjs [输出目录]
+import { chromium } from 'playwright-core';
+import { resolve } from 'path';
+import { mkdirSync } from 'fs';
+const OUT = process.argv[2] || '/tmp/terrain'; mkdirSync(OUT, { recursive: true });
+const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const page = await b.newPage({ viewport: { width: 1280, height: 720 } });
+const errors = []; page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type() === 'error') errors.push(m.text().slice(0, 300)); });
+await page.goto('file://' + resolve('web/index.html') + '?perf=1&intro=0', { waitUntil: 'commit' });
+await page.waitForFunction(() => window.__game && document.getElementById('start').textContent === '开始冒险', null, { timeout: 120000 });
+await page.click('#start'); await page.waitForTimeout(2500);
+await page.evaluate(() => { const g = window.__game; g.progression.addXp(60000); g.ensureWild('ember'); g.goMap('ember'); });
+await page.waitForFunction(() => window.__game.zone === 'ember', null, { timeout: 30000 }).catch(() => {}); await page.waitForTimeout(8000);
+const r0 = await page.evaluate(() => ({ zone: window.__game.zone, ...window.__game.perf() }));
+await page.screenshot({ path: `${OUT}/ember.png` });
+await page.evaluate(() => window.__game.stressSpawn(160));
+await page.waitForTimeout(4000);
+const r1 = await page.evaluate(() => window.__game.perf());
+await page.screenshot({ path: `${OUT}/ember_stress.png` });
+console.log('perf', JSON.stringify(r0)); console.log('stress', JSON.stringify(r1));
+console.log('errors:', errors.length ? errors : 'none');
+await b.close();

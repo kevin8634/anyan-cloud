@@ -1,0 +1,2 @@
+{ "compilerOptions": { "target": "ES2020", "module": "ESNext", "moduleResolution": "bundler", "strict": true, "noEmit": true, "lib": ["ES2020", "DOM"], "skipLibCheck": true },
+  "include": ["../src/dlc/**/*.ts", "../src/web/**/*.ts", "../src/core/**/*.ts", "../src/data/**/*.ts"] }

@@ -1,0 +1,196 @@
+{
+ "version": 5,
+ "savedAt": 1760000000000,
+ "classId": "warrior",
+ "level": {
+  "level": 28,
+  "xp": 12
+ },
+ "talents": {},
+ "quests": {
+  "active": {},
+  "done": [
+   "q_wolves",
+   "q_fangs",
+   "q_mine"
+  ]
+ },
+ "playMs": 3600000,
+ "look": 1,
+ "elite": 0,
+ "name": "样本",
+ "tutorial": -1,
+ "waypoints": [
+  "camp",
+  "field",
+  "redsand"
+ ],
+ "inventory": {
+  "gold": 4100,
+  "bag": [
+   {
+    "id": "it_mvdipzn5_2_fsoq",
+    "baseId": "b_mace",
+    "name": "铁头战锤",
+    "slot": "oneHand",
+    "quality": "blue",
+    "itemLevel": 26,
+    "hp": 440,
+    "armor": 0,
+    "modifiers": [
+     {
+      "id": "it_mvdipzn5_2_fsoq:a_dmg",
+      "name": "铁头战锤",
+      "source": "equipment",
+      "desc": "所有技能伤害 +27%",
+      "match": {},
+      "ops": [
+       {
+        "op": "mul",
+        "stat": "damage",
+        "value": 0.27
+       }
+      ]
+     }
+    ],
+    "lines": [
+     "所有技能伤害 +27%",
+     "生命 +348"
+    ],
+    "sellPrice": 513,
+    "weaponType": "mace",
+    "bonus": {
+     "power": 60
+    }
+   }
+  ],
+  "equipped": {
+   "chest": {
+    "id": "it_mvdipzn4_0_b8rv",
+    "baseId": "b_chest",
+    "name": "链甲衫",
+    "slot": "chest",
+    "quality": "purple",
+    "itemLevel": 28,
+    "hp": 1414,
+    "armor": 355,
+    "modifiers": [
+     {
+      "id": "it_mvdipzn4_0_b8rv:a_aoe",
+      "name": "链甲衫",
+      "source": "equipment",
+      "desc": "范围技能半径 +34%",
+      "match": {
+       "tagsAny": [
+        "aoe"
+       ]
+      },
+      "ops": [
+       {
+        "op": "mul",
+        "stat": "radius",
+        "value": 0.34
+       }
+      ]
+     }
+    ],
+    "lines": [
+     "护甲 +135",
+     "生命 +446",
+     "范围技能半径 +34%"
+    ],
+    "sellPrice": 976,
+    "armorType": "plate",
+    "upgrade": 7,
+    "baseHp": 832,
+    "baseArmor": 355
+   },
+   "head": {
+    "id": "it_mvdipzn5_1_9osc",
+    "baseId": "b_helm",
+    "name": "铁盔",
+    "slot": "head",
+    "quality": "blue",
+    "itemLevel": 28,
+    "hp": 195,
+    "armor": 98,
+    "modifiers": [
+     {
+      "id": "it_mvdipzn5_1_9osc:a_ult",
+      "name": "铁盔",
+      "source": "equipment",
+      "desc": "大招伤害 +51%",
+      "match": {
+       "slots": [
+        "ultimate"
+       ]
+      },
+      "ops": [
+       {
+        "op": "mul",
+        "stat": "damage",
+        "value": 0.51
+       }
+      ]
+     },
+     {
+      "id": "it_mvdipzn5_1_9osc:a_cd",
+      "name": "铁盔",
+      "source": "equipment",
+      "desc": "技能冷却 -20%",
+      "match": {
+       "slots": [
+        "skill1",
+        "skill2",
+        "skill3"
+       ]
+      },
+      "ops": [
+       {
+        "op": "mul",
+        "stat": "cooldown",
+        "value": -0.2
+       }
+      ]
+     }
+    ],
+    "lines": [
+     "大招伤害 +51%",
+     "技能冷却 -20%"
+    ],
+    "sellPrice": 549,
+    "armorType": "plate"
+   }
+  },
+  "stacks": {
+   "mat_dust": 12,
+   "mat_shard": 3,
+   "potion_s": 4
+  }
+ },
+ "codex": [
+  "b_chest|purple",
+  "fixed|狂怒头盔"
+ ],
+ "bank": [
+  {
+   "id": "it_mvdipzn5_3_hrl",
+   "baseId": "b_sabaton",
+   "name": "钢铁战靴",
+   "slot": "feet",
+   "quality": "green",
+   "itemLevel": 20,
+   "hp": 85,
+   "armor": 46,
+   "modifiers": [],
+   "lines": [
+    "移动速度 +8%"
+   ],
+   "sellPrice": 180,
+   "armorType": "plate",
+   "bonus": {
+    "speed": 8
+   }
+  }
+ ]
+}

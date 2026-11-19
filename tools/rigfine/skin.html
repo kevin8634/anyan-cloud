@@ -1,0 +1,50 @@
+<html><body style="margin:0;background:#2a2d33"><script type="importmap">{"imports":{"three":"./three/build/three.module.js","three/addons/":"./three/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+const R=new THREE.WebGLRenderer({antialias:true});R.setSize(480,480);document.body.appendChild(R.domElement);R.outputColorSpace=THREE.SRGBColorSpace;
+const S=new THREE.Scene();S.add(new THREE.HemisphereLight(0xdde4ff,0x332b22,1.6));const d=new THREE.DirectionalLight(0xffffff,2);d.position.set(2,4,3);S.add(d);
+const C=new THREE.PerspectiveCamera(35,1,0.01,100);
+const g=await new GLTFLoader().loadAsync('ferry_t.glb');const m=g.scene;S.add(m);
+const box=new THREE.Box3().setFromObject(m);const sz=box.getSize(new THREE.Vector3()),ct=box.getCenter(new THREE.Vector3());
+const H=sz.y;C.position.set(ct.x+H*0.9,ct.y+H*0.15,ct.z+H*2.2);C.lookAt(ct);
+const fl=new THREE.Mesh(new THREE.CircleGeometry(H,32),new THREE.MeshStandardMaterial({color:0x444038}));fl.rotation.x=-Math.PI/2;fl.position.y=box.min.y;S.add(fl);
+const B={},Q={};m.traverse(o=>{if(o.isBone){const n=o.name.replace('mixamorig:','').replace('mixamorig','');B[n]=o;Q[n]=o.quaternion.clone();}});
+// 船篙：位置跟右手，朝向世界欧拉 _pw，握点偏移 _pg
+const pole=new THREE.Mesh(new THREE.CylinderGeometry(H*0.012,H*0.014,H*1.3,8),new THREE.MeshStandardMaterial({color:0x3e2c1e,roughness:0.8}));
+const pg=new THREE.Group();pg.add(pole);S.add(pg);
+const e=new THREE.Euler(),q=new THREE.Quaternion();
+// 长袍下摆：附加 SkinnedMesh，权重 Hips + 双 UpLeg
+let SM=null;m.traverse(o=>{if(o.isSkinnedMesh&&!SM)SM=o;});
+const sk=SM.skeleton,bi=n=>sk.bones.findIndex(b=>b.name.replace(/^mixamorig:?/,'')==n);
+const iH=bi('Hips'),iL=bi('LeftUpLeg'),iR=bi('RightUpLeg'),iLL=bi('LeftLeg'),iRL=bi('RightLeg');
+const inv=new THREE.Matrix4().copy(SM.matrixWorld).invert();
+const bp=n=>B[n].getWorldPosition(new THREE.Vector3()).applyMatrix4(inv);
+const pH=bp('Hips'),pK=bp('LeftLeg'),pLeg=bp('LeftUpLeg');
+const pos=SM.geometry.attributes.position;
+const y0=pH.y+(pH.y-pK.y)*0.25, y1=pK.y-(pH.y-pK.y)*0.75; // 腰上一点 到 小腿中段
+const NA=40,NY=10,cx=pH.x,cz=pH.z;
+const rad=(y,band)=>{const r=new Array(NA).fill(0);for(let i=0;i<pos.count;i++){const vy=pos.getY(i);if(Math.abs(vy-y)>band)continue;const dx=pos.getX(i)-cx,dz=pos.getZ(i)-cz;const a=Math.floor(((Math.atan2(dz,dx)+Math.PI)/(2*Math.PI))*NA)%NA;r[a]=Math.max(r[a],Math.hypot(dx,dz));}
+ const mx=Math.max(...r);return r.map(v=>Math.max(v,mx*0.75));};
+const rTop=rad(y0,(y0-y1)*0.04);const span=Math.abs(pLeg.x-pH.x)*2;
+const P=[],SI=[],SW=[],IDX=[],UV=[];
+for(let j=0;j<=NY;j++){const t=j/NY,y=y0+(y1-y0)*t;for(let a=0;a<=NA;a++){const th=(a%NA+0.5)/NA*2*Math.PI-Math.PI;
+ const r=rTop[a%NA]*(1.04+0.38*t*t)*(1+0.035*t*Math.sin(th*9+1));P.push(cx+Math.cos(th)*r,y,cz+Math.sin(th)*r);UV.push(a/NA,t);
+ const sx=Math.cos(th);const side=THREE.MathUtils.clamp(0.5+0.9*sx*(sx>0?1:1),0,1);// 1=+x侧
+ const wl=t*0.85;const wh=1-wl;const lp=pLeg.x>pH.x?side:1-side;
+ SI.push(iH,iL,iR,0);SW.push(wh,wl*lp,wl*(1-lp),0);}}
+for(let j=0;j<NY;j++)for(let a=0;a<NA;a++){const k=j*(NA+1)+a;IDX.push(k,k+1,k+NA+1,k+1,k+NA+2,k+NA+1);}
+const G=new THREE.BufferGeometry();G.setAttribute('position',new THREE.Float32BufferAttribute(P,3));G.setAttribute('uv',new THREE.Float32BufferAttribute(UV,2));
+G.setAttribute('skinIndex',new THREE.Uint16BufferAttribute(SI,4));G.setAttribute('skinWeight',new THREE.Float32BufferAttribute(SW,4));G.setIndex(IDX);G.computeVertexNormals();
+const robe=new THREE.SkinnedMesh(G,new THREE.MeshStandardMaterial({color:0x252a22,roughness:0.92,side:THREE.DoubleSide}));
+SM.parent.add(robe);robe.position.copy(SM.position);robe.quaternion.copy(SM.quaternion);robe.scale.copy(SM.scale);robe.bind(sk,SM.bindMatrix);
+const hip0=B.Hips.position.clone();
+function set(n,x,y,z){const b=B[n];if(!b)return;e.set(x,y,z);q.setFromEuler(e);b.quaternion.copy(Q[n]).multiply(q);}
+window.bones=Object.keys(B);
+window.pose=(p)=>{for(const n in B)B[n].quaternion.copy(Q[n]);B.Hips.position.copy(hip0);
+ for(const [n,v] of Object.entries(p))if(n[0]!='_')set(n,...v);
+ if(p._hy){m.updateMatrixWorld(true);const s=B.Hips.parent.getWorldScale(new THREE.Vector3()).y;B.Hips.position.y+=p._hy*H/s;}
+ m.updateMatrixWorld(true);
+ B.RightHand.getWorldPosition(pg.position);const w=p._pw||[0,0,0];pg.rotation.set(w[0],w[1],w[2],'YXZ');pole.position.set(0,(p._pg??0.15)*H,0);
+ pg.visible=!p._nopole;R.render(S,C);};
+window.pose({});window.ready=true;
+</script></body></html>

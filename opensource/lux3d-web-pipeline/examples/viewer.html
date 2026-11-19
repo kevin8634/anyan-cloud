@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>Lux3D 道具查看器 · 熔炉成形</title>
+<style>html,body{margin:0;height:100%;background:#07040a;color:#ffd9a0;font:14px sans-serif}#ui{position:fixed;left:12px;top:12px;z-index:2}button,input{margin-right:6px}</style>
+<script type="importmap">{ "imports": { "three": "../node_modules/three/build/three.module.js", "three/addons/": "../node_modules/three/examples/jsm/" } }</script>
+</head><body>
+<div id="ui">选一个 GLB：<input type="file" id="f" accept=".glb"> <label><input type="checkbox" id="flip">翻转</label> <button id="again">再铸一次</button></div>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { loadProp, forgeReveal, propEnv } from '../web/lux3d-prop.js';
+const r = new THREE.WebGLRenderer({ antialias: true }); r.setPixelRatio(Math.min(2, devicePixelRatio)); r.setSize(innerWidth, innerHeight);
+r.toneMapping = THREE.ACESFilmicToneMapping; document.body.appendChild(r.domElement);
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0x07040a); scene.environment = propEnv();
+const cam = new THREE.PerspectiveCamera(40, innerWidth / innerHeight, 0.05, 50); cam.position.set(0, 0.7, 2.6);
+const ctl = new OrbitControls(cam, r.domElement); ctl.target.set(0, 0.5, 0);
+scene.add(new THREE.AmbientLight(0x403040, 0.8)); const key = new THREE.DirectionalLight(0x9fd8ff, 1.2); key.position.set(-2, 3, 2); scene.add(key);
+const fire = new THREE.PointLight(0xff6a20, 6, 6, 1.6); fire.position.set(0, -0.2, 0.4); scene.add(fire);
+const comp = new EffectComposer(r); comp.addPass(new RenderPass(scene, cam)); comp.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth / 2, innerHeight / 2), 0.8, 0.5, 0.9)); comp.addPass(new OutputPass());
+let mesh = null, set = null, t0 = 0, buf = null;
+async function show() {
+  if (!buf) return; if (mesh) scene.remove(mesh);
+  mesh = await loadProp(buf.slice(0), { len: 1.2, anchor: 0, flip: document.getElementById('flip').checked });
+  set = forgeReveal(mesh); scene.add(mesh); t0 = performance.now();
+}
+document.getElementById('f').onchange = async e => { buf = await e.target.files[0].arrayBuffer(); show(); };
+document.getElementById('again').onclick = show; document.getElementById('flip').onchange = show;
+addEventListener('resize', () => { r.setSize(innerWidth, innerHeight); comp.setSize(innerWidth, innerHeight); cam.aspect = innerWidth / innerHeight; cam.updateProjectionMatrix(); });
+r.setAnimationLoop(() => { if (mesh) { const k = (performance.now() - t0) / 2400; set(k); mesh.rotation.y += 0.01; } ctl.update(); comp.render(); });
+</script></body></html>

@@ -1,0 +1,17 @@
+import { NodeIO } from '@gltf-transform/core';
+import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
+import { dequantize } from '@gltf-transform/functions';
+import { MeshoptDecoder } from 'meshoptimizer';
+import { writeFileSync } from 'fs';
+await MeshoptDecoder.ready;
+const io = new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({ 'meshopt.decoder': MeshoptDecoder });
+const [src, pre] = process.argv.slice(2);
+const doc = await io.read(src); await doc.transform(dequantize());
+const node = doc.getRoot().listNodes().find(n => n.getMesh()); const p = node.getMesh().listPrimitives()[+(process.env.PRIM||0)];
+const M = node.getWorldMatrix(); console.log('world', M.map(v=>+v.toFixed(3)).join(','));
+const f = (n) => { const a = p.getAttribute(n); if (!a) return; const k = a.getElementSize(), o = new Float32Array(a.getCount()*k), e=[]; for (let i=0;i<a.getCount();i++){a.getElement(i,e);o.set(e,i*k);} writeFileSync(`${pre}.${n.toLowerCase()}`, Buffer.from(o.buffer)); console.log(n, a.getCount()); };
+['POSITION','NORMAL','TEXCOORD_0','TANGENT'].forEach(f);
+writeFileSync(`${pre}.idx`, Buffer.from((p.getIndices() ? new Uint32Array(p.getIndices().getArray()) : Uint32Array.from({length: p.getAttribute("POSITION").getCount()}, (_, i) => i)).buffer));
+const m = p.getMaterial(); console.log('mat', m.getName(), 'base', !!m.getBaseColorTexture(), 'mr', !!m.getMetallicRoughnessTexture(), 'nrm', !!m.getNormalTexture(), m.getRoughnessFactor(), m.getMetallicFactor());
+writeFileSync(`${pre}_base.${m.getBaseColorTexture().getMimeType().split('/')[1]}`, m.getBaseColorTexture().getImage());
+if (m.getMetallicRoughnessTexture()) writeFileSync(`${pre}_mr.${m.getMetallicRoughnessTexture().getMimeType().split('/')[1]}`, m.getMetallicRoughnessTexture().getImage());

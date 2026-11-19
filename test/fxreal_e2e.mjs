@@ -1,0 +1,40 @@
+// v1.2.57 写实特效库 v1：命中层不发白（碎屑 / 尘土 / 烟走正常混合）+ 地面痕迹（血迹 / 裂纹 / 焦痕 / 腐蚀 / 霜 / 墨渍）持续后淡出
+// node test/fxreal_e2e.mjs [html]   截图 → shots_fxreal/
+import { chromium } from 'playwright-core'; import { resolve } from 'path'; import { mkdirSync } from 'fs';
+const ROOT = new URL('..', import.meta.url).pathname, HTML = resolve(ROOT, process.argv[2] || 'web/index.html'), OUT = resolve(ROOT, 'shots_fxreal'); mkdirSync(OUT, { recursive: true });
+let fail = 0, n = 0; const ok = (c, m) => { n++; console.log(`${c ? '✓' : '✗'} ${m}`); if (!c) fail++; };
+const errors = [];
+const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const page = await b.newPage({ viewport: { width: 800, height: 540 } }); page.on('pageerror', e => errors.push(e.message));
+await page.addInitScript(() => { if (!sessionStorage.getItem('__init')) { localStorage.clear(); localStorage.setItem('darkrock_settings', JSON.stringify({ quality: 'medium' })); sessionStorage.setItem('__init', '1'); } });
+page.setDefaultNavigationTimeout(180000); await page.goto('file://' + HTML);
+await page.waitForFunction(() => window.__game && document.getElementById('start').textContent === '开始冒险', null, { timeout: 240000 });
+await page.evaluate(() => window.__game.startGame('warrior')); await page.waitForTimeout(2000);
+await page.evaluate(() => window.__game.tutFinish?.());
+await page.waitForTimeout(20000);   // 出生光效散掉
+const marks = () => page.evaluate(() => window.__game.fxReal.markCount());
+const m0 = await marks();
+await page.evaluate(() => { const g = window.__game, p = g.player.pos, F = g.fxReal; const els = ['physical', 'physical', 'fire', 'frost', 'nature', 'shadow'];
+  els.forEach((el, i) => { const a = i / els.length * 6.28; const q = { x: p.x + Math.cos(a) * 2.6, y: 1, z: p.z + Math.sin(a) * 2.6 }; F.elementHit(q, el, true); });
+  F.groundMark({ x: p.x + 1.2, z: p.z - 1.2 }, 'blood', 1, 6); F.groundMark({ x: p.x - 1.2, z: p.z + 1.2 }, 'crack', 1, 6); });
+await page.waitForTimeout(500);
+const m1 = await marks();
+ok(m1 - m0 >= 5, `地面痕迹贴花新增 ${m1 - m0} 块（血迹 / 裂纹 / 霜 / 腐蚀 / 墨渍）`);
+await page.screenshot({ path: OUT + '/1_marks.png' });
+const blend = await page.evaluate(() => { let nrm = 0; window.__game.scene.traverse(o => { if (o.isPoints && o.material?.blending === 1 && o.geometry.getAttribute('alpha')) { const a = o.geometry.getAttribute('alpha').array; for (let i = 0; i < a.length; i++) if (a[i] > 0.01) nrm++; } }); return nrm; });
+ok(blend > 0, `正常混合粒子在飞（${blend} 个：尘土 / 碎屑 / 烟）`);
+const cap = await page.evaluate(() => { const g = window.__game, p = g.player.pos; for (let i = 0; i < 60; i++) g.fxReal.groundMark({ x: p.x + (Math.random() - 0.5) * 8, z: p.z + (Math.random() - 0.5) * 8 }, 'blood', 0.5, 6); return true; });
+await page.waitForTimeout(2500);
+const live = await marks();
+ok(cap && live > 0 && live <= 36, `同屏痕迹有上限（可见 ${live} 块，上限 36）`);
+await page.waitForTimeout(9000);
+await page.waitForFunction(() => window.__game.fxReal.markCount() === 0, null, { timeout: 120000, polling: 500 }).catch(() => {});
+const m2 = await marks();
+ok(m2 === 0, `约 6 秒后痕迹淡出（剩 ${m2} 块）`);
+const mats = await page.evaluate(() => { const F = window.__game.fxReal, p = window.__game.player.pos; const r = ['skeleton|骷髅战士', 'golem|铜钟傀儡', 'wraith|哀歌幽魂', 'wolf|灰鬃狼', 'dummy|训练假人', 'rock|岩甲蜥'].map(t => F.hitMatOf(...t.split('|')));
+  ['bone', 'metal', 'stone', 'ghost', 'wood', 'flesh'].forEach((m, i) => F.matHit({ x: p.x + i - 2.5, y: 1, z: p.z + 2 }, m, true)); return r.join(','); });
+ok(mats === 'bone,metal,ghost,flesh,wood,stone', `受击材质推断：${mats}`);
+await page.waitForTimeout(400); await page.screenshot({ path: OUT + '/2_materials.png' });
+ok(errors.length === 0, `页面错误 ${errors.length}：${errors.slice(0, 2).join(' | ')}`);
+await b.close();
+console.log(fail ? `✗ fxreal_e2e ${n - fail}/${n}` : `✓ fxreal_e2e ${n}/${n}`); process.exitCode = fail ? 1 : 0;

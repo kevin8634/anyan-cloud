@@ -1,0 +1,333 @@
+{
+ "version": 5,
+ "savedAt": 1760700000000,
+ "classId": "warrior",
+ "level": {
+  "level": 30,
+  "xp": 12
+ },
+ "talents": {},
+ "quests": {
+  "active": {},
+  "done": [
+   "q_wolves",
+   "q_fangs",
+   "q_mine"
+  ]
+ },
+ "playMs": 3600000,
+ "look": 1,
+ "elite": 0,
+ "name": "样本",
+ "tutorial": -1,
+ "waypoints": [
+  "camp",
+  "field",
+  "redsand"
+ ],
+ "inventory": {
+  "gold": 15000,
+  "bag": [
+   {
+    "id": "it_mvdipznb_c_77ro",
+    "baseId": "b_sabaton",
+    "name": "钢铁战靴",
+    "slot": "feet",
+    "quality": "green",
+    "itemLevel": 33,
+    "hp": 509,
+    "armor": 68,
+    "modifiers": [],
+    "lines": [
+     "生命 +383"
+    ],
+    "sellPrice": 284,
+    "armorType": "plate",
+    "affixLog": [
+     {
+      "id": "a_hp",
+      "r": 0.3864648106444929
+     }
+    ]
+   }
+  ],
+  "equipped": {
+   "mainHand": {
+    "id": "it_mvdipzna_9_fx0w",
+    "baseId": "b_greataxe",
+    "name": "裂地者",
+    "slot": "twoHand",
+    "quality": "dark",
+    "itemLevel": 40,
+    "hp": 1110,
+    "armor": 0,
+    "modifiers": [
+     {
+      "id": "it_mvdipzna_9_fx0w:rift",
+      "name": "雷霆一击留下 4 秒熔岩裂缝（持续火焰伤害）",
+      "source": "equipment",
+      "desc": "雷霆一击留下 4 秒熔岩裂缝（持续火焰伤害）",
+      "match": {
+       "skillIds": [
+        "thunderclap"
+       ]
+      },
+      "ops": [
+       {
+        "op": "addEffect",
+        "effect": {
+         "type": "groundZone",
+         "element": "fire",
+         "dps": 60,
+         "radius": 3.2,
+         "duration": 4
+        }
+       }
+      ]
+     },
+     {
+      "id": "it_mvdipzna_9_fx0w:rift2",
+      "name": "雷霆一击伤害 +30%",
+      "source": "equipment",
+      "desc": "雷霆一击伤害 +30%",
+      "match": {
+       "skillIds": [
+        "thunderclap"
+       ]
+      },
+      "ops": [
+       {
+        "op": "mul",
+        "stat": "damage",
+        "value": 0.3
+       }
+      ]
+     },
+     {
+      "id": "it_mvdipzna_9_fx0w:a_basic",
+      "name": "裂地者",
+      "source": "equipment",
+      "desc": "普通攻击伤害 +95%",
+      "match": {
+       "slots": [
+        "basic"
+       ]
+      },
+      "ops": [
+       {
+        "op": "mul",
+        "stat": "damage",
+        "value": 0.9500000000000001
+       }
+      ]
+     }
+    ],
+    "lines": [
+     "❖ 雷霆一击留下 4 秒熔岩裂缝（持续火焰伤害）",
+     "❖ 雷霆一击伤害 +30%",
+     "生命 +1110",
+     "〔霜〕普通攻击伤害 +95%"
+    ],
+    "sellPrice": 4590,
+    "weaponType": "greataxe",
+    "bonus": {
+     "power": 273,
+     "critDmg": 34.7
+    },
+    "fixedId": "d_rifter",
+    "affixLog": [
+     {
+      "id": "a_hp",
+      "r": 0.8267704662060228
+     },
+     {
+      "id": "a_basic",
+      "r": 0.343446856990199,
+      "el": "frost"
+     }
+    ],
+    "tier": "raid",
+    "source": "熔心王座"
+   },
+   "ring1": {
+    "id": "it_mvdipzna_a_dzht",
+    "baseId": "b_signet",
+    "name": "蓝宝石印戒",
+    "slot": "ring",
+    "quality": "purple",
+    "itemLevel": 36,
+    "hp": 703,
+    "armor": 0,
+    "modifiers": [
+     {
+      "id": "it_mvdipzna_a_dzht:a_dmg",
+      "name": "蓝宝石印戒",
+      "source": "equipment",
+      "desc": "所有技能伤害 +35%",
+      "match": {},
+      "ops": [
+       {
+        "op": "mul",
+        "stat": "damage",
+        "value": 0.35000000000000003
+       }
+      ]
+     },
+     {
+      "id": "it_mvdipzna_a_dzht:eng:ember",
+      "name": "技能命中 6% 几率重置大招冷却",
+      "source": "equipment",
+      "desc": "技能命中 6% 几率重置大招冷却",
+      "match": {
+       "slots": [
+        "skill1",
+        "skill2",
+        "skill3"
+       ]
+      },
+      "ops": [
+       {
+        "op": "addEffect",
+        "effect": {
+         "type": "resetCooldown",
+         "slot": "ultimate",
+         "chance": 0.06
+        }
+       }
+      ]
+     }
+    ],
+    "lines": [
+     "✦ 拓印「王座余烬」：技能命中 6% 几率重置大招冷却",
+     "〔火〕所有技能伤害 +35%",
+     "〔岩〕暴击率 +6%",
+     "〔霜〕生命 +581"
+    ],
+    "sellPrice": 1232,
+    "bonus": {
+     "power": 27,
+     "crit": 6
+    },
+    "affixLog": [
+     {
+      "id": "a_dmg",
+      "r": 0.48976356512390246,
+      "el": "fire"
+     },
+     {
+      "id": "a_crit",
+      "r": 0.3882576839012363,
+      "el": "stone"
+     },
+     {
+      "id": "a_hp",
+      "r": 0.42829133822968757,
+      "el": "frost"
+     }
+    ],
+    "engraveId": "d_throne_ember"
+   },
+   "chest": {
+    "id": "it_mvdipzna_b_7u5b",
+    "baseId": "b_chest",
+    "name": "链甲衫",
+    "slot": "chest",
+    "quality": "purple",
+    "itemLevel": 36,
+    "hp": 1106,
+    "armor": 624,
+    "modifiers": [
+     {
+      "id": "it_mvdipzna_b_7u5b:a_aoe",
+      "name": "链甲衫",
+      "source": "equipment",
+      "desc": "范围技能半径 +65%",
+      "match": {
+       "tagsAny": [
+        "aoe"
+       ]
+      },
+      "ops": [
+       {
+        "op": "mul",
+        "stat": "radius",
+        "value": 0.65
+       }
+      ]
+     }
+    ],
+    "lines": [
+     "〔霜〕护甲 +354",
+     "〔霜〕生命 +633",
+     "〔火〕范围技能半径 +65%"
+    ],
+    "sellPrice": 1232,
+    "armorType": "plate",
+    "affixLog": [
+     {
+      "id": "a_armor",
+      "r": 0.935563623409515,
+      "el": "frost"
+     },
+     {
+      "id": "a_hp",
+      "r": 0.5327022064163826,
+      "el": "frost"
+     },
+     {
+      "id": "a_aoe",
+      "r": 0.8124229003733131,
+      "el": "fire"
+     }
+    ]
+   }
+  },
+  "stacks": {
+   "mat_dust": 20,
+   "mat_darkshard": 23,
+   "mat_badge": 2,
+   "mat_proof": 1
+  },
+  "slotLv": {
+   "chest": 6,
+   "mainHand": 10
+  },
+  "bless": {
+   "chest": 0.15
+  },
+  "autoSalvage": [
+   "white",
+   "green"
+  ]
+ },
+ "codex": [
+  "dark|d_rifter",
+  "print|d_throne_ember"
+ ],
+ "raid": {
+  "clears": {
+   "molten_throne": 3
+  },
+  "best": {
+   "molten_throne": 1500
+  },
+  "week": {
+   "molten_throne": 20380
+  },
+  "seen": [
+   "slag"
+  ],
+  "hell": {
+   "molten_throne": 1
+  },
+  "chal": {}
+ },
+ "dgx": {
+  "best": {
+   "sand_tomb|heroic": 340
+  },
+  "medal": {
+   "sand_tomb|heroic": "gold"
+  }
+ }
+}

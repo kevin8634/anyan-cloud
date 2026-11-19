@@ -1,0 +1,37 @@
+// v1.2.37 截图：角色面板（急速 / 冷却缩减 / 大招冷却缩减）+ 觉醒界面：node dev/awkshot.mjs web/index.html out_prefix
+import { chromium } from 'playwright-core';
+import { resolve } from 'path';
+const [html, out] = process.argv.slice(2);
+const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const page = await b.newPage({ viewport: { width: 1280, height: 720 } });
+await page.goto('file://' + resolve(html));
+await page.waitForFunction(() => window.__game && document.getElementById('start').textContent === '开始冒险', null, { timeout: 90000 });
+await page.evaluate(() => { localStorage.clear(); localStorage.setItem('darkrock_intro_seen', '1'); });
+await page.evaluate(() => window.__game.startGame('warrior'));
+await page.waitForTimeout(2500);
+await page.evaluate(() => {
+  const g = window.__game; g.tutFinish?.(); g.progression.addXp(400000);
+  document.querySelectorAll('.panel').forEach(p => { if (p.style.display === 'flex') p.style.display = 'none'; });
+  g.gen.classId = 'warrior';
+  const put = (sl, f) => { const it = g.gen.generate(30, 'purple', [sl]); f?.(it); g.inventory.add(it); g.inventory.equip(it.id); return it; };
+  put('twoHand', it => { it.awk = { xp: 5, pick: 'aw_doom' }; });
+  for (const sl of ['chest', 'legs', 'neck', 'ring']) put(sl, it => { it.awk = { xp: 5, pick: 'aw_dusk' }; });
+  put('head', it => { it.awk = { xp: 3 }; });
+  put('trinket', it => { it.bonus = { ...(it.bonus ?? {}), haste: 12 }; });
+  const sh = put('shoulder', it => { it.awk = { xp: 5, opts: ['aw_quake', 'aw_ward', 'aw_wide'] }; });
+  g.syncCharacter();
+});
+await page.waitForTimeout(2000);
+await page.evaluate(() => { const g = window.__game; document.querySelectorAll('.panel').forEach(p => { if (p.style.display === 'flex') p.style.display = 'none'; }); g.openAwaken(); });
+await page.waitForTimeout(400);
+await page.evaluate(() => { const el = [...document.querySelectorAll('.awk-it')].find(e => /可选择/.test(e.textContent)); el?.click(); });
+await page.waitForTimeout(300);
+await page.screenshot({ path: out + '_awk.png' });
+await page.evaluate(() => { const g = window.__game; document.querySelectorAll('.panel').forEach(p => { if (p.style.display === 'flex') p.style.display = 'none'; }); const k = new KeyboardEvent('keydown', { key: 'c' }); window.dispatchEvent(k); });
+await page.waitForTimeout(400);
+await page.evaluate(() => { const el = [...document.querySelectorAll('#char *')].filter(e => e.children.length === 0 && /大招冷却缩减/.test(e.textContent))[0]; el?.scrollIntoView({ block: 'center' }); });
+await page.waitForTimeout(200);
+await page.screenshot({ path: out + '_char.png' });
+const info = await page.evaluate(() => { const c = window.__game.charSheet(); const lo = window.__game.loadout; const cdm = lo.allModifiers().filter(m => m.ops.some(o => o.stat === 'cooldown')).map(m => m.id + ':' + JSON.stringify(m.match) + ':' + m.ops.filter(o => o.stat === 'cooldown').map(o => o.value).join('/')); return JSON.stringify({ haste: c.haste, cdr: c.cdr, cdm }); });
+console.log(info);
+await b.close();

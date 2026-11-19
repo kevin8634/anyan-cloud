@@ -1,0 +1,35 @@
+{
+ "_说明": "v1.2.54 DLC 展示版资产白名单：node build-web.mjs --assets=aholo --dlc=dlc1 --showcase 使用。CREATURE_GLB 只留评委路径实测用到的本体怪物（dev/judgeshot.mjs ASSET_DUMP 导出）+ 全部武器；人物 HD、环境 HD 贴图、DLC 全部模型整表保留（最高画质不降）。",
+ "keepTables": [
+  "GLB",
+  "TEX",
+  "ICONS",
+  "TEXTURES",
+  "TEXTURES_HD",
+  "HD_GLB",
+  "PACK_CREATURE_GLB",
+  "PACK_TEXTURES",
+  "PACK_VO",
+  "PACK_ICONS"
+ ],
+ "keepPrefix": [
+  "CREATURE_GLB:weapon_",
+  "CREATURE_GLB:dlc1_"
+ ],
+ "keep": [
+  "CREATURE_GLB:ab_darksoul",
+  "CREATURE_GLB:dt_bandit",
+  "CREATURE_GLB:wd_archer",
+  "CREATURE_GLB:wd_boar",
+  "CREATURE_GLB:wd_redmane",
+  "CREATURE_GLB:wd_ruingolem",
+  "CREATURE_GLB:wd_wolf",
+  "CREATURE_GLB:weapon_bell_shield",
+  "CREATURE_GLB:weapon_bell_staff",
+  "CREATURE_GLB:weapon_bell_sword",
+  "CREATURE_GLB:weapon_flask",
+  "CREATURE_GLB:weapon_iron_coffin",
+  "CREATURE_GLB:weapon_soul_glaive",
+  "CREATURE_GLB:weapon_time_chakram"
+ ]
+}

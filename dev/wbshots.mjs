@@ -1,0 +1,33 @@
+// v1.2.6 DLC 世界首领截图：node dev/wbshots.mjs [输出目录]（潮汐巨鲸 / 镜像骑士团 / 世界地图标记）
+import { chromium } from 'playwright-core';
+import { resolve } from 'path'; import { mkdirSync } from 'fs';
+const OUT = process.argv[2] || '/tmp/wb'; mkdirSync(OUT, { recursive: true });
+const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const page = await b.newPage({ viewport: { width: 1280, height: 720 } });
+const errors = []; page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type() === 'error' && !/blob:/.test(m.text())) errors.push(m.text().slice(0, 200)); });
+await page.goto('file://' + resolve('web/index_dlc1.html'));
+await page.waitForFunction(() => window.__game && document.getElementById('start').textContent === '开始冒险', null, { timeout: 90000 });
+await page.evaluate(() => { localStorage.clear(); localStorage.setItem('darkrock_intro_seen', '1'); });
+await page.evaluate(() => window.__game.startGame('warrior'));
+await page.waitForTimeout(2500);
+await page.evaluate(() => { const g = window.__game; g.tutFinish?.(); g.progression.level = 38; g.player.hp = g.player.maxHp = 1e7; document.querySelectorAll('.panel').forEach(p => { p.style.display = 'none'; }); });
+const shot = async (map, key, name, dist) => {
+  await page.evaluate(([map, key]) => { const g = window.__game; g.ensureWild(map); g.goMap(map); window.__dlc1.wb.setNext(key, 0); }, [map, key]);
+  await page.waitForTimeout(1500);
+  await page.evaluate(([key, dist]) => { const g = window.__game, W = window.__dlc1.wb; W.tick(); const e = g.enemies.find(x => x.pboss === key) ?? W.bosses.find(b => b.key === key), P = e.pos ?? e; g.player.pos.set(P.x + dist, 0, P.z + 2); g.camSet(dist + 4, 0.35); g.camYawSet?.(Math.PI / 2); g.player.hp = 1e7; document.querySelectorAll('.panel').forEach(p => { p.style.display = 'none'; }); }, [key, dist]);
+  await page.waitForTimeout(2500);
+  await page.evaluate(() => { window.__game.player.hp = 1e7; });
+  await page.screenshot({ path: `${OUT}/${name}.png` });
+};
+await shot('dlc1_coast', 'dwb_whale', '1_whale', 12);
+await shot('dlc1_mirror', 'dwb_knights', '2_knights', 8);
+await page.evaluate(() => { const g = window.__game; g.goMap('camp'); window.__dlc1.wb.setNext('dwb_whale', 0); window.__dlc1.wb.tick(); });
+await page.waitForTimeout(1200);
+await page.evaluate(() => { window.__game.openWaypoints(); document.querySelector('[data-packwp]')?.scrollIntoView(); });
+await page.waitForTimeout(600);
+await page.screenshot({ path: `${OUT}/3_travel.png` });
+await page.evaluate(() => { const g = window.__game; g.togglePanel('travel', false); g.openWorldMap('world'); });
+await page.waitForTimeout(2500);
+await page.screenshot({ path: `${OUT}/4_worldmap.png` });
+console.log('errors', errors.length, errors.slice(0, 3));
+await b.close();

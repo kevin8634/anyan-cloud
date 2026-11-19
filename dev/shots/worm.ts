@@ -1,0 +1,21 @@
+import * as THREE from 'three';
+import { makeSakar, makeSandWormling } from '../../src/web/creatures';
+import { refineRig } from '../../src/web/gfx';
+import { loadCreatures } from '../../src/web/creatures_glb';
+(async () => { await loadCreatures(30000);
+const W = 900, H = 560;
+const r = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true }); r.setSize(W, H); r.shadowMap.enabled = true; document.body.appendChild(r.domElement);
+const sc = new THREE.Scene(); sc.background = new THREE.Color(0xcdb894);
+sc.add(new THREE.HemisphereLight(0xfff4e0, 0x806040, 1.4));
+const sun = new THREE.DirectionalLight(0xffe8c0, 2.2); sun.position.set(6, 12, 8); sun.castShadow = true; sun.shadow.camera.left = sun.shadow.camera.bottom = -10; sun.shadow.camera.right = sun.shadow.camera.top = 10; sc.add(sun);
+const g = new THREE.Mesh(new THREE.PlaneGeometry(60, 60), new THREE.MeshLambertMaterial({ color: 0xd8b880 })); g.rotation.x = -Math.PI / 2; g.receiveShadow = true; sc.add(g);
+const w = makeSakar(); refineRig(w.root); w.root.scale.setScalar(2.4); sc.add(w.root);
+const y = makeSandWormling(); refineRig(y.root); y.root.position.set(4.5, 0, 2); y.root.rotation.y = -0.6; sc.add(y.root);
+w.tick!(0.5, true); y.tick!(0.5, true); (window as any).ready = 1;
+const cam = new THREE.PerspectiveCamera(40, W / H, 0.1, 200);
+(window as any).shot = (k: number) => {
+  const views = [[10, 9, 14], [0, 5, 16], [-6, 8, 15]];
+  const v = views[k]; cam.position.set(v[0], v[1], v[2]); cam.lookAt(0, 2, -2);
+  r.render(sc, cam); return r.domElement.toDataURL('image/png');
+};
+})();

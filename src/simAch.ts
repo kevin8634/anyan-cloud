@@ -1,0 +1,25 @@
+// v0.7.12：成就引擎自测（npm run ach）
+declare const process: { exitCode?: number };
+import { Achievements, AchSnap } from './core/Achievements';
+import { ACHIEVEMENTS, ACH_CAT } from './data/achievements';
+let fail = 0;
+const ok = (c: boolean, m: string) => { console.log(`${c ? '✅' : '❌'} ${m}`); if (!c) fail++; };
+const zero = (): AchSnap => Object.fromEntries(ACHIEVEMENTS.map(a => [a.stat, 0])) as AchSnap;
+ok(ACHIEVEMENTS.length >= 60 && new Set(ACHIEVEMENTS.map(a => a.id)).size === ACHIEVEMENTS.length, `成就 ${ACHIEVEMENTS.length} 个，id 不重复`);
+ok(Object.keys(ACH_CAT).every(c => ACHIEVEMENTS.some(a => a.cat === c)), '5 个分类都有成就');
+const a = new Achievements();
+ok(a.check(zero()).length === 0 && a.points() === 0, '全 0 状态：没有成就');
+const s = zero(); s.level = 30; s.kills = 150;
+const got = a.check(s, 1);
+ok(got.length === 5 && a.points() === 80, `30 级 + 150 击杀：达成 ${got.length} 个，${a.points()} 点`);
+ok(a.titles().includes('暗岩冒险者') && !a.titles().includes('小有成就'), `称号：${a.titles().join('、')}`);
+ok(a.check({ ...s, level: 1 }).length === 0 && a.count() === 5, '状态回落不撤销');
+ok(!a.setTitle('万人斩') && a.setTitle('暗岩冒险者') && a.title === '暗岩冒险者', '只能选已获得的称号');
+a.noteBoss('监工格罗克'); a.noteBoss('监工格罗克');
+const b = new Achievements(); b.load(JSON.parse(JSON.stringify(a.save())));
+ok(b.count() === 5 && b.boss['监工格罗克'] === 2 && b.title === '暗岩冒险者', '存档读档：成就、首领名册、称号保留');
+const all = zero(); for (const x of ACHIEVEMENTS) all[x.stat] = Math.max(all[x.stat] ?? 0, x.n);
+const c = new Achievements(); c.check(all);
+ok(c.count() === ACHIEVEMENTS.length && c.points() === c.maxPoints() && c.titles().includes('暗岩传说'), `全成就：${c.points()} 点，称号 ${c.titles().length} 个`);
+console.log(fail ? `\n❌ ${fail} 项失败` : '\n✅ 成就 全部通过');
+process.exitCode = fail ? 1 : 0;

@@ -1,0 +1,21 @@
+// v1.2.75 选角画面背景 + 新存档开场动画：node test/fx75_open.mjs <目录含 index.html 与 movie/opening.*> <输出目录>
+import { chromium } from 'playwright-core'; import { mkdirSync } from 'fs';
+const DIR = process.argv[2] || '/tmp/opt', OUT = process.argv[3] || '/tmp/fx75'; mkdirSync(OUT, { recursive: true });
+const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required'] });
+const errors = [], log = [];
+const page = await b.newPage({ viewport: { width: 1280, height: 720 } });
+page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type() === 'warning' && /视频|宣传片/.test(m.text())) log.push('warn ' + m.text()); });
+page.setDefaultNavigationTimeout(240000); page.goto('file://' + DIR + '/index.html?cg=0&op=1').catch(e => errors.push(e.message));
+await page.waitForFunction(() => window.__game && document.getElementById('start').textContent === '开始冒险', null, { timeout: 240000 });
+await page.waitForTimeout(4000);
+log.push('select ' + JSON.stringify(await page.evaluate(() => { const s = __game.scene; return { canvasBg: !!s.background?.isCanvasTexture, hidden: s.children.filter(o => !o.visible).length, fog: !!s.fog, bg: window.__selBg?.() }; })));
+await page.screenshot({ path: OUT + '/select.png', timeout: 120000 }).catch(() => log.push('shot fail'));
+await page.evaluate(() => document.getElementById('start').click());
+await page.waitForTimeout(5000);
+log.push('opening@5s ' + JSON.stringify(await page.evaluate(() => { const v = document.querySelector('#cg-movie video'); return { el: !!document.getElementById('cg-movie'), src: v?.currentSrc?.split('/').pop(), t: v?.currentTime, hold: !!document.querySelector('#cg-movie .cg-hold'), bgBack: !__game.scene.background?.isCanvasTexture, fog: !!__game.scene.fog }; })));
+await page.screenshot({ path: OUT + '/opening.png', timeout: 120000 }).catch(() => log.push('shot2 fail'));
+await page.keyboard.down('Space'); await page.waitForTimeout(300); await page.keyboard.up('Space'); await page.waitForTimeout(400);
+log.push('short tap el=' + await page.evaluate(() => !!document.getElementById('cg-movie')));
+await page.keyboard.down('Space'); await page.waitForTimeout(1600); await page.keyboard.up('Space'); await page.waitForTimeout(1000);
+log.push('hold el=' + await page.evaluate(() => !!document.getElementById('cg-movie')));
+console.log(log.join('\n')); console.log('errors=' + JSON.stringify(errors)); await b.close();

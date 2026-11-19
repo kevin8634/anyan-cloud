@@ -1,0 +1,23 @@
+// v1.2.74 宣传片首播 / 重放 CG：node test/fx74_cg.mjs <目录含 index.html 与 movie/intro.mp4> <输出目录>
+import { chromium } from 'playwright-core'; import { mkdirSync } from 'fs';
+const DIR = process.argv[2] || '/tmp/cgt', OUT = process.argv[3] || '/tmp/fx74_cg'; mkdirSync(OUT, { recursive: true });
+const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required'] });
+const errors = [], log = [];
+const page = await b.newPage({ viewport: { width: 1280, height: 720 } });
+page.on('pageerror', e => errors.push(e.message)); page.on('console', m => { if (m.type() === 'warning' && /宣传片/.test(m.text())) log.push('warn ' + m.text()); });
+page.setDefaultNavigationTimeout(240000); page.goto('file://' + DIR + '/index.html?cg=1').catch(e => errors.push(e.message));
+await page.waitForTimeout(6000);
+log.push('cg@6s ' + JSON.stringify(await page.evaluate(() => { const v = document.querySelector('#cg-movie video'); return { el: !!document.getElementById('cg-movie'), t: v?.currentTime, err: v?.error?.code, muted: v?.muted }; })));
+await page.screenshot({ path: OUT + '/cg_play.png', timeout: 90000 }).catch(() => log.push('shot fail'));
+await page.waitForFunction(() => window.__game && document.getElementById('start').textContent === '开始冒险' && !document.getElementById('cg-movie'), null, { timeout: 240000 });
+log.push('title ok, seen=' + await page.evaluate(() => localStorage.getItem('anyan_cg_seen')) + ' intro=' + await page.evaluate(() => !!document.getElementById('intro')) + ' logoVid=' + await page.evaluate(() => document.querySelector('#title .sel-logo')?.classList.contains('vid')));
+await page.waitForTimeout(3000);
+await page.evaluate(() => { document.querySelectorAll('#intro .in-skip').forEach(x => x.click()); });
+await page.waitForTimeout(2000);
+await page.evaluate(() => document.getElementById('cg-replay').click());
+await page.waitForTimeout(2500);
+log.push('replay ' + JSON.stringify(await page.evaluate(() => { const v = document.querySelector('#cg-movie video'); return { el: !!document.getElementById('cg-movie'), t: v?.currentTime, muted: v?.muted }; })));
+await page.keyboard.press('Escape'); await page.waitForTimeout(1200);
+log.push('after esc el=' + await page.evaluate(() => !!document.getElementById('cg-movie')));
+await page.screenshot({ path: OUT + '/cg_title.png', timeout: 90000 }).catch(() => log.push('shot2 fail'));
+console.log(log.join('\n')); console.log('errors=' + JSON.stringify(errors)); await b.close();
